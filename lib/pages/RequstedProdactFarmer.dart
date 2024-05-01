@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable
 
 import 'dart:ffi';
 
@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:graduation_project2/pages/notifStoreOwner.dart';
+import 'package:graduation_project2/shared/Timer.dart';
 import 'package:graduation_project2/shared/colors.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';
 import 'package:uuid/uuid.dart';
@@ -74,183 +75,372 @@ class _RequsteProdactState extends State<RequsteProdact> {
                                         as Map<String, dynamic>;
                                 return Card(
                                   child: Container(
-                                      child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                            "${data["profileImg"]}"),
-                                        // AssetImage(classInstancee
-                                        //     .selectedProdact[index].pathImage),
-                                      ),
-                                      Column(
-                                        children: [
-                                          Text(
-                                              "username ${data["usernameStoreOwner"]} "),
-                                          Column(
-                                            children: [
-                                              Text("price: ${data["price"]} "),
-                                              Text("title: ${data["title"]} "),
-                                              Text(
-                                                  "quantity: ${data["partquntity"]} "),
-                                              Text(
-                                                  "ProdactName: ${data["prodactName"]} "),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          data["farmerAcceptedRequest"]
-                                              ? IconButton(
-                                                  onPressed: () async {
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection(
-                                                            "RequstedDDD")
-                                                        .doc(snapshot.data!
-                                                            .docs[index].id)
-                                                        .delete();
+                                      child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CircleAvatar(
+                                          backgroundImage: NetworkImage(
+                                              "${data["profileImg"]}"),
+                                          // AssetImage(classInstancee
+                                          //     .selectedProdact[index].pathImage),
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text(
+                                                "username ${data["usernameStoreOwner"]} "),
+                                            Column(
+                                              children: [
+                                                Text(
+                                                    "price: ${data["price"]} "),
+                                                Text(
+                                                    "title: ${data["title"]} "),
+                                                Text(
+                                                    "quantity: ${data["partquntity"]} "),
+                                                Text(
+                                                    "ProdactName: ${data["prodactName"]} "),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            data["farmerAcceptedRequest"]
+                                                ? IconButton(
+                                                    onPressed: () async {
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection(
+                                                              "RequstedDDD")
+                                                          .doc(snapshot.data!
+                                                              .docs[index].id)
+                                                          .delete();
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection(
+                                                              "notifiayYYY")
+                                                          .doc(documentSnapshot.get(
+                                                              'storeOwnerCheckDelivery'))
+                                                          .delete();
+
+                                                      // await FirebaseFirestore.instance
+                                                      // .collection("RequstedDDD")
+                                                      // .doc
+                                                      //////////  هاذ الكود  اكتبه قلوبل  فارر  واستدعيه
+                                                      ///وغير بس القيت  و اديليت
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.close,
+                                                      color: Colors.red,
+                                                    ))
+                                                : SizedBox(),
+                                            data["farmerAcceptedRequest"]
+                                                ? IconButton(
+                                                    onPressed: () async {
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection(
+                                                              'RequstedDDD')
+                                                          .doc(snapshot.data!
+                                                              .docs[index].id)
+                                                          .update({
+                                                        "farmerCheckDelivery":
+                                                            true
+                                                      });
+
+                                                      //  await FirebaseFirestore
+                                                      //     .instance
+                                                      //     .collection(data[
+                                                      //         "NotifiyProdactUid"])
+                                                      //     .get();
+
+                                                      documentSnapshot =
                                                           await FirebaseFirestore
-                                                        .instance
-                                                        .collection(
-                                                            "notifiayYYY")
-                                                        .doc(documentSnapshot.get(
-                                                            'storeOwnerCheckDelivery'))
-                                                        .delete();
+                                                              .instance
+                                                              .collection(
+                                                                  'notifiayYYY')
+                                                              .doc(data[
+                                                                  "NotifiyProdactUid"])
+                                                              .get();
 
-                                                    // await FirebaseFirestore.instance
-                                                    // .collection("RequstedDDD")
-                                                    // .doc
-                                                    //////////  هاذ الكود  اكتبه قلوبل  فارر  واستدعيه
-                                                    ///وغير بس القيت  و اديليت
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.close,
-                                                    color: Colors.red,
-                                                  ))
-                                              : SizedBox(),
-                                          data["farmerAcceptedRequest"]
-                                              ? IconButton(
-                                                  onPressed: () async {
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection(
-                                                            'RequstedDDD')
-                                                        .doc(snapshot.data!
-                                                            .docs[index].id)
-                                                        .update({
-                                                      "farmerCheckDelivery":
-                                                          true
-                                                    });
+                                                      if (data[
+                                                              "farmerCheckDelivery"] &&
+                                                          documentSnapshot.get(
+                                                              'storeOwnerCheckDelivery')) {
+                                                        showSnackBar(context,
+                                                            "Delevary is Done ......");
+                                                      } else if (data[
+                                                              "farmerCheckDelivery"] &&
+                                                          documentSnapshot.get(
+                                                                  'storeOwnerCheckDelivery') ==
+                                                              false) {
+                                                        showSnackBar(context,
+                                                            "Store Owner is not check delivery ");
+                                                      }
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.check,
+                                                      color: Colors.green,
+                                                    ))
+                                                : SizedBox(),
+                                            !data["farmerAcceptedRequest"]
+                                                ? TextButton(
+                                                    onPressed: () async {
+                                                      // String newId =
+                                                      //     const Uuid().v1();
 
-                                                    //  await FirebaseFirestore
-                                                    //     .instance
-                                                    //     .collection(data[
-                                                    //         "NotifiyProdactUid"])
-                                                    //     .get();
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection(
+                                                              'RequstedDDD')
+                                                          .doc(snapshot.data!
+                                                              .docs[index].id)
+                                                          .set(
+                                                              {
+                                                            "farmerRejectedRequest":
+                                                                true,
+                                                            "NotifiyProdactUid":
+                                                                ""
+                                                          },
+                                                              SetOptions(
+                                                                  merge: true));
+                                                      /////////////////////////////////////////////////////
+                                                      // await FirebaseFirestore
+                                                      //     .instance
+                                                      //     .collection(
+                                                      //         "RequstedDDD")
+                                                      //     .doc(snapshot.data!
+                                                      //         .docs[index].id)
+                                                      //     .update({
+                                                      //   "farmerAcceptedRequest":
+                                                      //       true
+                                                      // });
+                                                      /////////////////////////////////////////////////////////////
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection(
+                                                              'RequstedDDD')
+                                                          .doc(snapshot.data!
+                                                              .docs[index].id)
+                                                          .set(
+                                                              {
+                                                            "farmerRejectedRequest":
+                                                                snapshot
+                                                                    .data!
+                                                                    .docs[index]
+                                                                    .id,
+                                                            "NotifiyProdactUid":
+                                                                ""
+                                                          },
+                                                              SetOptions(
+                                                                  merge: true));
 
-                                                  
-                                                        documentSnapshot =
-                                                        await FirebaseFirestore
-                                                            .instance
-                                                            .collection(
-                                                                'notifiayYYY')
-                                                            .doc(data[
-                                                                "NotifiyProdactUid"])
-                                                            .get();
+                                                      DocumentReference docRef =
+                                                          await FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  'notifiayYYY')
+                                                              .add(data);
 
-                                                    if (data[
-                                                            "farmerCheckDelivery"] &&
-                                                        documentSnapshot.get(
-                                                            'storeOwnerCheckDelivery')) {
-                                                      showSnackBar(context,
-                                                          "Delevary is Done ......");
-                                                    } else if (data[
-                                                            "farmerCheckDelivery"] &&
-                                                        documentSnapshot.get(
-                                                                'storeOwnerCheckDelivery') ==
-                                                            false) {
-                                                      showSnackBar(context,
-                                                          "Store Owner is not check delivery ");
-                                                    }
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.check,
-                                                    color: Colors.green,
-                                                  ))
-                                              : SizedBox(),
-                                          !data["farmerAcceptedRequest"]
-                                              ? TextButton(
-                                                  onPressed: () async {
-                                                    // String newId =
-                                                    //     const Uuid().v1();
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection(
-                                                            "RequstedDDD")
-                                                        .doc(snapshot.data!
-                                                            .docs[index].id)
-                                                        .update({
-                                                      "farmerAcceptedRequest":
-                                                          true
-                                                    });
+                                                      String NotifayUid =
+                                                          docRef.id;
 
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection(
-                                                            'RequstedDDD')
-                                                        .doc(snapshot.data!
-                                                            .docs[index].id)
-                                                        .set({
-                                                      "requstedProdactUID":
-                                                          snapshot.data!
-                                                              .docs[index].id,
-                                                      "NotifiyProdactUid": ""
-                                                    }, SetOptions(merge: true));
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection(
+                                                              "RequstedDDD")
+                                                          .doc(snapshot.data!
+                                                              .docs[index].id)
+                                                          .update({
+                                                        "NotifiyProdactUid":
+                                                            NotifayUid,
+                                                        "farmerRejectedRequest":
+                                                            true,
+                                                      });
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection(
+                                                              "notifiayYYY")
+                                                          .doc(NotifayUid)
+                                                          .update({
+                                                        "requstedProdactUID":
+                                                            snapshot.data!
+                                                                .docs[index].id,
+                                                        "NotifiyProdactUid":
+                                                            NotifayUid,
+                                                        "farmerRejectedRequest":
+                                                            true,
+                                                      });
 
-                                                    DocumentReference docRef =
-                                                        await FirebaseFirestore
-                                                            .instance
-                                                            .collection(
-                                                                'notifiayYYY')
-                                                            .add(data);
+                                                                                  String currentQuantity = "";
 
-                                                    String NotifayUid =
-                                                        docRef.id;
+                                                        DocumentReference docRefPost = FirebaseFirestore
+                                  .instance
+                                  .collection(
+                                      "postSSS") // Replace "your_collection" with your actual collection name
+                                  .doc(data[
+                                      "postUid"]); // Replace "your_document_id" with your actual document ID
+                              print("postUid  Data: ${data["postUid"]}");
+                                                            DocumentSnapshot docSnapshotPost = await docRefPost.get();
+                                                            
+                              if (docSnapshotPost.exists) {
+                                // Access specific fields from the document snapshot
+                                Map<String, dynamic>? dataa =
+                                    docSnapshotPost.data() as Map<String, dynamic>?;
+                                if (dataa != null) {
+                                  dynamic specificData = dataa['quntity'];
+                                  currentQuantity = specificData
+                                      .toString(); // Replace "specific_field" with the field you want to retrieve
+                                  print("currentQuantity: $currentQuantity");
+                                  
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection("postSSS")
+                                                          .doc(data["postUid"])
+                                                          .update({"quntity":(int.parse(currentQuantity) +  int.parse(data["partquntity"])).toString()});
 
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection(
-                                                            "RequstedDDD")
-                                                        .doc(snapshot.data!
-                                                            .docs[index].id)
-                                                        .update({
-                                                      "NotifiyProdactUid":
-                                                          NotifayUid
-                                                    });
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection(
-                                                            "notifiayYYY")
-                                                        .doc(NotifayUid)
-                                                        .update({"requstedProdactUID":
-                                                          snapshot.data!
-                                                              .docs[index].id,
-                                                      "NotifiyProdactUid":
-                                                          NotifayUid
-                                                    });
-                                                    // }
-                                                  },
-                                                  child: Text('Accept',
-                                                      style: TextStyle(
-                                                          color: Colors.blue)),
-                                                )
-                                              : SizedBox(),
-                                        ],
-                                      )
-                                    ],
+
+
+                              
+
+                              
+                                } else {
+                                  print('Document data is null');
+                                }
+                              } else {
+                                print('Document does not exist');
+                              }
+
+
+
+
+                                                      // await FirebaseFirestore
+                                                      //     .instance
+                                                      //     .collection("postSSS")
+                                                      //     .doc(data["postUid"])
+                                                      //     .update({"quntity":});
+
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection(
+                                                              "RequstedDDD")
+                                                          .doc(snapshot.data!
+                                                              .docs[index].id)
+                                                          .delete();
+                                                      ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                                                      DeleteItem(
+                                                          notifiyProdactUid:
+                                                              NotifayUid,
+                                                          hour: 12,
+                                                          seconds: 0,
+                                                          requstedProdactUid:
+                                                              snapshot
+                                                                  .data!
+                                                                  .docs[index]
+                                                                  .id);
+                                                    },
+                                                    child: Text('Rejected ',
+                                                        style: TextStyle(
+                                                            color: Colors.red)),
+                                                  )
+                                                : SizedBox(),
+                                            !data["farmerAcceptedRequest"]
+                                                ? TextButton(
+                                                    onPressed: () async {
+                                                      // String newId =
+                                                      //     const Uuid().v1();
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection(
+                                                              "RequstedDDD")
+                                                          .doc(snapshot.data!
+                                                              .docs[index].id)
+                                                          .update({
+                                                        "farmerAcceptedRequest":
+                                                            true
+                                                      });
+
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection(
+                                                              'RequstedDDD')
+                                                          .doc(snapshot.data!
+                                                              .docs[index].id)
+                                                          .set(
+                                                              {
+                                                            "requstedProdactUID":
+                                                                snapshot
+                                                                    .data!
+                                                                    .docs[index]
+                                                                    .id,
+                                                            "NotifiyProdactUid":
+                                                                ""
+                                                          },
+                                                              SetOptions(
+                                                                  merge: true));
+
+                                                      DocumentReference docRef =
+                                                          await FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  'notifiayYYY')
+                                                              .add(data);
+
+                                                      String NotifayUid =
+                                                          docRef.id;
+
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection(
+                                                              "RequstedDDD")
+                                                          .doc(snapshot.data!
+                                                              .docs[index].id)
+                                                          .update({
+                                                        "NotifiyProdactUid":
+                                                            NotifayUid
+                                                      });
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection(
+                                                              "notifiayYYY")
+                                                          .doc(NotifayUid)
+                                                          .update({
+                                                        "requstedProdactUID":
+                                                            snapshot.data!
+                                                                .docs[index].id,
+                                                        "NotifiyProdactUid":
+                                                            NotifayUid,
+                                                        'farmerAcceptedRequest':
+                                                            true,
+                                                        'farmerRejectedRequest':
+                                                            false
+                                                      });
+                                                      ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                                                      DeleteItem(
+                                                          notifiyProdactUid:
+                                                              NotifayUid,
+                                                          hour: 12,
+                                                          seconds: 0,
+                                                          requstedProdactUid:
+                                                              snapshot
+                                                                  .data!
+                                                                  .docs[index]
+                                                                  .id);
+                                                    },
+                                                    child: Text('Accept',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.blue)),
+                                                  )
+                                                : SizedBox(),
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   )),
                                 );
                               });

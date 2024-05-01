@@ -110,10 +110,10 @@ class _PostDesignState extends State<PostDesign> {
   @override
   Widget build(BuildContext context) {
     final double widthScreen = MediaQuery.of(context).size.width;
-    return 
-    
-  //  Text("omarr");
-    Container(
+    return
+
+        //  Text("omarr");
+        Container(
       margin: EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
           color: contantPost, borderRadius: BorderRadius.circular(30)),
@@ -150,7 +150,11 @@ class _PostDesignState extends State<PostDesign> {
                     ),
                   ],
                 ),
-                IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
+                IconButton(
+                    onPressed: () {
+                      showmodel();
+                    },
+                    icon: Icon(Icons.more_vert)),
               ],
             ),
           ),
@@ -178,7 +182,7 @@ class _PostDesignState extends State<PostDesign> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Details(data:widget. data),
+                              builder: (context) => Details(data: widget.data),
                             ));
                       },
                       icon: Icon(

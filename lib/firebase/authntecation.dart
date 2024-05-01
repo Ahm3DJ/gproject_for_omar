@@ -107,6 +107,8 @@ class AuthMethods {
     required usernameStoreOwner,
     required farmerAcceptedRequest,
     required farmerCheckDelivery,
+        required postUid,
+
   }) async {
     String message = "ERROR => Not starting the code";
     print("111111111 1storeOwnerSendRequst11111111111111${context}");
@@ -147,7 +149,7 @@ class AuthMethods {
         usernameFarmer: usernameFarmer,
         usernameStoreOwner: usernameStoreOwner,
         farmerAcceptedRequest: farmerAcceptedRequest,
-        farmerCheckDelivery: farmerCheckDelivery,
+        farmerCheckDelivery: farmerCheckDelivery, postUid: postUid,
 
         // String title;
         // String username;
@@ -191,7 +193,10 @@ class AuthMethods {
           required farmerCheckDelivery,
       required farmerAcceptedRequest,
       required usernameStoreOwner,
-      required usernameFarmer}) async {
+      required usernameFarmer,
+            required postUid,
+
+      }) async {
     String message = "ERROR => Not starting the code";
     print("111111111111111111111111${context}");
     print("2222222222222222222222222222${titleee}");
@@ -228,7 +233,7 @@ class AuthMethods {
         uidStorOwner: uidStorOwner,
         storeOwnerCheckDelivery: storeOwnerCheckDelivery,
         usernameFarmer: usernameFarmer, usernameStoreOwner: usernameStoreOwner,
-        farmerAcceptedRequest: farmerAcceptedRequest, farmerCheckDelivery: farmerCheckDelivery,
+        farmerAcceptedRequest: farmerAcceptedRequest, farmerCheckDelivery: farmerCheckDelivery, postUid: postUid,
 
         // String title;
         // String username;

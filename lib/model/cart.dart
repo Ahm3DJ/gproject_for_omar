@@ -13,10 +13,10 @@ class ProdactCartAllUser {
   String partquntity;
   String imgPost;
   String price;
-   bool storeOwnerCheckDelivery;
-   bool farmerCheckDelivery;
-   bool farmerAcceptedRequest;
-
+  bool storeOwnerCheckDelivery;
+  bool farmerCheckDelivery;
+  bool farmerAcceptedRequest;
+  String postUid;
 
   ProdactCartAllUser({
     required this.title,
@@ -30,8 +30,10 @@ class ProdactCartAllUser {
     required this.price,
     required this.uidStorOwner,
     required this.storeOwnerCheckDelivery,
-        required this.farmerCheckDelivery,
+    required this.farmerCheckDelivery,
     required this.farmerAcceptedRequest,
+        required this.postUid,
+
   });
 
   Map<String, dynamic> convert2Map() {
@@ -48,7 +50,9 @@ class ProdactCartAllUser {
       "uidStorOwner": uidStorOwner,
       "storeOwnerCheckDelivery": storeOwnerCheckDelivery,
       "farmerAcceptedRequest": farmerAcceptedRequest,
-          "farmerCheckDelivery": farmerCheckDelivery,
+      "farmerCheckDelivery": farmerCheckDelivery,
+            "postUid": postUid,
+
     };
   }
 
@@ -66,7 +70,8 @@ class ProdactCartAllUser {
       storeOwnerCheckDelivery: snapshot["storeOwnerCheckDelivery"],
       usernameFarmer: snapshot["usernameFarmer"],
       usernameStoreOwner: snapshot["usernameStoreOwner"],
-      farmerAcceptedRequest: snapshot["farmerAcceptedRequest"], farmerCheckDelivery: snapshot["farmerCheckDelivery"],
+      farmerAcceptedRequest: snapshot["farmerAcceptedRequest"],
+      farmerCheckDelivery: snapshot["farmerCheckDelivery"], postUid: snapshot["postUid"],
     );
   }
 }

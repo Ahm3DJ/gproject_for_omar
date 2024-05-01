@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
+import 'package:graduation_project2/shared/showSnackBar.dart';
 import 'package:provider/provider.dart';
 
 class Resposive extends StatefulWidget {
@@ -17,9 +18,15 @@ class Resposive extends StatefulWidget {
 class _ResposiveState extends State<Resposive> {
   // To get data from DB using provider
   getDataFromDB() async {
-    UserProvider userProvider = Provider.of(context, listen: false);
-    await userProvider.refreshUser();
-    // print("222222222222222222222222222222222222${userProvider.getUser!.email}");
+    try {
+      UserProvider userProvider = Provider.of(context, listen: false);
+      await userProvider.refreshUser();
+      // print("222222222222222222222222222222222222${userProvider.getUser!.email}");
+    } catch (e) {
+      showSnackBar(
+        context,"provider "
+      );
+    }
   }
 
   @override
@@ -40,4 +47,3 @@ class _ResposiveState extends State<Resposive> {
     });
   }
 }
-

@@ -6,7 +6,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
 import 'package:graduation_project2/firebase/fireStore.dart';
 import 'package:graduation_project2/model/User.dart';
@@ -56,6 +55,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final double widthScreen = MediaQuery.of(context).size.width;
+        final double heightScreen = MediaQuery.of(context).size.height;
+
     final searchController = TextEditingController();
     //  final allDataFromDB = Provider.of<UserProvider>(context);
     UserProvider userProvider = Provider.of(context, listen: false);
@@ -189,7 +190,7 @@ class _HomePageState extends State<HomePage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 height: 250,
                 // width: double.infinity,
                 child: Stack(
@@ -245,8 +246,8 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 10,
               ),
-              Container(
-                height: 671,
+              SizedBox(
+                height: heightScreen-150,
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('postSSS')
@@ -269,7 +270,10 @@ class _HomePageState extends State<HomePage> {
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
                 Map<String, dynamic> data =
                     document.data()! as Map<String, dynamic>;
-                return PostDesign(
+                return 
+                // Text("data");
+                
+                 PostDesign(
                   data: data,
                 );
               }).toList(),

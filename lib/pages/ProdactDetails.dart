@@ -8,6 +8,7 @@ import 'package:graduation_project2/Provider/UserProvider.dart';
 import 'package:graduation_project2/firebase/authntecation.dart';
 import 'package:graduation_project2/model/User.dart';
 import 'package:graduation_project2/shared/colors.dart';
+import 'package:graduation_project2/shared/showSnackBar.dart';
 import 'package:provider/provider.dart';
 
 class Details extends StatefulWidget {
@@ -26,9 +27,35 @@ class _DetailsState extends State<Details> {
   @override
   Widget build(BuildContext context) {
     final double widthScreen = MediaQuery.of(context).size.width;
+    final double heightScreen = MediaQuery.of(context).size.height;
     UserProvider userProvider = Provider.of(context, listen: false);
     //userProvider.refreshUser();
     UserDete? userData = userProvider.getUser;
+
+    showmodel() {
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            children: [
+              SimpleDialogOption(
+                onPressed: () async {
+                  // Navigator.of(context).pop();
+                },
+                padding: EdgeInsets.all(20),
+                child: Text(
+                  "The quantity you requested is greater than the inventory",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(
@@ -47,7 +74,7 @@ class _DetailsState extends State<Details> {
             children: [
               // Image.asset(widget.prodacts.pathImage),
               Container(
-                height: 300,
+                height: heightScreen - 250,
                 margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: ClipRRect(
                     child: Image.network("${widget.data["imgPost"]}"),
@@ -82,6 +109,12 @@ class _DetailsState extends State<Details> {
                             Text(
                               // " \$${widget.prodacts.price}",
                               " Prodact price:  \$${widget.data["price"]} ",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            Text(
+                              // " \$${widget.prodacts.price}",
+                              " Quantity :  ${widget.data["quntity"]} kg ",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 20),
                             ),
@@ -209,23 +242,34 @@ class _DetailsState extends State<Details> {
                     userData!.situation == "Store Owner"
                         ? ElevatedButton(
                             onPressed: () async {
-                              await AuthMethods().AddProdactToUserCart(
+                              if (int.parse(
+                                      addQuantityControllar.text.toString()) >
+                                  int.parse(widget.data["quntity"])) {
+                                showSnackBar(context,
+                                    "The quantity you requested is greater than the inventory");
+                              } else {
+                                await AuthMethods().AddProdactToUserCart(
                                   context: context,
                                   titleee: widget.data["title"],
                                   usernameFarmer: widget.data["username"],
-                                   usernameStoreOwner:userData.username ,
-                                  profileImg:userData.profileImg,
+                                  usernameStoreOwner: userData.username,
+                                  profileImg: userData.profileImg,
                                   uidFarmer: widget.data["uid"],
                                   prodactName: widget.data["prodactName"],
                                   imgPost: widget.data["imgPost"],
                                   partquntity: addQuantityControllar.text,
                                   price: widget.data["price"],
-                                  uidStorOwner:userData.uid,
-                                   storeOwnerCheckDelivery: false, farmerAcceptedRequest: false, farmerCheckDelivery: false,
-                                   
-                                      // FirebaseAuth.instance.currentUser!.uid
-                                      );
+                                  uidStorOwner: userData.uid,
+                                  storeOwnerCheckDelivery: false,
+                                  farmerAcceptedRequest: false,
+                                  farmerCheckDelivery: false, postUid: widget.data["postId"],
+
+                                  // FirebaseAuth.instance.currentUser!.uid
+                                );
                               Navigator.pop(context);
+
+
+                              }
                             },
                             style: ButtonStyle(
                               backgroundColor:

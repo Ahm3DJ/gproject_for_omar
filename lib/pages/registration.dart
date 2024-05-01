@@ -608,18 +608,22 @@ class _RegisterState extends State<Register> {
                           imgName: imgName,
                           imgPath: imgPath,
                           age: ageController.text,
-                          situation: farmercheck==true&&storeOwnerCheck==false ? "Farmer" :farmercheck==false&&storeOwnerCheck==true? "Store Owner":null,
-
-
+                          situation: farmercheck == true &&
+                                  storeOwnerCheck == false
+                              ? "Farmer"
+                              : farmercheck == false && storeOwnerCheck == true
+                                  ? "Store Owner"
+                                  : null,
+                          balance: 100.0,
                         );
                         //  await register();
-                          if (!mounted) return;
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => Login()),
-                          );
-                        } else {
-                          showSnackBar(context, "ERROR Form Field ");
+                        if (!mounted) return;
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => Login()),
+                        );
+                      } else {
+                        showSnackBar(context, "ERROR Form Field ");
 
                         setState(() {
                           isLoading = false;

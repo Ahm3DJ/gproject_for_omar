@@ -9,6 +9,7 @@ class UserDete {
   String uid;
   String age;
   String situation;
+  double balance;
 
   UserDete({
     required this.email,
@@ -19,6 +20,7 @@ class UserDete {
     required this.uid,
     required this.age,
     required this.situation,
+    required this.balance,
   });
 
   Map<String, dynamic> convert2Map() {
@@ -29,27 +31,23 @@ class UserDete {
       "username": username,
       "profileImg": profileImg,
       "uid": uid,
-      "age":age,
-      "situation":situation,
+      "age": age,
+      "situation": situation,
+        "balance": balance,
     };
   }
 
-static convertSnap2Model(DocumentSnapshot snap) {
-    var  snapshot =  snap.data() as Map<String, dynamic>;
+  static convertSnap2Model(DocumentSnapshot snap) {
+    var snapshot = snap.data() as Map<String, dynamic>;
     return UserDete(
       password: snapshot["password"],
       email: snapshot["email"],
       title: snapshot["title"],
       username: snapshot["username"],
       profileImg: snapshot["profileImg"],
-      uid: snapshot["uid"], 
+      uid: snapshot["uid"],
       age: snapshot["age"],
-       situation: snapshot["situation"],
-    
+      situation: snapshot["situation"], balance: snapshot["balance"],
     );
   }
-
-
-
-
 }

@@ -17,6 +17,8 @@ class AuthMethods {
     required imgPath,
     required age,
     required situation,
+        required balance,
+
   }) async {
     String message = "ERROR => Not starting the code";
 
@@ -36,7 +38,7 @@ class AuthMethods {
         imgPath: imgPath,
         folderName: 'profileIMG',
       ); // save Imag in FIREStorage and get link image
-
+  message = "ERROR => upload imag e ";
 // _______________________________________________________________________
 // firebase firestore (Database)
       CollectionReference users =
@@ -50,8 +52,9 @@ class AuthMethods {
         profileImg: urlll,
         uid: credential.user!.uid,
         age: age,
-        situation: situation,
+        situation: situation, balance: balance,
       );
+  message = "ERROR => create object user  ";
 
       users
           .doc(credential.user!.uid)

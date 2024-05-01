@@ -163,7 +163,7 @@ class _LoginState extends State<Login> {
                           //  await register();
                           if (!mounted) return;
                         showSnackBar(context, "Done ... ");
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (context) => Resposive(

@@ -44,10 +44,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    getDataFromDB() async {
-      UserProvider userProvider = Provider.of(context, listen: false);
-      await userProvider.refreshUser();
-    }
+    // getDataFromDB() async {
+    //   UserProvider userProvider = Provider.of(context, listen: false);
+    //   await userProvider.refreshUser();
+    // }
 
     return ChangeNotifierProvider(
       create: (context) {
@@ -66,12 +66,16 @@ class MyApp extends StatelessWidget {
             } else if (snapshot.hasError) {
               return showSnackBar(context, "Something went wrong");
             } else if (snapshot.hasData) {
-              return //Register(); //HomePage();
+              return
+              // Login(); 
+              //  Register();
+              // HomePage();
               Resposive(
                 myMobileScreen: MobileScerren(),
                 myWebScreen: WebScerren(),
               );
-            } else {
+            } 
+            else {
               return Login();
             }
           },

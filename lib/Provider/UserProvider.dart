@@ -7,7 +7,7 @@ class UserProvider with ChangeNotifier {
   UserDete? _userData;
   UserDete? get getUser => _userData;
 
-  refreshUser() async {
+  refreshUser( ) async {
     UserDete userData = await FireBase().getUserDetails();
     _userData = userData;
     notifyListeners();

@@ -188,6 +188,17 @@ class _CartState extends State<Cart> {
                             String currentQuantity = "";
 
                             try {
+
+DocumentReference docRefUser = FirebaseFirestore
+                                  .instance
+                                  .collection(
+                                      "userSSS") // Replace "your_collection" with your actual collection name
+                                  .doc(data[
+                                      "uidFarmer"]);
+                                        DocumentSnapshot docSnapshotUser = await docRefUser.get();
+    Map<String, dynamic>? dataUSER =
+                                    docSnapshotUser.data() as Map<String, dynamic>?;
+  dynamic specificDataUser = dataUSER!['balance'];
                               // Reference to the document you want to retrieve data from
                               DocumentReference docRef = FirebaseFirestore
                                   .instance
@@ -235,6 +246,11 @@ class _CartState extends State<Cart> {
                                         .update({
                                       "quntity": newQuantity.toString()
                                     });
+
+                                    await FirebaseFirestore.instance
+                                        .collection('userSSS')
+                                        .doc(data["uidStorOwner"])
+                                        .update({"balance"  : specificDataUser - (double.parse(data["price"])* double.parse(data["partquntity"])) });
                                   }
                                 } else {
                                   print('Document data is null');

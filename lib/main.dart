@@ -67,8 +67,8 @@ class MyApp extends StatelessWidget {
               return showSnackBar(context, "Something went wrong");
             } else if (snapshot.hasData) {
               return
-              // Login(); 
-              //  Register();
+              //  Login(); 
+                // Register();
               // HomePage();
               Resposive(
                 myMobileScreen: MobileScerren(),

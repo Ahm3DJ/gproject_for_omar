@@ -20,7 +20,7 @@ class _ResposiveState extends State<Resposive> {
   getDataFromDB() async {
     try {
       UserProvider userProvider = Provider.of(context, listen: false);
-      await userProvider.refreshUser();
+      await userProvider.refreshUser( );
       // print("222222222222222222222222222222222222${userProvider.getUser!.email}");
     } catch (e) {
       showSnackBar(
@@ -30,9 +30,10 @@ class _ResposiveState extends State<Resposive> {
   }
 
   @override
-  void initState() {
+  void initState() { 
+       getDataFromDB();
+
     super.initState();
-    getDataFromDB();
   }
 
   @override

@@ -4,6 +4,7 @@ import 'package:graduation_project2/firebase/Storage.dart';
 import 'package:graduation_project2/model/User.dart';
 import 'package:graduation_project2/model/cart.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';
+import 'package:path/path.dart';
 import 'package:uuid/uuid.dart';
 
 class AuthMethods {
@@ -17,8 +18,7 @@ class AuthMethods {
     required imgPath,
     required age,
     required situation,
-        required balance,
-
+    required balance,
   }) async {
     String message = "ERROR => Not starting the code";
 
@@ -38,7 +38,7 @@ class AuthMethods {
         imgPath: imgPath,
         folderName: 'profileIMG',
       ); // save Imag in FIREStorage and get link image
-  message = "ERROR => upload imag e ";
+      message = "ERROR => upload imag e ";
 // _______________________________________________________________________
 // firebase firestore (Database)
       CollectionReference users =
@@ -52,9 +52,10 @@ class AuthMethods {
         profileImg: urlll,
         uid: credential.user!.uid,
         age: age,
-        situation: situation, balance: balance,
+        situation: situation,
+        balance: balance,
       );
-  message = "ERROR => create object user  ";
+      message = "ERROR => create object user  ";
 
       users
           .doc(credential.user!.uid)
@@ -81,7 +82,7 @@ class AuthMethods {
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, "ERROR :  ${e.code} ");
     } catch (e) {
-      print(e);
+      showSnackBar(context, "email and password are  wrong ");
     }
   }
 
@@ -110,8 +111,7 @@ class AuthMethods {
     required usernameStoreOwner,
     required farmerAcceptedRequest,
     required farmerCheckDelivery,
-        required postUid,
-
+    required postUid,
   }) async {
     String message = "ERROR => Not starting the code";
     print("111111111 1storeOwnerSendRequst11111111111111${context}");
@@ -182,24 +182,23 @@ class AuthMethods {
     showSnackBar(context, message);
   }
 
-  AddProdactToUserCart(
-      {required context,
-      required titleee,
-      required profileImg,
-      required uidFarmer,
-      required uidStorOwner,
-      required prodactName,
-      required imgPost,
-      required partquntity,
-      required price,
-      required storeOwnerCheckDelivery,
-          required farmerCheckDelivery,
-      required farmerAcceptedRequest,
-      required usernameStoreOwner,
-      required usernameFarmer,
-            required postUid,
-
-      }) async {
+  AddProdactToUserCart({
+    required context,
+    required titleee,
+    required profileImg,
+    required uidFarmer,
+    required uidStorOwner,
+    required prodactName,
+    required imgPost,
+    required partquntity,
+    required price,
+    required storeOwnerCheckDelivery,
+    required farmerCheckDelivery,
+    required farmerAcceptedRequest,
+    required usernameStoreOwner,
+    required usernameFarmer,
+    required postUid,
+  }) async {
     String message = "ERROR => Not starting the code";
     print("111111111111111111111111${context}");
     print("2222222222222222222222222222${titleee}");
@@ -236,7 +235,8 @@ class AuthMethods {
         uidStorOwner: uidStorOwner,
         storeOwnerCheckDelivery: storeOwnerCheckDelivery,
         usernameFarmer: usernameFarmer, usernameStoreOwner: usernameStoreOwner,
-        farmerAcceptedRequest: farmerAcceptedRequest, farmerCheckDelivery: farmerCheckDelivery, postUid: postUid,
+        farmerAcceptedRequest: farmerAcceptedRequest,
+        farmerCheckDelivery: farmerCheckDelivery, postUid: postUid,
 
         // String title;
         // String username;
@@ -264,5 +264,57 @@ class AuthMethods {
     }
 
     showSnackBar(context, message);
+  }
+
+  editeProfilePage({
+    required imgName,
+    required imgPath,
+  }) async {
+    String urlll = await getImgURL(
+      imgName: imgName,
+      imgPath: imgPath,
+      folderName: 'profileIMG',
+    );
+
+    FirebaseFirestore.instance
+        .collection('userSSS')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({"profileImg": urlll});
+
+    // FirebaseFirestore.instance
+    //     .collection('postSSS')
+    //     .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+    //     .get()
+    //     .then();
+
+    CollectionReference postsCollection =
+        FirebaseFirestore.instance.collection('postSSS');
+
+    // Query documents where a specific field has a certain value
+    QuerySnapshot querySnapshot = await postsCollection
+        .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get();
+
+    // Loop through each document
+    for (DocumentSnapshot docSnapshot in querySnapshot.docs) {
+      // Update the 'profileImg' field in each document
+      await docSnapshot.reference.update({'profileImg': urlll});
+    }
+
+//  CollectionReference postsCollection =
+//         FirebaseFirestore.instance.collection('postSSS');
+
+//     // Get all documents from the collection
+//     QuerySnapshot querySnapshot = await postsCollection.get();
+
+//     // Loop through each document
+//     for (DocumentSnapshot docSnapshot in querySnapshot.docs) {
+//       // Update the 'profileImg' field in each document
+//       await docSnapshot.reference.update({'profileImg': urlll});
+//     }
+    //   FirebaseFirestore.instance
+    // .collection('postSSS')
+    // .doc(FirebaseAuth.instance.currentUser!.uid)
+    // .update({"profileImg":urlll});
   }
 }

@@ -104,9 +104,9 @@ class _HomePageState extends State<HomePage> {
                   decoration: BoxDecoration(
                       color: Color.fromARGB(255, 53, 137, 78),
                       image: DecorationImage(
-                          fit: BoxFit.scaleDown,
+                          fit: BoxFit.cover,
                           image:
-                              AssetImage("assets/smiley-4832492_960_720.png"))),
+                              AssetImage("assets/FlatParsley_1400x.webp"))),
                 ),
                 ListTile(
                     title: Text("Home"),

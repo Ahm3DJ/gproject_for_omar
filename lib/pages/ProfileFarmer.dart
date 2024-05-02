@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
+import 'package:graduation_project2/pages/EditeProfilePage.dart';
 import 'package:graduation_project2/shared/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -161,7 +162,17 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+
+setState(() {
+  
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => EditeProfiePage()),
+                            );
+});
+                          
+                      },
                       icon: Icon(
                         Icons.edit,
                         color: Colors.white,

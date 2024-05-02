@@ -163,6 +163,8 @@ class _LoginState extends State<Login> {
                           //  await register();
                           if (!mounted) return;
                         showSnackBar(context, "Done ... ");
+                        try
+                        {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -171,7 +173,12 @@ class _LoginState extends State<Login> {
                                 myWebScreen: WebScerren(),
                               ),
                             ));
-                          
+                        }
+                        catch(e)
+                        {
+
+                            showSnackBar(context, "Email or pass invalid ");
+                        } 
                         } else {
                           showSnackBar(context, "ERROR Form Field ");
 

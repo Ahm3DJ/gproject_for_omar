@@ -15,6 +15,7 @@ import 'package:graduation_project2/pages/ProfileStore.dart';
 import 'package:graduation_project2/pages/RequstedProdactFarmer.dart';
 import 'package:graduation_project2/pages/notifStoreOwner.dart';
 import 'package:graduation_project2/shared/colors.dart';
+import 'package:graduation_project2/shared/showSnackBar.dart';
 import 'package:provider/provider.dart';
 
 class MobileScerren extends StatefulWidget {
@@ -70,14 +71,40 @@ class _MobileScerrenState extends State<MobileScerren> {
     super.dispose();
   }
 
+  getUserData() async {
+    String currentQuantity;
+    DocumentReference docRefUser = FirebaseFirestore.instance
+        .collection("userSSS")
+        .doc(FirebaseAuth.instance.currentUser!.uid);
+
+    DocumentSnapshot docSnapshotUser = await docRefUser.get();
+
+    if (docSnapshotUser.exists) {
+      // Access specific fields from the document snapshot
+      Map<String, dynamic>? dataa =
+          docSnapshotUser.data() as Map<String, dynamic>?;
+      if (dataa != null) {
+        dynamic specificData = dataa['situation'];
+        currentQuantity = specificData.toString();
+        return currentQuantity; // Replace "specific_field" with the field you want to retrieve
+        // print("currentQuantity: $currentQuantity");
+      } else {
+        print('Document data is null');
+      }
+    } else {
+      showSnackBar(context, "text");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of(context, listen: false);
     //userProvider.refreshUser();
     UserDete? userData = userProvider.getUser;
-   print("111111111111111111omar11111111111111${userData?.situation}");
+    print("111111111111111111omar11111111111111${userData?.situation}");
 
     final allDataFromDB = Provider.of<UserProvider>(context).getUser;
+
     // UserProvider allDataFromDB = Provider.of(context, listen: false);
 
     //  print("333333333333333333333333333333333333${allDataFromDB!.email}");

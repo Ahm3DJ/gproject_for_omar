@@ -262,7 +262,8 @@ class _DetailsState extends State<Details> {
                                   uidStorOwner: userData.uid,
                                   storeOwnerCheckDelivery: false,
                                   farmerAcceptedRequest: false,
-                                  farmerCheckDelivery: false, postUid: widget.data["postId"],
+                                  farmerCheckDelivery: false,
+                                   postUid: widget.data["postId"],
 
                                   // FirebaseAuth.instance.currentUser!.uid
                                 );

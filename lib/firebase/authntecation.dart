@@ -270,11 +270,11 @@ class AuthMethods {
     required imgName,
     required imgPath,
   }) async {
-    String urlll = await getImgURL(
-      imgName: imgName,
-      imgPath: imgPath,
-      folderName: 'profileIMG',
-    );
+      String urlll = await getImgURL(
+        imgName: imgName,
+        imgPath: imgPath,
+        folderName: 'profileIMG',
+      );
 
     FirebaseFirestore.instance
         .collection('userSSS')

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:graduation_project2/pages/EditeProfilePage.dart';
 import 'package:graduation_project2/shared/colors.dart';
 
 class ProfileStoreOwner extends StatefulWidget {
@@ -154,14 +155,21 @@ class _ProfileStoreOwnerState extends State<ProfileStoreOwner> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+
+                          Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditeProfiePage()),
+                              );
+                      },
                       icon: Icon(
                         Icons.edit,
                         color: Colors.white,
                         size: 24.0,
                       ),
                       label: Text(
-                        "Edit Profile Farmer",
+                        "Edit Profile Store",
                         style: TextStyle(fontSize: 17,color: Colors.white),
                       ),
                       style: ButtonStyle(

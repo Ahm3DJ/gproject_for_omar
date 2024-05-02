@@ -21,8 +21,7 @@ class UserSituationProvider with ChangeNotifier {
 
 
 
-
-Future<String?> getUserSituation() async {
+String? getUserSituation() {
   try {
     // Get the current user's UID
     String currentUserUid = FirebaseAuth.instance.currentUser!.uid;
@@ -32,23 +31,23 @@ Future<String?> getUserSituation() async {
         .collection('userSSS')
         .doc(currentUserUid);
 
-    // Fetch the document snapshot
-    DocumentSnapshot userDocSnapshot = await userDocRef.get();
+    // Fetch the document snapshot synchronously (blocking call)
+    DocumentSnapshot userDocSnapshot = userDocRef.get() as DocumentSnapshot<Object?>;
 
     if (userDocSnapshot.exists) {
       // Access the 'situation' field from the document data
       Map<String, dynamic>? userData = userDocSnapshot.data() as Map<String, dynamic>?;
       String? situation = userData?['situation'];
-      return situation;
+      return situation ; // Return the situation string or an empty string if it's null
     } else {
       // Document does not exist
       print('User document does not exist');
-      return null;
+      return ''; // Return an empty string
     }
   } catch (error) {
     // Error handling
     print('Error getting user situation: $error');
-    return null;
+    return ''; // Return an empty string
   }
 }
 

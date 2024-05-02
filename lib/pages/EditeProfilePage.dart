@@ -7,7 +7,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:graduation_project2/Provider/UserProvider.dart';
 import 'package:graduation_project2/firebase/authntecation.dart';
+import 'package:graduation_project2/model/User.dart';
+import 'package:graduation_project2/shared/CardEdite.dart';
 import 'package:graduation_project2/shared/colors.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';
 import 'package:path/path.dart' show basename;
@@ -15,9 +18,9 @@ import 'package:path/path.dart' show basename;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class EditeProfiePage extends StatefulWidget {
-  
   @override
   State<EditeProfiePage> createState() => _EditeProfiePageState();
 }
@@ -26,6 +29,11 @@ class _EditeProfiePageState extends State<EditeProfiePage> {
   final credential = FirebaseAuth.instance.currentUser;
   Uint8List? imgPath;
   String? imgName;
+
+  final newUserNameController = TextEditingController();
+  final newAgeController = TextEditingController();
+  final newTitleController = TextEditingController();
+  final newPasswordController = TextEditingController();
 
   uploadImage() async {
     final XFile? pickedImg =
@@ -47,8 +55,60 @@ class _EditeProfiePageState extends State<EditeProfiePage> {
     }
   }
 
+  myShowDialog(key, value,
+      {TextInputType keyboardType = TextInputType.emailAddress}) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            child: Container(
+              height: 150,
+              width: double.infinity,
+              padding: EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  TextField(
+                    keyboardType: keyboardType,
+                    controller: value,
+                    maxLength: 50,
+                    decoration: InputDecoration(
+                      hintText: "Add new $key  :",
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            FirebaseFirestore.instance
+                                .collection('userSSS')
+                                .doc(credential!.uid)
+                                .update({key: value.text});
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: Text("Edit", style: TextStyle(fontSize: 22)),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("Cancle", style: TextStyle(fontSize: 22)),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of(context, listen: false);
+    UserDete? userData = userProvider.getUser;
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -90,14 +150,11 @@ class _EditeProfiePageState extends State<EditeProfiePage> {
                         ? CircleAvatar(
                             backgroundColor: Color.fromARGB(255, 225, 225, 225),
                             radius: 71,
-                            // backgroundImage: AssetImage("assets/img/avatar.png"),
                             backgroundImage:
                                 AssetImage("assets/avatarImage.jpg"),
                           )
-                        // GetImagFromFireBase()
                         : CircleAvatar(
                             radius: 71,
-                            // backgroundImage: AssetImage("assets/img/avatar.png"),
                             backgroundImage: MemoryImage(imgPath!),
                           ),
                     Positioned(
@@ -106,9 +163,11 @@ class _EditeProfiePageState extends State<EditeProfiePage> {
                         child: IconButton(
                             onPressed: () async {
                               await uploadImage();
-
-                              AuthMethods().editeProfilePage(
-                                  imgName: imgName, imgPath: imgPath);
+                              if (imgPath != null) {
+                                AuthMethods().editeProfilePage(
+                                    imgName: imgName, imgPath: imgPath);
+                              }
+                              // userProvider.refreshUser();
                             },
                             icon: Icon(Icons.add_a_photo)))
                   ],
@@ -117,26 +176,86 @@ class _EditeProfiePageState extends State<EditeProfiePage> {
               const SizedBox(
                 height: 20,
               ),
-              Center(
-                  child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(11),
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 131, 177, 255),
-                    borderRadius: BorderRadius.circular(11)),
-                child: Text(
-                  "Info from firebase Auth: ",
-                  style: TextStyle(
-                    fontSize: 22,
-                  ),
-                ),
-              )),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 11,
-                  ),
+                  CardEdite(
+                      textFireBase: "username",
+                      texttitle: "User Name   ",
+                      newController: newUserNameController),
+                  // Card(
+                  //   shadowColor: Colors.black,
+                  //   elevation: 10,
+                  //   margin: EdgeInsets.all(10),
+                  //   shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(10)),
+                  //   color: BTNgreen,
+                  //   child: Container(
+                  //     padding: EdgeInsets.symmetric(horizontal: 10),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: [
+                  //         Text(
+                  //           "User Name :  ",
+                  //           style: TextStyle(fontSize: 20, color: Colors.white),
+                  //         ),
+                  //         IconButton(
+                  //             onPressed: () {
+                  //               myShowDialog( "username",
+                  //                   newUserNameController);
+                  //             },
+                  //             icon: Icon(
+                  //               Icons.edit,
+                  //               size: 26,
+                  //               color: Colors.white,
+                  //             )),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+
+                  CardEdite(
+                      textFireBase: "age",
+                      texttitle: "Age",
+                      newController: newAgeController),
+                  //     Card(
+                  //   shadowColor: Colors.black,
+                  //   elevation: 10,
+                  //   margin: EdgeInsets.all(10),
+                  //   shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(10)),
+                  //   color: BTNgreen,
+                  //   child: Container(
+                  //     padding: EdgeInsets.symmetric(horizontal: 10),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: [
+                  //         Text(
+                  //           "Age:  ",
+                  //           style: TextStyle(fontSize: 20, color: Colors.white),
+                  //         ),
+                  //         IconButton(
+                  //             // onPressed: () {
+                  //             //   myShowDialog(data, "age", newAgeController,keyboardType: TextInputType.number);
+                  //             // },
+                  //             onPressed: () {
+                  //               myShowDialog("age", newAgeController,
+                  //                   keyboardType: TextInputType.number);
+                  //             },
+                  //             icon: Icon(
+                  //               Icons.edit,
+                  //               size: 26,
+                  //               color: Colors.white,
+                  //             )),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+
+                  CardEdite(
+                      textFireBase: "title",
+                      texttitle: "Title",
+                      newController: newTitleController),
                   Card(
                     shadowColor: Colors.black,
                     elevation: 10,
@@ -150,35 +269,95 @@ class _EditeProfiePageState extends State<EditeProfiePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Email:   ${credential!.email}    ",
-                            style: TextStyle(
-                              fontSize: 17,
-                            ),
+                            "Title:  ",
+                            style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
-                          SizedBox(
-                            height: 11,
-                          ),
+                          IconButton(
+                              onPressed: () {
+                                myShowDialog("title", newTitleController);
+                              },
+                              icon: Icon(
+                                Icons.edit,
+                                size: 26,
+                                color: Colors.white,
+                              )),
                         ],
                       ),
                     ),
                   ),
+                  CardEdite(
+                      textFireBase: "password",
+                      texttitle: "Password",
+                      newController: newPasswordController),
+                  //   Card(
+                  //   shadowColor: Colors.black,
+                  //   elevation: 10,
+                  //   margin: EdgeInsets.all(10),
+                  //   shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(10)),
+                  //   color: BTNgreen,
+                  //   child: Container(
+                  //     padding: EdgeInsets.symmetric(horizontal: 10),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: [
+                  //         Text(
+                  //           "Password:  ",
+                  //           style: TextStyle(fontSize: 20, color: Colors.white),
+                  //         ),
+                  //         IconButton(
+                  //             onPressed: () {
+                  //               myShowDialog(
+                  //                    "password", newPasswordController);
+                  //             },
+                  //             icon: Icon(
+                  //               Icons.edit,
+                  //               size: 26,
+                  //               color: Colors.white,
+                  //             )),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+
                   Card(
                     shadowColor: Colors.black,
                     elevation: 10,
                     margin: EdgeInsets.all(10),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     color: BTNgreen,
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Email:    ${credential!.email} ",
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Card(
+                    shadowColor: Colors.black,
+                    elevation: 10,
+                    margin: EdgeInsets.all(10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: BTNgreen,
+                    child: Container(
+                      padding: EdgeInsets.all(10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             "Created date:  ${DateFormat('yMMMMd').format(credential!.metadata.creationTime!)}    ",
-                            style: TextStyle(
-                              fontSize: 17,
-                            ),
+                            style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                         ],
                       ),
@@ -192,19 +371,18 @@ class _EditeProfiePageState extends State<EditeProfiePage> {
                     elevation: 10,
                     margin: EdgeInsets.all(10),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     color: BTNgreen,
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.all(10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Last Signed In: ${DateFormat("yMMMMd").format(credential!.metadata.lastSignInTime!)} ",
-                            style: TextStyle(
-                              fontSize: 17,
-                            ),
-                          ),
+                              "Last Signed In: ${DateFormat("yMMMMd").format(credential!.metadata.lastSignInTime!)} ",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white)),
                         ],
                       ),
                     ),
@@ -231,23 +409,6 @@ class _EditeProfiePageState extends State<EditeProfiePage> {
               SizedBox(
                 height: 30,
               ),
-              Center(
-                  child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(11),
-                      margin: EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 131, 177, 255),
-                          borderRadius: BorderRadius.circular(11)),
-                      child: Text(
-                        "Info from firebase firestore :",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ))),
-              // GetDataFromFireBase(
-              //   documentId: credential!.uid,
-              // ),
             ],
           ),
         ),

@@ -21,6 +21,9 @@ class _ResposiveState extends State<Resposive> {
     try {
       UserProvider userProvider = Provider.of(context, listen: false);
       await userProvider.refreshUser( );
+
+
+      
       // print("222222222222222222222222222222222222${userProvider.getUser!.email}");
     } catch (e) {
       showSnackBar(

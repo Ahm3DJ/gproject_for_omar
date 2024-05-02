@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
+import 'package:graduation_project2/Provider/UserSituationProvider%20.dart';
 import 'package:graduation_project2/firebase_options.dart';
 import 'package:graduation_project2/pages/HomePage.dart';
 import 'package:graduation_project2/pages/Login.dart';
@@ -49,10 +50,16 @@ class MyApp extends StatelessWidget {
     //   await userProvider.refreshUser();
     // }
 
-    return ChangeNotifierProvider(
-      create: (context) {
-        return UserProvider();
-      },
+    return   MultiProvider(
+      providers: [
+        ChangeNotifierProvider<UserProvider>(
+          create: (context) => UserProvider(),
+        ),
+        // Add more providers as needed
+           ChangeNotifierProvider<UserSituationProvider>(
+          create: (context) => UserSituationProvider(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: StreamBuilder(

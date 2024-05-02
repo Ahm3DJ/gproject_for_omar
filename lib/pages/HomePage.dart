@@ -61,6 +61,7 @@ class _HomePageState extends State<HomePage> {
     //  final allDataFromDB = Provider.of<UserProvider>(context);
     UserProvider userProvider = Provider.of(context, listen: false);
     //userProvider.refreshUser();
+    
     UserDete? userData = userProvider.getUser;
     return
         // isLoading

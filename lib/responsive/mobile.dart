@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
+import 'package:graduation_project2/Provider/UserSituationProvider%20.dart';
 import 'package:graduation_project2/firebase/fireStore.dart';
 import 'package:graduation_project2/model/User.dart';
 import 'package:graduation_project2/pages/AddProdact.dart';
@@ -71,30 +72,6 @@ class _MobileScerrenState extends State<MobileScerren> {
     super.dispose();
   }
 
-  getUserData() async {
-    String currentQuantity;
-    DocumentReference docRefUser = FirebaseFirestore.instance
-        .collection("userSSS")
-        .doc(FirebaseAuth.instance.currentUser!.uid);
-
-    DocumentSnapshot docSnapshotUser = await docRefUser.get();
-
-    if (docSnapshotUser.exists) {
-      // Access specific fields from the document snapshot
-      Map<String, dynamic>? dataa =
-          docSnapshotUser.data() as Map<String, dynamic>?;
-      if (dataa != null) {
-        dynamic specificData = dataa['situation'];
-        currentQuantity = specificData.toString();
-        return currentQuantity; // Replace "specific_field" with the field you want to retrieve
-        // print("currentQuantity: $currentQuantity");
-      } else {
-        print('Document data is null');
-      }
-    } else {
-      showSnackBar(context, "text");
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +82,13 @@ class _MobileScerrenState extends State<MobileScerren> {
 
     final allDataFromDB = Provider.of<UserProvider>(context).getUser;
 
+
+
+
+ String? situation = Provider.of<UserSituationProvider>(context, listen: false).getUserSituation();
+
+    // Use the situation data here
+     print('User Situationzzzzzzzzzzzzzzzzzzzzzzzz: $situation');
     // UserProvider allDataFromDB = Provider.of(context, listen: false);
 
     //  print("333333333333333333333333333333333333${allDataFromDB!.email}");
@@ -123,8 +107,10 @@ class _MobileScerrenState extends State<MobileScerren> {
                 onTap: (index) {
                   // navigate to the tabed page
                   _pageController.jumpToPage(index);
+                  userProvider.refreshUser();
                   setState(() {
                     currentPage = index;
+                    
                   });
 
                   // print(   "---------------    $index "  );

@@ -3,9 +3,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation_project2/Provider/Notifecation.dart';
 import 'package:graduation_project2/shared/Timer.dart';
 import 'package:graduation_project2/shared/colors.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NotifayStoreOwner extends StatefulWidget {
   @override
@@ -28,7 +32,8 @@ class _NotifayStoreOwnerState extends State<NotifayStoreOwner> {
   Widget build(BuildContext context) {
     //final classInstancee = Provider.of<NotifayStoreOwner>(context);
     final double widthScreen = MediaQuery.of(context).size.width;
-
+    final classInstancee = Provider.of<Notificationn>(context);
+    int c = 0;
     late DocumentSnapshot documentSnapshot;
     return Scaffold(
         appBar: AppBar(
@@ -66,6 +71,10 @@ class _NotifayStoreOwnerState extends State<NotifayStoreOwner> {
                                 Map<String, dynamic> data =
                                     snapshot.data!.docs[index].data()
                                         as Map<String, dynamic>;
+                                // classInstancee.count =
+                                //     snapshot.data!.docs.length;
+                                // classInstancee.l1 = data;
+
                                 return Card(
                                   child: Container(
                                       child: Row(
@@ -79,10 +88,13 @@ class _NotifayStoreOwnerState extends State<NotifayStoreOwner> {
                                         //     .selectedProdact[index].pathImage),
                                       ),
                                       Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                               "username ${data["usernameStoreOwner"]} "),
                                           Column(
+                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+
                                             children: [
                                               Text("price: ${data["price"]} "),
                                               Text("title: ${data["title"]} "),
@@ -97,35 +109,18 @@ class _NotifayStoreOwnerState extends State<NotifayStoreOwner> {
                                       !data["farmerRejectedRequest"]
                                           ? Row(
                                               children: [
-                                                IconButton(
-                                                    onPressed: () async {
-                                                      // await FirebaseFirestore.instance
-                                                      //     .collection("RequstedDDD")
-                                                      //     .doc(snapshot
-                                                      //         .data!.docs[index].id)
-                                                      //     .delete();
-
-                                                      // await FirebaseFirestore.instance
-                                                      //     .collection("RequstedDDD")
-                                                      //     .doc(snapshot
-                                                      //         .data!.docs[index].id)
-                                                      //     .delete();
-                                                      // await FirebaseFirestore.instance
-                                                      //     .collection("notifiayYYY")
-                                                      //     .doc(documentSnapshot.get(
-                                                      //         'storeOwnerCheckDelivery'))
-                                                      //     .delete();
-
-                                                      // await FirebaseFirestore.instance
-                                                      // .collection("RequstedDDD")
-                                                      // .doc
-                                                      //////////  هاذ الكود  اكتبه قلوبل  فارر  واستدعيه
-                                                      ///وغير بس القيت  و اديليت
-                                                    },
-                                                    icon: Icon(
-                                                      Icons.close,
-                                                      color: Colors.red,
-                                                    )),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    final Uri phoneNumber =
+                                                        Uri.parse(
+                                                            "tel:0775218832");
+                                                    final Uri whatsApp = Uri.parse(
+                                                        "https://wa.me/+962${data["phoneNumber"]}");
+                                                    launchUrl(whatsApp);
+                                                  },
+                                                  child: SvgPicture.asset(
+                                                      "assets/icons8-whatsapp.svg"),
+                                                ),
                                                 IconButton(
                                                     onPressed: () async {
                                                       await FirebaseFirestore
@@ -187,17 +182,19 @@ class _NotifayStoreOwnerState extends State<NotifayStoreOwner> {
                                               ],
                                             )
                                           : TextButton(
-                                              onPressed: ()async {
-
-  await FirebaseFirestore
-                                                          .instance
-                                                          .collection(
-                                                              'notifiayYYY')
-                                                          .doc(snapshot.data!
-                                                              .docs[index].id).delete();
-
-
-                                              }, child: Text("Rejcted",style: TextStyle(color: Colors.red),)),
+                                              onPressed: () async {
+                                                await FirebaseFirestore.instance
+                                                    .collection('notifiayYYY')
+                                                    .doc(snapshot
+                                                        .data!.docs[index].id)
+                                                    .delete();
+                                                // classInstancee.count--;
+                                              },
+                                              child: Text(
+                                                "Rejcted",
+                                                style: TextStyle(
+                                                    color: Colors.red),
+                                              )),
                                     ],
                                   )),
                                 );

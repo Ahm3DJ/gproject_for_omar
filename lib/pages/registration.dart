@@ -38,7 +38,7 @@ class _RegisterState extends State<Register> {
   final usernameController = TextEditingController();
   final ageController = TextEditingController();
   final titleController = TextEditingController();
-
+  final phoneNumberController = TextEditingController();
   bool isPassword8Char = false;
   bool isPasswordHas1Number = false;
   bool hasUppercase = false;
@@ -313,6 +313,31 @@ class _RegisterState extends State<Register> {
                       decoration: decorationTextfield.copyWith(
                           hintText: "Enter Your username : ",
                           suffixIcon: Icon(Icons.person))),
+      const SizedBox(
+                    height: 22,
+                  ),
+            
+
+
+                      TextFormField(
+                      validator: (value) {
+                        return value!.isEmpty || value.length < 10
+                            ? "Can not be less than 10 numbers"
+                            : null;
+                      },
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      controller: phoneNumberController,
+                      keyboardType: TextInputType.text,
+                      obscureText: false,
+                      decoration: decorationTextfield.copyWith(
+                          hintText: "Enter Your Phone Number : ",
+                          suffixIcon: Icon(Icons.phone))),
+
+
+
+
+
+
                   const SizedBox(
                     height: 22,
                   ),
@@ -614,7 +639,7 @@ class _RegisterState extends State<Register> {
                               : farmercheck == false && storeOwnerCheck == true
                                   ? "Store Owner"
                                   : null,
-                          balance: 100.0,
+                          balance: 100.0, phoneNumber: phoneNumberController.text,
                         );
                         //  await register();
                         if (!mounted) return;

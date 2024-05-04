@@ -144,6 +144,7 @@ class _AddProdactState extends State<AddProdact> {
                                   ? "Vegetables"
                               : fruitProdact == false && vegetableProdact == false&& anotherProdact==true
                                   ?"Other":null,
+                                   phoneNumber: userData.phoneNumber,
                       );
 
                       setState(() {

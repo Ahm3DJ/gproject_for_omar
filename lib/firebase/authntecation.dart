@@ -19,6 +19,7 @@ class AuthMethods {
     required age,
     required situation,
     required balance,
+        required phoneNumber,
   }) async {
     String message = "ERROR => Not starting the code";
 
@@ -53,7 +54,7 @@ class AuthMethods {
         uid: credential.user!.uid,
         age: age,
         situation: situation,
-        balance: balance,
+        balance: balance, phoneNumber: phoneNumber,
       );
       message = "ERROR => create object user  ";
 
@@ -112,6 +113,7 @@ class AuthMethods {
     required farmerAcceptedRequest,
     required farmerCheckDelivery,
     required postUid,
+      required phoneNumber,
   }) async {
     String message = "ERROR => Not starting the code";
     print("111111111 1storeOwnerSendRequst11111111111111${context}");
@@ -152,7 +154,7 @@ class AuthMethods {
         usernameFarmer: usernameFarmer,
         usernameStoreOwner: usernameStoreOwner,
         farmerAcceptedRequest: farmerAcceptedRequest,
-        farmerCheckDelivery: farmerCheckDelivery, postUid: postUid,
+        farmerCheckDelivery: farmerCheckDelivery, postUid: postUid, phoneNumber:phoneNumber ,
 
         // String title;
         // String username;
@@ -198,6 +200,7 @@ class AuthMethods {
     required usernameStoreOwner,
     required usernameFarmer,
     required postUid,
+    required phoneNumber,
   }) async {
     String message = "ERROR => Not starting the code";
     print("111111111111111111111111${context}");
@@ -236,7 +239,7 @@ class AuthMethods {
         storeOwnerCheckDelivery: storeOwnerCheckDelivery,
         usernameFarmer: usernameFarmer, usernameStoreOwner: usernameStoreOwner,
         farmerAcceptedRequest: farmerAcceptedRequest,
-        farmerCheckDelivery: farmerCheckDelivery, postUid: postUid,
+        farmerCheckDelivery: farmerCheckDelivery, postUid: postUid, phoneNumber:phoneNumber ,
 
         // String title;
         // String username;

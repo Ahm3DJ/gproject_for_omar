@@ -10,6 +10,7 @@ class UserDete {
   String age;
   String situation;
   double balance;
+  String phoneNumber;
 
   UserDete({
     required this.email,
@@ -21,6 +22,7 @@ class UserDete {
     required this.age,
     required this.situation,
     required this.balance,
+      required this.phoneNumber,
   });
 
   Map<String, dynamic> convert2Map() {
@@ -33,7 +35,8 @@ class UserDete {
       "uid": uid,
       "age": age,
       "situation": situation,
-        "balance": balance,
+      "balance": balance,
+        "phoneNumber": phoneNumber,
     };
   }
 
@@ -47,7 +50,8 @@ class UserDete {
       profileImg: snapshot["profileImg"],
       uid: snapshot["uid"],
       age: snapshot["age"],
-      situation: snapshot["situation"], balance: snapshot["balance"],
+      situation: snapshot["situation"],
+      balance: snapshot["balance"], phoneNumber:snapshot["phoneNumber"] ,
     );
   }
 }

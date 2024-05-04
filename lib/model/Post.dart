@@ -15,6 +15,7 @@ class PostData {
   final String title;
   final String prodactName;
   final String typeOfProdact;
+  final String phoneNumber;
 
   PostData({
     required this.profileImg,
@@ -30,7 +31,8 @@ class PostData {
     required this.price,
     required this.title,
     required this.prodactName,
-        required this.typeOfProdact,
+    required this.typeOfProdact,
+        required this.phoneNumber,
 
   });
 
@@ -49,8 +51,9 @@ class PostData {
       "caption": caption,
       "price": price,
       "title": title,
-      "prodactName": prodactName,  "typeOfProdact": typeOfProdact,
-
+      "prodactName": prodactName,
+      "typeOfProdact": typeOfProdact,
+        "phoneNumber": phoneNumber,
     };
   }
 
@@ -72,7 +75,8 @@ class PostData {
       caption: snapshot["caption"],
       price: snapshot["price"],
       title: snapshot["title"],
-      prodactName: snapshot["prodactName"], typeOfProdact:  snapshot["typeOfProdact"],
+      prodactName: snapshot["prodactName"],
+      typeOfProdact: snapshot["typeOfProdact"], phoneNumber:snapshot["phoneNumber"],
     );
   }
 }

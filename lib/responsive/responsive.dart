@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project2/Provider/Notifecation.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +24,7 @@ class _ResposiveState extends State<Resposive> {
       await userProvider.refreshUser( );
 
 
-      
+      // final classInstancee = Provider.of<Notificationn>(context);
       // print("222222222222222222222222222222222222${userProvider.getUser!.email}");
     } catch (e) {
       showSnackBar(

@@ -17,6 +17,7 @@ class ProdactCartAllUser {
   bool farmerCheckDelivery;
   bool farmerAcceptedRequest;
   String postUid;
+  String phoneNumber;
 
   ProdactCartAllUser({
     required this.title,
@@ -32,7 +33,8 @@ class ProdactCartAllUser {
     required this.storeOwnerCheckDelivery,
     required this.farmerCheckDelivery,
     required this.farmerAcceptedRequest,
-        required this.postUid,
+    required this.postUid,
+        required this.phoneNumber,
 
   });
 
@@ -51,8 +53,8 @@ class ProdactCartAllUser {
       "storeOwnerCheckDelivery": storeOwnerCheckDelivery,
       "farmerAcceptedRequest": farmerAcceptedRequest,
       "farmerCheckDelivery": farmerCheckDelivery,
-            "postUid": postUid,
-
+      "postUid": postUid,
+          "phoneNumber": phoneNumber,
     };
   }
 
@@ -71,7 +73,8 @@ class ProdactCartAllUser {
       usernameFarmer: snapshot["usernameFarmer"],
       usernameStoreOwner: snapshot["usernameStoreOwner"],
       farmerAcceptedRequest: snapshot["farmerAcceptedRequest"],
-      farmerCheckDelivery: snapshot["farmerCheckDelivery"], postUid: snapshot["postUid"],
+      farmerCheckDelivery: snapshot["farmerCheckDelivery"],
+      postUid: snapshot["postUid"], phoneNumber: snapshot["phoneNumber"],
     );
   }
 }

@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation_project2/Provider/Notifecation.dart';
+import 'package:graduation_project2/Provider/Req.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
 import 'package:graduation_project2/Provider/UserSituationProvider%20.dart';
 import 'package:graduation_project2/firebase/fireStore.dart';
@@ -72,7 +74,6 @@ class _MobileScerrenState extends State<MobileScerren> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of(context, listen: false);
@@ -82,13 +83,18 @@ class _MobileScerrenState extends State<MobileScerren> {
 
     final allDataFromDB = Provider.of<UserProvider>(context).getUser;
 
+    final classInstancee = Provider.of<Notificationn>(context);
+    final reqProvider = Provider.of<RequstedProvider>(context);
+    
 
-
-
- String? situation = Provider.of<UserSituationProvider>(context, listen: false).getUserSituation();
+int  counter = classInstancee.getCount();
+    int counterREQ=reqProvider.getCountREQ();
+    String? situation =
+        Provider.of<UserSituationProvider>(context, listen: false)
+            .getUserSituation();
 
     // Use the situation data here
-     print('User Situationzzzzzzzzzzzzzzzzzzzzzzzz: $situation');
+    print('User Situationzzzzzzzzzzzzzzzzzzzzzzzz: $situation');
     // UserProvider allDataFromDB = Provider.of(context, listen: false);
 
     //  print("333333333333333333333333333333333333${allDataFromDB!.email}");
@@ -110,7 +116,6 @@ class _MobileScerrenState extends State<MobileScerren> {
                   userProvider.refreshUser();
                   setState(() {
                     currentPage = index;
-                    
                   });
 
                   // print(   "---------------    $index "  );

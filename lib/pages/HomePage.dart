@@ -6,6 +6,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation_project2/Provider/Notifecation.dart';
+import 'package:graduation_project2/Provider/Req.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
 import 'package:graduation_project2/firebase/fireStore.dart';
 import 'package:graduation_project2/model/User.dart';
@@ -14,6 +16,7 @@ import 'package:graduation_project2/pages/Login.dart';
 import 'package:graduation_project2/pages/ProfileFarmer.dart';
 import 'package:graduation_project2/pages/ProfileStore.dart';
 import 'package:graduation_project2/pages/RequstedProdactFarmer.dart';
+import 'package:graduation_project2/pages/notifStoreOwner.dart';
 import 'package:graduation_project2/shared/PostDesign.dart';
 import 'package:graduation_project2/shared/colors.dart';
 import 'package:graduation_project2/shared/constant.dart';
@@ -46,32 +49,44 @@ class _HomePageState extends State<HomePage> {
   //   });
   // }
 
-  
   bool fruitProdact = false;
   bool vegetableProdact = false;
   bool anotherProdact = false;
 
-@override
+  @override
   void initState() {
+    fruitProdact = false;
+    vegetableProdact = false;
+    anotherProdact = false;
 
-   fruitProdact = false;
-   vegetableProdact = false;
-   anotherProdact = false;
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     final double widthScreen = MediaQuery.of(context).size.width;
     final double heightScreen = MediaQuery.of(context).size.height;
-
+  
     final searchController = TextEditingController();
     //  final allDataFromDB = Provider.of<UserProvider>(context);
     UserProvider userProvider = Provider.of(context, listen: false);
     //userProvider.refreshUser();
 
     UserDete? userData = userProvider.getUser;
+
+    final classInstancee = Provider.of<Notificationn>(context);
+      final reqProvider  = Provider.of<RequstedProvider>(context);
+  
+int  counter = classInstancee.getCount();
+    int counterREQ=reqProvider.getCountREQ();
+setState(() {
+  
+                    print("++++++++++++++++++++dddd++++++++++++++${classInstancee.getCount()}");
+                    print("++++++++++++++++++++aaaaaaaa++++++++++++++${reqProvider.getCountREQ()}");
+  
+});
+      print("++++++++++++++++++++dddd++++++++++++++${classInstancee.getCount()}");
+                    print("++++++++++++++++++++aaaaaaaa++++++++++++++${reqProvider.getCountREQ()}");
+  
     return
         // isLoading
         //     ?  Scaffold(
@@ -87,8 +102,61 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: appbarGreen,
         actions: [
-          CircleAvatar(backgroundImage: NetworkImage(userData!.profileImg)),
-          Text("     ")
+          Stack(children: <Widget>[
+            Text(
+                '                                                                              '),
+            IconButton(
+              onPressed: () {
+                print("++++++++++++++++++++dddd++++++++++++++${classInstancee.getCount()}");
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => userData?.situation == "Farmer"
+                          ? RequsteProdact()
+                          : NotifayStoreOwner(),
+                    ));
+              },
+              icon: Icon(
+                Icons.notification_important_rounded,
+              ),
+            ),
+           Positioned(
+                    left: 11,
+                    top: 11,
+                    child: Container(
+                      padding: EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      constraints: BoxConstraints(
+                        minWidth: 14,
+                        minHeight: 14,
+                      ),
+                      child: Text(
+                        userData?.situation == "Farmer" ?'${reqProvider.getCountREQ()}' : '${counter}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 8,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
+              
+          ]),
+          CircleAvatar(
+            backgroundImage: NetworkImage(userData!.profileImg),
+          ),
+          Text("     "),
+          // IconButton(
+          //   onPressed: () {},
+          //   icon: Icon(
+          //     userData.situation == "Farmer"
+          //         ? Icons.request_page
+          //         : Icons.notification_important_rounded,
+          //   ),
+          // ),
         ],
       ),
       drawer: Drawer(
@@ -99,7 +167,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 UserAccountsDrawerHeader(
                   currentAccountPicture: CircleAvatar(
-                    backgroundImage: NetworkImage(userData.profileImg),
+                    backgroundImage: NetworkImage(userData!.profileImg),
                   ),
                   accountName: Text(userData.username),
                   // Text(allDataFromDB.getUser!.username),
@@ -115,7 +183,8 @@ class _HomePageState extends State<HomePage> {
                       color: Color.fromARGB(255, 53, 137, 78),
                       image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: AssetImage("assets/nathan-dumlao-bRdRUUtbxO0-unsplash-1536x1024.jpeg"))),
+                          image: AssetImage(
+                              "assets/nathan-dumlao-bRdRUUtbxO0-unsplash-1536x1024.jpeg"))),
                 ),
                 ListTile(
                     title: Text("Home"),
@@ -252,114 +321,127 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-            
 
-Container(
-  padding: EdgeInsets.symmetric(vertical: 10.0),
-  decoration: BoxDecoration(
-    color: contantPost,
-    borderRadius: BorderRadius.circular(20.0),
-    boxShadow: [
-      BoxShadow(
-        color: Colors.grey.withOpacity(0.5),
-        spreadRadius: 2,
-        blurRadius: 5,
-        offset: Offset(0, 3), // changes position of shadow
-      ),
-    ],
-  ),
-  child: Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: [
-      TextButton(
-        onPressed: () {
-          setState(() {
-            fruitProdact = true;
-            vegetableProdact = false;
-            anotherProdact = false;
-          });
-        },
-        style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(fruitProdact ? Colors.white : Colors.black),
-          backgroundColor: MaterialStateProperty.all<Color>(fruitProdact ? Colors.green : Colors.transparent),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-              side: BorderSide(color: Colors.green), // Border color
-            ),
-          ),
-        ),
-        child: Text("Fruits"),
-      ),
-      TextButton(
-        onPressed: () {
-          setState(() {
-            fruitProdact = false;
-            vegetableProdact = true;
-            anotherProdact = false;
-          });
-        },
-        style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(vegetableProdact ? Colors.white : Colors.black),
-          backgroundColor: MaterialStateProperty.all<Color>(vegetableProdact ? Colors.green : Colors.transparent),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-              side: BorderSide(color: Colors.green), // Border color
-            ),
-          ),
-        ),
-        child: Text("Vegetables"),
-      ),
-      TextButton(
-        onPressed: () {
-          setState(() {
-            fruitProdact = false;
-            vegetableProdact = false;
-            anotherProdact = true;
-          });
-        },
-        style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(anotherProdact ? Colors.white : Colors.black),
-          backgroundColor: MaterialStateProperty.all<Color>(anotherProdact ? Colors.green : Colors.transparent),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-              side: BorderSide(color: Colors.green), // Border color
-            ),
-          ),
-        ),
-        child: Text("Other"),
-      ),
-    ],
-  ),
-),
-SizedBox(height: 10,),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 10.0),
+                decoration: BoxDecoration(
+                  color: contantPost,
+                  borderRadius: BorderRadius.circular(20.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          fruitProdact = true;
+                          vegetableProdact = false;
+                          anotherProdact = false;
+                        });
+                      },
+                      style: ButtonStyle(
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            fruitProdact ? Colors.white : Colors.black),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            fruitProdact ? Colors.green : Colors.transparent),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            side:
+                                BorderSide(color: Colors.green), // Border color
+                          ),
+                        ),
+                      ),
+                      child: Text("Fruits"),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          fruitProdact = false;
+                          vegetableProdact = true;
+                          anotherProdact = false;
+                        });
+                      },
+                      style: ButtonStyle(
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            vegetableProdact ? Colors.white : Colors.black),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            vegetableProdact
+                                ? Colors.green
+                                : Colors.transparent),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            side:
+                                BorderSide(color: Colors.green), // Border color
+                          ),
+                        ),
+                      ),
+                      child: Text("Vegetables"),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          fruitProdact = false;
+                          vegetableProdact = false;
+                          anotherProdact = true;
+                        });
+                      },
+                      style: ButtonStyle(
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            anotherProdact ? Colors.white : Colors.black),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            anotherProdact ? Colors.green : Colors.transparent),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            side:
+                                BorderSide(color: Colors.green), // Border color
+                          ),
+                        ),
+                      ),
+                      child: Text("Other"),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
 
-                SizedBox(
+              SizedBox(
                 height: heightScreen - 220,
                 child: StreamBuilder<QuerySnapshot>(
-                  stream:fruitProdact
-    ? FirebaseFirestore.instance
-        .collection('postSSS')
-        .where("typeOfProdact", isEqualTo: "Fruits")
-        .snapshots()
-    : vegetableProdact
-      ? FirebaseFirestore.instance
-          .collection('postSSS')
-          .where("typeOfProdact", isEqualTo: "Vegetables")
-          .snapshots()
-      : anotherProdact ?FirebaseFirestore.instance
-          .collection('postSSS')
-          .where("typeOfProdact", isEqualTo: "Other")
-          .snapshots():
-                  
-                   FirebaseFirestore.instance
-                      .collection('postSSS')//'uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid
-                      .snapshots(),
-
-
-                      
+                  stream: fruitProdact
+                      ? FirebaseFirestore.instance
+                          .collection('postSSS')
+                          .where("typeOfProdact", isEqualTo: "Fruits")
+                          .snapshots()
+                      : vegetableProdact
+                          ? FirebaseFirestore.instance
+                              .collection('postSSS')
+                              .where("typeOfProdact", isEqualTo: "Vegetables")
+                              .snapshots()
+                          : anotherProdact
+                              ? FirebaseFirestore.instance
+                                  .collection('postSSS')
+                                  .where("typeOfProdact", isEqualTo: "Other")
+                                  .snapshots()
+                              : FirebaseFirestore.instance
+                                  .collection(
+                                      'postSSS') //'uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid
+                                  .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasError) {

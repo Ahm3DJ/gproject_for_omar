@@ -73,6 +73,7 @@ class FireBase {
       required title,
       required prodactName,
         required typeOfProdact,
+        required phoneNumber,
       }) async {
     String message = "ERROR => Not starting the code";
 
@@ -102,7 +103,7 @@ class FireBase {
           username: username,
           quntity: quntity,
           caption:caption,
-          price:price, title:title, prodactName:prodactName, typeOfProdact: typeOfProdact );
+          price:price, title:title, prodactName:prodactName, typeOfProdact: typeOfProdact, phoneNumber: phoneNumber );
 
       message = "ERROR => erroe hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
       posts

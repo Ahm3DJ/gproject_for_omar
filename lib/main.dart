@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation_project2/Provider/Notifecation.dart';
+import 'package:graduation_project2/Provider/Req.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
 import 'package:graduation_project2/Provider/UserSituationProvider%20.dart';
 import 'package:graduation_project2/firebase_options.dart';
@@ -15,6 +17,8 @@ import 'package:graduation_project2/responsive/responsive.dart';
 import 'package:graduation_project2/responsive/web.dart';
 import 'package:provider/provider.dart';
 import 'shared/showSnackBar.dart';
+
+import 'package:url_launcher/url_launcher.dart';
 // import 'package:firebase_storage/firebase_storage.dart';
 // import 'package:image_picker/image_picker.dart';
 
@@ -59,6 +63,12 @@ class MyApp extends StatelessWidget {
            ChangeNotifierProvider<UserSituationProvider>(
           create: (context) => UserSituationProvider(),
         ),
+          ChangeNotifierProvider<Notificationn>(
+          create: (context) => Notificationn(),
+        ),
+        ChangeNotifierProvider<RequstedProvider>(
+          create: (context) => RequstedProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -75,7 +85,7 @@ class MyApp extends StatelessWidget {
             } else if (snapshot.hasData) {
               return
               //  Login(); 
-                // Register();
+              //   Register();
               // HomePage();
               Resposive(
                 myMobileScreen: MobileScerren(),

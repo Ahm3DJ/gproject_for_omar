@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
+import 'package:graduation_project2/pages/DateTimeFarmer.dart';
 import 'package:graduation_project2/pages/EditeProfilePage.dart';
 import 'package:graduation_project2/shared/colors.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';
@@ -139,16 +140,27 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                         margin: EdgeInsets.fromLTRB(5, 5, 0, 0),
                         child: Row(
                           children: [
-                            Icon(
-                              Icons.edit_location,
-                              color: Color.fromARGB(168, 3, 65, 27),
-                              size: 26,
+                            IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DateTimeFarmer()),
+                                );
+                              },
+                              icon: Icon(
+                                Icons.history,
+                                color: Color.fromARGB(168, 3, 65, 27),
+                                size: 26,
+                              ),
                             ),
+
                             // Text(widget.prodacts.location),
-                            Text(allDataFromDB.title)
+                            Text("History")
                           ],
                         ),
                       )
+
                       //  Text(userDate["title"]))
                       ,
                       SizedBox(

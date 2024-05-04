@@ -151,7 +151,7 @@ class _EditeProfiePageState extends State<EditeProfiePage> {
                             backgroundColor: Color.fromARGB(255, 225, 225, 225),
                             radius: 71,
                             backgroundImage:
-                                AssetImage("assets/avatarImage.jpg"),
+                              NetworkImage(userData!.profileImg),
                           )
                         : CircleAvatar(
                             radius: 71,
@@ -166,8 +166,8 @@ class _EditeProfiePageState extends State<EditeProfiePage> {
                               if (imgPath != null) {
                                 AuthMethods().editeProfilePage(
                                     imgName: imgName, imgPath: imgPath);
+                                // userProvider.refreshUser();
                               }
-                              // userProvider.refreshUser();
                             },
                             icon: Icon(Icons.add_a_photo)))
                   ],

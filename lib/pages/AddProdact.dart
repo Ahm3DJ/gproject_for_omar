@@ -52,6 +52,9 @@ class _AddProdactState extends State<AddProdact> {
       print("Error => $e");
     }
   }
+  bool fruitProdact = false;
+    bool vegetableProdact = false;
+    bool anotherProdact = false;
 
   showmodel() {
     return showDialog(
@@ -97,6 +100,7 @@ class _AddProdactState extends State<AddProdact> {
     UserProvider userProvider = Provider.of(context, listen: false);
     userProvider.refreshUser();
     UserDete? userData = userProvider.getUser;
+  
     return imgPath == null
         ? Scaffold(
             backgroundColor: scaffoldColor,
@@ -133,6 +137,13 @@ class _AddProdactState extends State<AddProdact> {
                         quntity: quantityController.text,
                         title: userData.title,
                         prodactName: prodactNameController.text,
+                         typeOfProdact:  fruitProdact == true &&
+                                  vegetableProdact == false && anotherProdact==false
+                              ? "Fruits"
+                              : fruitProdact == false && vegetableProdact == true&& anotherProdact==false
+                                  ? "Vegetables"
+                              : fruitProdact == false && vegetableProdact == false&& anotherProdact==true
+                                  ?"Other":null,
                       );
 
                       setState(() {
@@ -221,6 +232,118 @@ class _AddProdactState extends State<AddProdact> {
                         Form(
                           child: Column(
                             children: [
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        
+                                        onTap: () {
+                                          setState(() {
+                                            fruitProdact = true;
+                                            vegetableProdact = false;
+                                            anotherProdact = false;
+                                          });
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.all(10),
+                                          child: Icon(
+                                            Icons.check,
+                                            color: Colors.white,
+                                            size: 15,
+                                          ),
+                                          height: 20,
+                                          width: 20,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: fruitProdact
+                                                  ? Colors.green
+                                                  : Colors.white,
+                                              border: Border.all(
+                                                  color: Colors.grey)),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text("Fruits  "),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            vegetableProdact = true;
+                                            fruitProdact = false;
+                                            anotherProdact = false;
+                                          });
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.all(10),
+                                          child: Icon(
+                                            Icons.check,
+                                            color: Colors.white,
+                                            size: 15,
+                                          ),
+                                          height: 20,
+                                          width: 20,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: vegetableProdact
+                                                  ? Colors.green
+                                                  : Colors.white,
+                                              border: Border.all(
+                                                  color: Colors.grey)),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text("Vegetables "),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            anotherProdact = true;
+                                            vegetableProdact = false;
+                                            fruitProdact = false;
+                                          });
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.all(10),
+                                          child: Icon(
+                                            Icons.check,
+                                            color: Colors.white,
+                                            size: 15,
+                                          ),
+                                          height: 20,
+                                          width: 20,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: anotherProdact
+                                                  ? Colors.green
+                                                  : Colors.white,
+                                              border: Border.all(
+                                                  color: Colors.grey)),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text("Another Prodact "),
+                                    ],
+                                  ),
+                                ],
+                              ),
                               TextFormField(
                                   validator: (value) {
                                     return value!.isEmpty || value.length < 2
@@ -235,6 +358,9 @@ class _AddProdactState extends State<AddProdact> {
                                   decoration: decorationTextfield.copyWith(
                                       hintText: "Enter Prodact Name   ",
                                       suffixIcon: Icon(Icons.comment_sharp))),
+                              SizedBox(
+                                height: 10,
+                              ),
                               TextFormField(
                                   validator: (value) {
                                     return value!.isEmpty || value.length < 2

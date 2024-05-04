@@ -2,7 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation_project2/Provider/UserProvider.dart';
+import 'package:graduation_project2/model/User.dart';
 import 'package:graduation_project2/shared/colors.dart';
+import 'package:provider/provider.dart';
 
 class CardEdite extends StatefulWidget {
   String texttitle;
@@ -17,6 +20,7 @@ class CardEdite extends StatefulWidget {
 }
 
 class _CardEditeState extends State<CardEdite> {
+
   myShowDialog(key, value,
       {TextInputType keyboardType = TextInputType.emailAddress}) {
     showDialog(
@@ -41,14 +45,36 @@ class _CardEditeState extends State<CardEdite> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       TextButton(
-                        onPressed: () {
+                        onPressed: ()async {
                           setState(() {
                             FirebaseFirestore.instance
                                 .collection('userSSS')
                                 .doc(FirebaseAuth.instance.currentUser!.uid)
                                 .update({key: value.text});
+                                
+
                           });
                           Navigator.pop(context);
+
+          if((key=="username" ||key=="title"))
+          {
+                  CollectionReference postsCollection =
+        FirebaseFirestore.instance.collection('postSSS');
+
+    // Query documents where a specific field has a certain value
+    QuerySnapshot querySnapshot = await postsCollection
+        .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get();
+
+    // Loop through each document
+    for (DocumentSnapshot docSnapshot in querySnapshot.docs) {
+      // Update the 'profileImg' field in each document
+      await docSnapshot.reference.update({key :  value.text});
+    }
+
+
+
+          }
                         },
                         child: Text("Edit", style: TextStyle(fontSize: 22)),
                       ),

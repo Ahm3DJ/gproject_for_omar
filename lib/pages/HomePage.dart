@@ -46,22 +46,31 @@ class _HomePageState extends State<HomePage> {
   //   });
   // }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getDate();
-  // }
+  
+  bool fruitProdact = false;
+  bool vegetableProdact = false;
+  bool anotherProdact = false;
+
+@override
+  void initState() {
+
+   fruitProdact = false;
+   vegetableProdact = false;
+   anotherProdact = false;
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     final double widthScreen = MediaQuery.of(context).size.width;
-        final double heightScreen = MediaQuery.of(context).size.height;
+    final double heightScreen = MediaQuery.of(context).size.height;
 
     final searchController = TextEditingController();
     //  final allDataFromDB = Provider.of<UserProvider>(context);
     UserProvider userProvider = Provider.of(context, listen: false);
     //userProvider.refreshUser();
-    
+
     UserDete? userData = userProvider.getUser;
     return
         // isLoading
@@ -106,8 +115,7 @@ class _HomePageState extends State<HomePage> {
                       color: Color.fromARGB(255, 53, 137, 78),
                       image: DecorationImage(
                           fit: BoxFit.cover,
-                          image:
-                              AssetImage("assets/FlatParsley_1400x.webp"))),
+                          image: AssetImage("assets/nathan-dumlao-bRdRUUtbxO0-unsplash-1536x1024.jpeg"))),
                 ),
                 ListTile(
                     title: Text("Home"),
@@ -150,9 +158,9 @@ class _HomePageState extends State<HomePage> {
                 ListTile(
                     title: Text("Logout"),
                     leading: Icon(Icons.exit_to_app),
-                    onTap: ()async {
-                   await    FirebaseAuth.instance.signOut();
-                        //  Navigator.pop(context);
+                    onTap: () async {
+                      await FirebaseAuth.instance.signOut();
+                      //  Navigator.pop(context);
 
                       // FirebaseAuth.instance.signOut();
 
@@ -244,15 +252,114 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                height: heightScreen-150,
+            
+
+Container(
+  padding: EdgeInsets.symmetric(vertical: 10.0),
+  decoration: BoxDecoration(
+    color: contantPost,
+    borderRadius: BorderRadius.circular(20.0),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.grey.withOpacity(0.5),
+        spreadRadius: 2,
+        blurRadius: 5,
+        offset: Offset(0, 3), // changes position of shadow
+      ),
+    ],
+  ),
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: [
+      TextButton(
+        onPressed: () {
+          setState(() {
+            fruitProdact = true;
+            vegetableProdact = false;
+            anotherProdact = false;
+          });
+        },
+        style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all<Color>(fruitProdact ? Colors.white : Colors.black),
+          backgroundColor: MaterialStateProperty.all<Color>(fruitProdact ? Colors.green : Colors.transparent),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+              side: BorderSide(color: Colors.green), // Border color
+            ),
+          ),
+        ),
+        child: Text("Fruits"),
+      ),
+      TextButton(
+        onPressed: () {
+          setState(() {
+            fruitProdact = false;
+            vegetableProdact = true;
+            anotherProdact = false;
+          });
+        },
+        style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all<Color>(vegetableProdact ? Colors.white : Colors.black),
+          backgroundColor: MaterialStateProperty.all<Color>(vegetableProdact ? Colors.green : Colors.transparent),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+              side: BorderSide(color: Colors.green), // Border color
+            ),
+          ),
+        ),
+        child: Text("Vegetables"),
+      ),
+      TextButton(
+        onPressed: () {
+          setState(() {
+            fruitProdact = false;
+            vegetableProdact = false;
+            anotherProdact = true;
+          });
+        },
+        style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all<Color>(anotherProdact ? Colors.white : Colors.black),
+          backgroundColor: MaterialStateProperty.all<Color>(anotherProdact ? Colors.green : Colors.transparent),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+              side: BorderSide(color: Colors.green), // Border color
+            ),
+          ),
+        ),
+        child: Text("Other"),
+      ),
+    ],
+  ),
+),
+SizedBox(height: 10,),
+
+                SizedBox(
+                height: heightScreen - 220,
                 child: StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('postSSS')
+                  stream:fruitProdact
+    ? FirebaseFirestore.instance
+        .collection('postSSS')
+        .where("typeOfProdact", isEqualTo: "Fruits")
+        .snapshots()
+    : vegetableProdact
+      ? FirebaseFirestore.instance
+          .collection('postSSS')
+          .where("typeOfProdact", isEqualTo: "Vegetables")
+          .snapshots()
+      : anotherProdact ?FirebaseFirestore.instance
+          .collection('postSSS')
+          .where("typeOfProdact", isEqualTo: "Other")
+          .snapshots():
+                  
+                   FirebaseFirestore.instance
+                      .collection('postSSS')//'uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid
                       .snapshots(),
+
+
+                      
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasError) {
@@ -266,24 +373,21 @@ class _HomePageState extends State<HomePage> {
                       ));
                     }
 
-                    return  
-                    ListView(
-              children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                Map<String, dynamic> data =
-                    document.data()! as Map<String, dynamic>;
-                return 
-                // Text("data");
-                
-                 PostDesign(
-                  data: data,
-                );
-              }).toList(),
-            );
-                    
-                    
+                    return ListView(
+                      children:
+                          snapshot.data!.docs.map((DocumentSnapshot document) {
+                        Map<String, dynamic> data =
+                            document.data()! as Map<String, dynamic>;
+                        return
+                            // Text("data");
+
+                            PostDesign(
+                          data: data,
+                        );
+                      }).toList(),
+                    );
+
                     //  Text("data");
-
-
 
                     //     SizedBox(
                     //   height: 500,

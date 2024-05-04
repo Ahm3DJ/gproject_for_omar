@@ -1,235 +1,323 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-/////////////////////////////post//////////////////////////////////////
-///
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:graduation_project2/Provider/UserProvider.dart';
+import 'package:graduation_project2/pages/DateTimeFarmer.dart';
+import 'package:graduation_project2/pages/EditeProfilePage.dart';
+import 'package:graduation_project2/shared/colors.dart';
+import 'package:graduation_project2/shared/showSnackBar.dart';
+import 'package:provider/provider.dart';
 
-// Container(
-                    //   decoration: BoxDecoration(
-                    //       color: contantPost,
-                    //       borderRadius: BorderRadius.circular(30)),
-                    //   child: Column(
-                    //     children: [
-                    //       Padding(
-                    //         padding: const EdgeInsets.symmetric(
-                    //             vertical: 16, horizontal: 13),
-                    //         child: Row(
-                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //           children: [
-                    //             Row(
-                    //               children: [
-                    //                 Container(
-                    //                   //  padding: EdgeInsets.all(1),
-                    //                   decoration: BoxDecoration(
-                    //                     shape: BoxShape.circle,
-                    //                     color: Color.fromARGB(125, 78, 91, 110),
-                    //                   ),
-                    //                   child: CircleAvatar(
-                    //                     radius: 33,
-                    //                     backgroundImage: NetworkImage(
-                    //                         // widget.snap["profileImg"],
-                    //                         "https://i.pinimg.com/564x/94/df/a7/94dfa775f1bad7d81aa9898323f6f359.jpg"),
-                    //                   ),
-                    //                 ),
-                    //                 SizedBox(
-                    //                   width: 17,
-                    //                 ),
-                    //                 Text(
-                    //                   // widget.snap["username"],
-                    //                   "Omar Essam",
-                    //                   style: TextStyle(fontSize: 15),
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //             IconButton(
-                    //                 onPressed: () {},
-                    //                 icon: Icon(Icons.more_vert)),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //       Image.asset(
-                    //         // widget.snap["postUrl"],
-                    //         "assets/FlatParsley_1400x.webp",
-                    //         fit: BoxFit.cover,
+class ProfileFarmer extends StatefulWidget {
+  const ProfileFarmer({Key? key}) : super(key: key);
 
-                    //         height: MediaQuery.of(context).size.height * 0.35,
-                    //         width: double.infinity,
-                    //       ),
-                    //       Padding(
-                    //         padding: const EdgeInsets.symmetric(vertical: 11),
-                    //         child: Row(
-                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //           children: [
-                    //             Row(
-                    //               children: [
-                    //                 IconButton(
-                    //                   onPressed: () {},
-                    //                   icon: Icon(Icons.favorite_border),
-                    //                 ),
-                    //                 IconButton(
-                    //                   onPressed: () {},
-                    //                   icon: Icon(
-                    //                     Icons.comment_outlined,
-                    //                   ),
-                    //                 ),
-                    //                 IconButton(
-                    //                   onPressed: () {},
-                    //                   icon: Icon(
-                    //                     Icons.send,
-                    //                   ),
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //             IconButton(
-                    //               onPressed: () {},
-                    //               icon: Icon(Icons.bookmark_outline),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //       Container(
-                    //           margin: EdgeInsets.fromLTRB(10, 0, 0, 10),
-                    //           width: double.infinity,
-                    //           child: Text(
-                    //             "10 Likes",
-                    //             textAlign: TextAlign.start,
-                    //             style: TextStyle(
-                    //                 fontSize: 18,
-                    //                 color: Color.fromARGB(214, 157, 157, 165)),
-                    //           )),
-                    //       Row(
-                    //         children: [
-                    //           SizedBox(
-                    //             width: 9,
-                    //           ),
-                    //           Text(
-                    //             // "${widget.snap["username"]}",
-                    //             "USERNAME ",
-                    //             textAlign: TextAlign.start,
-                    //             style: TextStyle(
-                    //                 fontSize: 20,
-                    //                 color: Color.fromARGB(255, 189, 196, 199)),
-                    //           ),
-                    //           Text(
-                    //             // " ${widget.snap["description"]}",
-                    //             " Sidi Bou Said ♥",
-                    //             textAlign: TextAlign.start,
-                    //             style: TextStyle(
-                    //                 fontSize: 18,
-                    //                 color: Color.fromARGB(255, 189, 196, 199)),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //       //            GestureDetector(
-                    //       //              onTap: () {},
-                    //       //              child: Container(
-                    //       // margin: EdgeInsets.fromLTRB(10, 13, 9, 10),
-                    //       // width: double.infinity,
-                    //       // child: Text(
-                    //       //   "view all 100 comments",
-                    //       //   style: TextStyle(
-                    //       //       fontSize: 18,
-                    //       //       color: Color.fromARGB(214, 157, 157, 165)),
-                    //       //   textAlign: TextAlign.start,
-                    //       // )),
-                    //       //            ),
-                    //       Container(
-                    //           margin: EdgeInsets.fromLTRB(10, 0, 9, 10),
-                    //           width: double.infinity,
-                    //           child: Text(
-                    //             "10June 2022",
-                    //             style: TextStyle(
-                    //                 fontSize: 18,
-                    //                 color: Color.fromARGB(214, 157, 157, 165)),
-                    //             textAlign: TextAlign.start,
-                    //           )),
-                    //     ],
-                    //   ),
-                    // ),
+  @override
+  State<ProfileFarmer> createState() => _ProfileFarmerState();
+}
+
+class _ProfileFarmerState extends State<ProfileFarmer> {
+  Map userDate = {};
+  bool isLoading = false;
+  int countProdact = 0;
+  // getData() async {
+  //   // Get data from DB
+
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //   try {
+  //     DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+  //         .instance
+  //         .collection('userSSS')
+  //         .doc(FirebaseAuth.instance.currentUser!.uid)
+  //         .get();
+
+  //     userDate = snapshot.data()!;
+
+  //     followers = userDate["followers"].length;
+  //     following = userDate["following"].length;
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+
+  //   setState(() {
+  //     isLoading = false;
+  //   });
+  // }
+
+  @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //    getData();//////////////////////////////////
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    final double widthScreen = MediaQuery.of(context).size.width;
+    final allDataFromDB = Provider.of<UserProvider>(context).getUser;
+
+    UserProvider userProvider = Provider.of(context, listen: false);
+    // userProvider.refreshUser();
+
+    return isLoading
+        ? Scaffold(
+            backgroundColor: scaffoldColor,
+            body: Center(
+                child: CircularProgressIndicator(
+              color: Colors.white,
+            )),
+          )
+        : Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              backgroundColor: appbarGreen,
+              title: Text(allDataFromDB!.username) //Text(userDate["username"])
+              ,
+            ),
+            body: Column(
+              children: [
+                Container(
+                  color: scaffoldColor,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.fromLTRB(22, 15, 0, 0),
+                            padding: EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color.fromARGB(125, 78, 91, 110),
+                            ),
+                            child: CircleAvatar(
+                              radius: 40,
+                              backgroundImage:
+                                  NetworkImage(allDataFromDB.profileImg),
+
+                              // backgroundImage: NetworkImage(userDate["ProfileFarmerImg"]),
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Column(
+                                  children: [
+                                    Text(
+                                      "$countProdact",
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "Prodact",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 17,
+                                ),
+                                SizedBox(
+                                  width: 17,
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                          Container(
+                          margin: EdgeInsets.fromLTRB(5, 5, 0, 0),
+                          child: Row(
+                              children: [
+                                IconButton(onPressed: (){
 
 
 
+                                  
+                            Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DateTimeFarmer()),
+                                );
+                                }, icon:   Icon(
+                                  Icons.history,
+                                  color: Color.fromARGB(168, 3, 65, 27),
+                                  size: 26,
+                                ),),
+                                
+                              
+                                // Text(widget.prodacts.location),
+                                Text("History")
+                              ],
+                            ),
+                        )
+                
+                      //  Text(userDate["title"]))
+                      ,
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Divider(
+                        color: Colors.white,
+                        thickness: widthScreen > 600 ? 0.06 : 0.43,
+                      ),
+                      SizedBox(
+                        height: 9,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditeProfiePage()),
+                              );
+                            },
+                            icon: Icon(
+                              Icons.edit,
+                              color: Colors.white,
+                              size: 24.0,
+                            ),
+                            label: Text(
+                              "Edit Profile Farmer",
+                              style:
+                                  TextStyle(fontSize: 17, color: Colors.white),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  Color.fromARGB(0, 90, 103, 223)),
+                              padding: MaterialStateProperty.all(
+                                  EdgeInsets.symmetric(
+                                      vertical: widthScreen > 600 ? 19 : 10,
+                                      horizontal: 15)),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  side: BorderSide(
+                                      color: Color.fromARGB(109, 255, 255, 255),
+                                      // width: 1,
+                                      style: BorderStyle.solid),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          ElevatedButton.icon(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.logout,
+                              size: 24.0,
+                              color: Colors.white,
+                            ),
+                            label: Text(
+                              "Log out",
+                              style:
+                                  TextStyle(fontSize: 17, color: Colors.white),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.green),
+                              padding: MaterialStateProperty.all(
+                                  EdgeInsets.symmetric(
+                                      vertical: widthScreen > 600 ? 19 : 10,
+                                      horizontal: 33)),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 9,
+                      ),
+                      Divider(
+                        color: Colors.white,
+                        thickness: widthScreen > 600 ? 0.06 : 0.43,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Expanded(
+                  child: Padding(
+                      padding: widthScreen > 600
+                          ? const EdgeInsets.all(66.0)
+                          : const EdgeInsets.all(3.0),
+                      child: StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('postSSS')
+                            .where('uid',
+                                isEqualTo:
+                                    FirebaseAuth.instance.currentUser!.uid)
+                            .snapshots(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasError) {
+                            return showSnackBar(
+                                context, "Something went wrong");
+                          }
 
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            );
+                          }
 
-
-
-
-
-
-
-
-
-
-// class UserInformation extends StatefulWidget {
-//   @override
-//   _UserInformationState createState() => _UserInformationState();
-// }
-
-// class _UserInformationState extends State<UserInformation> {
-//   late final Stream<QuerySnapshot> _usersStream;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _usersStream = FirebaseFirestore.instance.collection('users').snapshots();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder<QuerySnapshot>(
-//       stream: _usersStream,
-//       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-//         if (snapshot.hasError) {
-//           return Text('Something went wrong');
-//         }
-
-//         if (snapshot.connectionState == ConnectionState.waiting) {
-//           return Text("Loading");
-//         }
-
-//         return ListView.builder(
-//           itemCount: snapshot.data!.docs.length,
-//           itemBuilder: (BuildContext context, int index) {
-//             Map<String, dynamic> data = snapshot.data!.docs[index].data() as Map<String, dynamic>;
-//             return ListTile(
-//               title: Text(data['full_name']),
-//               subtitle: Text(data['company']),
-//             );
-//           },
-//         );
-//       },
-//     );
-//   }
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-// import 'package:cloud_firestore/cloud_firestore.dart';
-
-// Future<void> moveData() async {
-//   // Retrieve data from the source collection
-//   QuerySnapshot sourceSnapshot = await FirebaseFirestore.instance.collection('sourceCollection').get();
-
-//   // Iterate through each document in the source collection
-//   for (QueryDocumentSnapshot document in sourceSnapshot.docs) {
-//     // Get the data of the document
-//     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-
-//     // Create a new document in the destination collection with the same data
-//     await FirebaseFirestore.instance.collection('destinationCollection').add(data);
-
-//     // Optionally, delete the original document from the source collection
-//     // await document.reference.delete();
-//   }
-// }
-
-// // Call the function to move data
-// moveData();
-
+                          return GridView.builder(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2, // Number of columns
+                              crossAxisSpacing: 10, // Spacing between columns
+                              mainAxisSpacing: 10, // Spacing between rows
+                              childAspectRatio:
+                                  1, // Aspect ratio of each grid item
+                            ),
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              countProdact = snapshot.data!.docs.length;
+                              DocumentSnapshot document =
+                                  snapshot.data!.docs[index];
+                              Map<String, dynamic> data =
+                                  document.data()! as Map<String, dynamic>;
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                  data["imgPost"],
+                                  height: 100,
+                                  width: 100,
+                                  fit: BoxFit.cover,
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      )),
+                ),
+              ],
+            ),
+          );
+  }
+}

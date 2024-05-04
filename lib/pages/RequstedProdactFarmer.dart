@@ -288,13 +288,15 @@ class _RequsteProdactState extends State<RequsteProdact> {
                                                       String currentQuantity =
                                                           "";
 
-                                                      DocumentReference docRefPost =FirebaseFirestore
+                                                      DocumentReference
+                                                          docRefPost =
+                                                          FirebaseFirestore
                                                               .instance
                                                               .collection(
-                                                                  "postSSS") 
+                                                                  "postSSS")
                                                               .doc(data[
                                                                   "postUid"]);
-                                                    
+
                                                       DocumentSnapshot
                                                           docSnapshotPost =
                                                           await docRefPost
@@ -332,25 +334,43 @@ class _RequsteProdactState extends State<RequsteProdact> {
                                                                 .toString()
                                                           });
 
+                                                          DocumentReference
+                                                              docRefUser =
+                                                              FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      "userSSS") // Replace "your_collection" with your actual collection name
+                                                                  .doc(data[
+                                                                      "uidFarmer"]);
+                                                          DocumentSnapshot
+                                                              docSnapshotUser =
+                                                              await docRefUser
+                                                                  .get();
+                                                          Map<String, dynamic>?
+                                                              dataUSER =
+                                                              docSnapshotUser
+                                                                      .data()
+                                                                  as Map<String,
+                                                                      dynamic>?;
+                                                          dynamic
+                                                              specificDataUser =
+                                                              dataUSER![
+                                                                  'balance'];
 
-
-
-
-DocumentReference docRefUser = FirebaseFirestore
-                                  .instance
-                                  .collection(
-                                      "userSSS") // Replace "your_collection" with your actual collection name
-                                  .doc(data[
-                                      "uidFarmer"]);
-                                        DocumentSnapshot docSnapshotUser = await docRefUser.get();
-    Map<String, dynamic>? dataUSER =
-                                    docSnapshotUser.data() as Map<String, dynamic>?;
-  dynamic specificDataUser = dataUSER!['balance'];
-
-                                                            await FirebaseFirestore.instance
-                                        .collection('userSSS')
-                                        .doc(data["uidStorOwner"])
-                                        .update({"balance"  : specificDataUser + (double.parse(data["price"])* double.parse(data["partquntity"])) });
+                                                          await FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  'userSSS')
+                                                              .doc(data[
+                                                                  "uidStorOwner"])
+                                                              .update({
+                                                            "balance": specificDataUser +
+                                                                (double.parse(data[
+                                                                        "price"]) *
+                                                                    double.parse(
+                                                                        data[
+                                                                            "partquntity"]))
+                                                          });
                                                         } else {
                                                           print(
                                                               'Document data is null');
@@ -452,7 +472,7 @@ DocumentReference docRefUser = FirebaseFirestore
                                                                     .docs[index]
                                                                     .id,
                                                             "farmerAcceptedRequest":
-                                                                true
+                                                                true, "datePublished":DateTime.now()
                                                           },
                                                               SetOptions(
                                                                   merge: true));
@@ -473,7 +493,7 @@ DocumentReference docRefUser = FirebaseFirestore
                                                             'farmerAcceptedRequest':
                                                                 true,
                                                             'farmerRejectedRequest':
-                                                                false
+                                                                false, "datePublished":DateTime.now(),
                                                           },
                                                               SetOptions(
                                                                   merge: true));

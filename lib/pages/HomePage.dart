@@ -58,14 +58,13 @@ class _HomePageState extends State<HomePage> {
     fruitProdact = false;
     vegetableProdact = false;
     anotherProdact = false;
-
   }
 
   @override
   Widget build(BuildContext context) {
     final double widthScreen = MediaQuery.of(context).size.width;
     final double heightScreen = MediaQuery.of(context).size.height;
-  
+
     final searchController = TextEditingController();
     //  final allDataFromDB = Provider.of<UserProvider>(context);
     UserProvider userProvider = Provider.of(context, listen: false);
@@ -74,19 +73,20 @@ class _HomePageState extends State<HomePage> {
     UserDete? userData = userProvider.getUser;
 
     final classInstancee = Provider.of<Notificationn>(context);
-      final reqProvider  = Provider.of<RequstedProvider>(context);
-  
-int  counter = classInstancee.getCount();
-    int counterREQ=reqProvider.getCountREQ();
-setState(() {
-  
-                    print("++++++++++++++++++++dddd++++++++++++++${classInstancee.getCount()}");
-                    print("++++++++++++++++++++aaaaaaaa++++++++++++++${reqProvider.getCountREQ()}");
-  
-});
-      print("++++++++++++++++++++dddd++++++++++++++${classInstancee.getCount()}");
-                    print("++++++++++++++++++++aaaaaaaa++++++++++++++${reqProvider.getCountREQ()}");
-  
+    final reqProvider = Provider.of<RequstedProvider>(context);
+
+    int counter = classInstancee.getCount();
+    int counterREQ = reqProvider.getCountREQ();
+    setState(() {
+      print(
+          "++++++++++++++++++++dddd++++++++++++++${classInstancee.getCount()}");
+      print(
+          "++++++++++++++++++++aaaaaaaa++++++++++++++${reqProvider.getCountREQ()}");
+    });
+    print("++++++++++++++++++++dddd++++++++++++++${classInstancee.getCount()}");
+    print(
+        "++++++++++++++++++++aaaaaaaa++++++++++++++${reqProvider.getCountREQ()}");
+
     return
         // isLoading
         //     ?  Scaffold(
@@ -107,7 +107,8 @@ setState(() {
                 '                                                                              '),
             IconButton(
               onPressed: () {
-                print("++++++++++++++++++++dddd++++++++++++++${classInstancee.getCount()}");
+                print(
+                    "++++++++++++++++++++dddd++++++++++++++${classInstancee.getCount()}");
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -120,30 +121,31 @@ setState(() {
                 Icons.notification_important_rounded,
               ),
             ),
-           Positioned(
-                    left: 11,
-                    top: 11,
-                    child: Container(
-                      padding: EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      constraints: BoxConstraints(
-                        minWidth: 14,
-                        minHeight: 14,
-                      ),
-                      child: Text(
-                        userData?.situation == "Farmer" ?'${reqProvider.getCountREQ()}' : '${counter}',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 8,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  )
-              
+            Positioned(
+              left: 11,
+              top: 11,
+              child: Container(
+                padding: EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                constraints: BoxConstraints(
+                  minWidth: 14,
+                  minHeight: 14,
+                ),
+                child: Text(
+                  userData?.situation == "Farmer"
+                      ? '${reqProvider.getCountREQ()}'
+                      : '${counter}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 8,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            )
           ]),
           CircleAvatar(
             backgroundImage: NetworkImage(userData!.profileImg),

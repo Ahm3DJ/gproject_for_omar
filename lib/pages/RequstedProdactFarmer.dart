@@ -34,6 +34,7 @@ class _RequsteProdactState extends State<RequsteProdact> {
 
   @override
   Widget build(BuildContext context) {
+    final double heightScreen = MediaQuery.of(context).size.height;
     //final classInstancee = Provider.of<RequsteProdact>(context);
     final double widthScreen = MediaQuery.of(context).size.width;
 
@@ -51,7 +52,7 @@ class _RequsteProdactState extends State<RequsteProdact> {
             child: Column(
               children: [
                 Container(
-                    height: 600,
+                    height: 550,
                     margin: EdgeInsets.only(bottom: 20),
                     child: StreamBuilder<QuerySnapshot>(
                         stream: _usersStream,
@@ -472,7 +473,9 @@ class _RequsteProdactState extends State<RequsteProdact> {
                                                                     .docs[index]
                                                                     .id,
                                                             "farmerAcceptedRequest":
-                                                                true, "datePublished":DateTime.now()
+                                                                true,
+                                                            "datePublished":
+                                                                DateTime.now()
                                                           },
                                                               SetOptions(
                                                                   merge: true));
@@ -493,7 +496,9 @@ class _RequsteProdactState extends State<RequsteProdact> {
                                                             'farmerAcceptedRequest':
                                                                 true,
                                                             'farmerRejectedRequest':
-                                                                false, "datePublished":DateTime.now(),
+                                                                false,
+                                                            "datePublished":
+                                                                DateTime.now(),
                                                           },
                                                               SetOptions(
                                                                   merge: true));

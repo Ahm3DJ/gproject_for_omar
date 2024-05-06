@@ -19,6 +19,24 @@ class ProdactCartAllUser {
   String postUid;
   String phoneNumber;
 
+  //anonymous names constructor, for testing purposes @AhmedGhazi
+  ProdactCartAllUser.anonymous()
+      : title = 'empty',
+        usernameFarmer = 'empty',
+        usernameStoreOwner = 'empty',
+        profileImg = 'empty',
+        uidFarmer = 'empty',
+        uidStorOwner = 'empty',
+        prodactName = 'empty',
+        partquntity = 'empty',
+        imgPost = 'empty',
+        price = 'empty',
+        storeOwnerCheckDelivery = false,
+        farmerCheckDelivery = false,
+        farmerAcceptedRequest = false,
+        postUid = 'empty',
+        phoneNumber = 'empty';
+
   ProdactCartAllUser({
     required this.title,
     required this.usernameFarmer,
@@ -34,8 +52,7 @@ class ProdactCartAllUser {
     required this.farmerCheckDelivery,
     required this.farmerAcceptedRequest,
     required this.postUid,
-        required this.phoneNumber,
-
+    required this.phoneNumber,
   });
 
   Map<String, dynamic> convert2Map() {
@@ -54,7 +71,7 @@ class ProdactCartAllUser {
       "farmerAcceptedRequest": farmerAcceptedRequest,
       "farmerCheckDelivery": farmerCheckDelivery,
       "postUid": postUid,
-          "phoneNumber": phoneNumber,
+      "phoneNumber": phoneNumber,
     };
   }
 
@@ -74,7 +91,56 @@ class ProdactCartAllUser {
       usernameStoreOwner: snapshot["usernameStoreOwner"],
       farmerAcceptedRequest: snapshot["farmerAcceptedRequest"],
       farmerCheckDelivery: snapshot["farmerCheckDelivery"],
-      postUid: snapshot["postUid"], phoneNumber: snapshot["phoneNumber"],
+      postUid: snapshot["postUid"],
+      phoneNumber: snapshot["phoneNumber"],
     );
+  }
+
+  void set Title(String title) {
+    if (title.contains(RegExp(r'([a-zA-Z]+)$'))) {
+      this.title = title;
+    } else {
+      print('Wrong Input');
+    }
+  }
+
+  void set UsernameFarmer(String usernameFarmer) {
+    if (usernameFarmer.contains(RegExp(r'([a-zA-Z]+)$'))) {
+      this.usernameFarmer = usernameFarmer;
+    } else {
+      print('Wrong Input');
+    }
+  }
+
+  void set UsernameStoreOwner(String usernameStoreOwner) {
+    if (usernameStoreOwner.contains(RegExp(r'([a-zA-Z]+)$'))) {
+      this.usernameStoreOwner = usernameStoreOwner;
+    } else {
+      print('Wrong Input');
+    }
+  }
+
+  void set ProfileImg(String profileImg) {
+    if (profileImg.contains(RegExp(r'([a-zA-Z0-9#$%^\/\\*#@!-]+)$'))) {
+      this.profileImg = profileImg;
+    } else {
+      print('Wrong Input');
+    }
+  }
+
+  void set UidFarmer(String uidFarmer) {
+    if (uidFarmer.contains(RegExp(r'([a-zA-Z0-9#$%^\/\\*#@!-]+)$'))) {
+      this.uidFarmer = uidFarmer;
+    } else {
+      print('Wrong Input');
+    }
+  }
+
+  void set UidStorOwner(String uidStorOwner) {
+    if (uidStorOwner.contains(RegExp(r'([a-zA-Z0-9#$%^\/\\*#@!-]+)$'))) {
+      this.uidStorOwner = uidStorOwner;
+    } else {
+      print('Wrong Input');
+    }
   }
 }

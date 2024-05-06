@@ -9,6 +9,7 @@ import 'package:graduation_project2/pages/EditeProfilePage.dart';
 import 'package:graduation_project2/shared/colors.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';
 import 'package:provider/provider.dart';
+import 'package:graduation_project2/model/cart.dart';
 
 class ProfileFarmer extends StatefulWidget {
   const ProfileFarmer({Key? key}) : super(key: key);
@@ -136,33 +137,31 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                           )
                         ],
                       ),
-                          Container(
-                          margin: EdgeInsets.fromLTRB(5, 5, 0, 0),
-                          child: Row(
-                              children: [
-                                IconButton(onPressed: (){
-
-
-
-                                  
-                            Navigator.push(
+                      Container(
+                        margin: EdgeInsets.fromLTRB(5, 5, 0, 0),
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => DateTimeFarmer()),
                                 );
-                                }, icon:   Icon(
-                                  Icons.history,
-                                  color: Color.fromARGB(168, 3, 65, 27),
-                                  size: 26,
-                                ),),
-                                
-                              
-                                // Text(widget.prodacts.location),
-                                Text("History")
-                              ],
+                              },
+                              icon: Icon(
+                                Icons.history,
+                                color: Color.fromARGB(168, 3, 65, 27),
+                                size: 26,
+                              ),
                             ),
-                        )
-                
+
+                            // Text(widget.prodacts.location),
+                            Text("History")
+                          ],
+                        ),
+                      )
+
                       //  Text(userDate["title"]))
                       ,
                       SizedBox(

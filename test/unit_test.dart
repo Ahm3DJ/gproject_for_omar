@@ -4,6 +4,7 @@ import 'package:http/testing.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:graduation_project2/firebase_options.dart';
 import 'package:graduation_project2/utils/validation.dart';
+import 'package:graduation_project2/model/cart.dart';
 
 void main() {
   test('Login_Credintials_Email_testing:Case1', () {
@@ -160,5 +161,93 @@ void main() {
       ),
       false,
     );
+  });
+
+  test('CartPage_title_testing:Case18', () {
+    //Valid title
+    ProdactCartAllUser user1 = ProdactCartAllUser.anonymous();
+    user1.Title = 'Watermelon';
+
+    expect(user1.title, 'Watermelon');
+  });
+
+  test('CartPage_title_testing:Case19', () {
+    //Invalid title because a title can't accept a number
+    ProdactCartAllUser user1 = ProdactCartAllUser.anonymous();
+    user1.Title = '2Watermelon';
+
+    expect(user1.title, '2Watermelon');
+  });
+
+  test('CartPage_UsernameFarmer_testing:Case20', () {
+    //Valid
+    ProdactCartAllUser user1 = ProdactCartAllUser.anonymous();
+    user1.UsernameFarmer = 'AhmedFarmer';
+
+    expect(user1.usernameFarmer, 'AhmedFarmer');
+  });
+
+  test('CartPage_UsernameFarmer_testing:Case21', () {
+    //Invalid usernameFarmer because a usernameFarmer can't accept a number
+    ProdactCartAllUser user1 = ProdactCartAllUser.anonymous();
+    user1.UsernameFarmer = 'AhmedFarmer222';
+
+    expect(user1.usernameFarmer, 'empty');
+  });
+
+  test('CartPage_UsernameStoreOwner_testing:Case22', () {
+    //Valid
+    ProdactCartAllUser user1 = ProdactCartAllUser.anonymous();
+    user1.UsernameStoreOwner = 'AhmedStoreOwner';
+
+    expect(user1.usernameStoreOwner, 'AhmedStoreOwner');
+  });
+
+  test('CartPage_UsernameStoreOwner_testing:Case23', () {
+    //Invalid usernameStoreOwner because a usernameStoreOwner can't accept a number
+    ProdactCartAllUser user1 = ProdactCartAllUser.anonymous();
+    user1.UsernameStoreOwner = 'AhmedStoreOwner222';
+
+    expect(user1.usernameStoreOwner, 'empty');
+  });
+
+  test('CartPage_UsernameStoreOwner_testing:Case24', () {
+    //Invalid usernameStoreOwner because a usernameStoreOwner can't accept a number
+    ProdactCartAllUser user1 = ProdactCartAllUser.anonymous();
+    user1.UsernameStoreOwner = 'AhmedStoreOwner222';
+
+    expect(user1.usernameStoreOwner, 'empty');
+  });
+
+  test('CartPage_ProfileImg_testing:Case25', () {
+    //Valid: The profile image's name which is saved in the database can contain all types of characters
+    ProdactCartAllUser user1 = ProdactCartAllUser.anonymous();
+    user1.ProfileImg = r'imag12$%^!*$%';
+
+    expect(user1.profileImg, r'imag12$%^!*$%');
+  });
+
+  test('CartPage_ProfileImg_testing:Case26', () {
+    //Valid 2: Empty Value will be stored in database in case of not providing an image
+    ProdactCartAllUser user1 = ProdactCartAllUser.anonymous();
+    user1.ProfileImg = 'empty';
+
+    expect(user1.profileImg, 'empty');
+  });
+
+  test('CartPage_ProfileImg_testing:Case27', () {
+    //Valid: The profile image's name which is saved in the database can contain all types of characters
+    ProdactCartAllUser user1 = ProdactCartAllUser.anonymous();
+    user1.ProfileImg = r'imag12$%^!*$%';
+
+    expect(user1.profileImg, r'imag12$%^!*$%');
+  });
+
+  test('CartPage_ProfileImg_testing:Case28', () {
+    //Valid 2: Empty Value will be stored in database in case of not providing an image
+    ProdactCartAllUser user1 = ProdactCartAllUser.anonymous();
+    user1.ProfileImg = 'empty';
+
+    expect(user1.profileImg, 'empty');
   });
 }

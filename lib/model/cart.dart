@@ -105,7 +105,7 @@ class ProdactCartAllUser {
   }
 
   void set UsernameFarmer(String usernameFarmer) {
-    if (usernameFarmer.contains(RegExp(r'([a-zA-Z]+)$'))) {
+    if (usernameFarmer.contains(RegExp(r'/^[a-zA-Z]+$/.'))) {
       this.usernameFarmer = usernameFarmer;
     } else {
       print('Wrong Input');
@@ -113,7 +113,7 @@ class ProdactCartAllUser {
   }
 
   void set UsernameStoreOwner(String usernameStoreOwner) {
-    if (usernameStoreOwner.contains(RegExp(r'([a-zA-Z]+)$'))) {
+    if (usernameStoreOwner.contains(RegExp(r'/^[a-zA-Z]+$/.'))) {
       this.usernameStoreOwner = usernameStoreOwner;
     } else {
       print('Wrong Input');
@@ -143,4 +143,22 @@ class ProdactCartAllUser {
       print('Wrong Input');
     }
   }
+
+  void set ProdactName(String prodactName) {
+    if (prodactName.contains(RegExp(r'/^[a-zA-Z]+$/.'))) {
+      this.prodactName = prodactName;
+    } else {
+      print('Wrong Input');
+    }
+  }
+
+  void set PhoneNumber(String phoneNumber) {
+    if (phoneNumber.contains(RegExp(r'^07[789]{1}[0-9]{7}$'))) {
+      this.phoneNumber = phoneNumber;
+    } else {
+      print('Wrong Input');
+    }
+  }
+
+  //String prodactName;
 }

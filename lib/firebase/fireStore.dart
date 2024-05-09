@@ -10,7 +10,6 @@ import 'package:uuid/uuid.dart';
 
 class FireBase {
   Future<UserDete> getUserDetails() async {
-
     DocumentSnapshot<Map<String, dynamic>> snap = await FirebaseFirestore
         .instance
         .collection('userSSS')
@@ -60,21 +59,21 @@ class FireBase {
     return userDate;
   }
 
-  uploadPost(
-      {required imgName,
-      required imgPath,
-      required description,
-      required profileImg,
-      required username,
-      required context,
-      required quntity,
-      required caption,
-      required price,
-      required title,
-      required prodactName,
-        required typeOfProdact,
-        required phoneNumber,
-      }) async {
+  uploadPost({
+    required imgName,
+    required imgPath,
+    required description,
+    required profileImg,
+    required username,
+    required context,
+    required quntity,
+    required caption,
+    required price,
+    required title,
+    required prodactName,
+    required typeOfProdact,
+    required phoneNumber,
+  }) async {
     String message = "ERROR => Not starting the code";
 
     try {
@@ -102,8 +101,12 @@ class FireBase {
           uid: FirebaseAuth.instance.currentUser!.uid,
           username: username,
           quntity: quntity,
-          caption:caption,
-          price:price, title:title, prodactName:prodactName, typeOfProdact: typeOfProdact, phoneNumber: phoneNumber );
+          caption: caption,
+          price: price,
+          title: title,
+          prodactName: prodactName,
+          typeOfProdact: typeOfProdact,
+          phoneNumber: phoneNumber);
 
       message = "ERROR => erroe hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
       posts
@@ -120,5 +123,29 @@ class FireBase {
     }
 
     showSnackBar(context, message);
+  }
+
+  Stream<QuerySnapshot<Object?>> getDataBasedTypeProdact(
+      {required bool fruit, required bool vegetable, required bool another}) 
+      
+      {
+    String typeProdact = "";
+    if (fruit) {
+      typeProdact = "Fruits";
+    } else if (vegetable) {
+      typeProdact = "Vegetables";
+    } else if (another) {
+      typeProdact = "Other";
+    } else {
+      return FirebaseFirestore.instance
+          .collection(
+              'postSSS') //'uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid
+          .snapshots();
+    }
+
+    return FirebaseFirestore.instance
+        .collection('postSSS')
+        .where("typeOfProdact", isEqualTo: typeProdact)
+        .snapshots();
   }
 }

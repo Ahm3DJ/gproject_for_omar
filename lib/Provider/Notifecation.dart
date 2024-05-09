@@ -11,6 +11,8 @@ class Notificationn with ChangeNotifier {
   // List<Cart> selectedProdact = [];
   // Map<String, dynamic> l1 = {};
   int getCount() {
+//
+
     FirebaseFirestore.instance
         .collection('notifiayYYY')
         .where("uidStorOwner",
@@ -19,8 +21,9 @@ class Notificationn with ChangeNotifier {
         .listen((QuerySnapshot snapshot) {
       count = snapshot.docs.length;
     });
-
+    
     return count;
+    
   }
 
   void ref() 

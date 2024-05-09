@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +7,6 @@ import 'package:graduation_project2/pages/EditeProfilePage.dart';
 import 'package:graduation_project2/shared/colors.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';
 import 'package:provider/provider.dart';
-import 'package:graduation_project2/model/cart.dart';
 
 class ProfileFarmer extends StatefulWidget {
   const ProfileFarmer({Key? key}) : super(key: key);
@@ -22,61 +19,76 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
   Map userDate = {};
   bool isLoading = false;
   int countProdact = 0;
-  // getData() async {
-  //   // Get data from DB
 
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   try {
-  //     DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
-  //         .instance
-  //         .collection('userSSS')
-  //         .doc(FirebaseAuth.instance.currentUser!.uid)
-  //         .get();
+  Widget _buildGridWidget(QuerySnapshot snapshot) {
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        childAspectRatio: 1,
+      ),
+      itemCount: snapshot.docs.length,
+      itemBuilder: (BuildContext context, int index) {
+        countProdact = snapshot.docs.length;
+        DocumentSnapshot document = snapshot.docs[index];
+        Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.network(
+            data["imgPost"],
+            height: 100,
+            width: 100,
+            fit: BoxFit.cover,
+          ),
+        );
+      },
+    );
+  }
 
-  //     userDate = snapshot.data()!;
+  Widget _buildStreamBuilderWidget(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('postSSS')
+          .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return showSnackBar(context, "Something went wrong");
+        }
 
-  //     followers = userDate["followers"].length;
-  //     following = userDate["following"].length;
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Colors.white,
+            ),
+          );
+        }
 
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
-
-  @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //    getData();//////////////////////////////////
-  // }
+        return _buildGridWidget(snapshot.data!);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final double widthScreen = MediaQuery.of(context).size.width;
     final allDataFromDB = Provider.of<UserProvider>(context).getUser;
 
-    UserProvider userProvider = Provider.of(context, listen: false);
-    // userProvider.refreshUser();
-
     return isLoading
         ? Scaffold(
             backgroundColor: scaffoldColor,
             body: Center(
-                child: CircularProgressIndicator(
-              color: Colors.white,
-            )),
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
+            ),
           )
         : Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
               backgroundColor: appbarGreen,
-              title: Text(allDataFromDB!.username) //Text(userDate["username"])
-              ,
+              title: Text(allDataFromDB!.username),
             ),
             body: Column(
               children: [
@@ -97,8 +109,6 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                               radius: 40,
                               backgroundImage:
                                   NetworkImage(allDataFromDB.profileImg),
-
-                              // backgroundImage: NetworkImage(userDate["ProfileFarmerImg"]),
                             ),
                           ),
                           Expanded(
@@ -118,16 +128,14 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                                       height: 5,
                                     ),
                                     Text(
-                                      "Prodact",
+                                      "Product",
                                       style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.grey),
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
+                                      ),
                                     ),
                                   ],
-                                ),
-                                SizedBox(
-                                  width: 17,
                                 ),
                                 SizedBox(
                                   width: 17,
@@ -146,7 +154,8 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => DateTimeFarmer()),
+                                    builder: (context) => DateTimeFarmer(),
+                                  ),
                                 );
                               },
                               icon: Icon(
@@ -155,15 +164,10 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                                 size: 26,
                               ),
                             ),
-
-                            // Text(widget.prodacts.location),
-                            Text("History")
+                            Text("History"),
                           ],
                         ),
-                      )
-
-                      //  Text(userDate["title"]))
-                      ,
+                      ),
                       SizedBox(
                         height: 15,
                       ),
@@ -182,7 +186,8 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => EditeProfiePage()),
+                                  builder: (context) => EditeProfiePage(),
+                                ),
                               );
                             },
                             icon: Icon(
@@ -192,23 +197,27 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                             ),
                             label: Text(
                               "Edit Profile Farmer",
-                              style:
-                                  TextStyle(fontSize: 17, color: Colors.white),
+                              style: TextStyle(
+                                fontSize: 17,
+                                color: Colors.white,
+                              ),
                             ),
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(
-                                  Color.fromARGB(0, 90, 103, 223)),
+                                Color.fromARGB(0, 90, 103, 223),
+                              ),
                               padding: MaterialStateProperty.all(
-                                  EdgeInsets.symmetric(
-                                      vertical: widthScreen > 600 ? 19 : 10,
-                                      horizontal: 15)),
+                                EdgeInsets.symmetric(
+                                  vertical: widthScreen > 600 ? 19 : 10,
+                                  horizontal: 15,
+                                ),
+                              ),
                               shape: MaterialStateProperty.all(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(7),
                                   side: BorderSide(
-                                      color: Color.fromARGB(109, 255, 255, 255),
-                                      // width: 1,
-                                      style: BorderStyle.solid),
+                                    color: Color.fromARGB(109, 255, 255, 255),
+                                  ),
                                 ),
                               ),
                             ),
@@ -225,16 +234,20 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                             ),
                             label: Text(
                               "Log out",
-                              style:
-                                  TextStyle(fontSize: 17, color: Colors.white),
+                              style: TextStyle(
+                                fontSize: 17,
+                                color: Colors.white,
+                              ),
                             ),
                             style: ButtonStyle(
                               backgroundColor:
                                   MaterialStateProperty.all(Colors.green),
                               padding: MaterialStateProperty.all(
-                                  EdgeInsets.symmetric(
-                                      vertical: widthScreen > 600 ? 19 : 10,
-                                      horizontal: 33)),
+                                EdgeInsets.symmetric(
+                                  vertical: widthScreen > 600 ? 19 : 10,
+                                  horizontal: 33,
+                                ),
+                              ),
                               shape: MaterialStateProperty.all(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(7),
@@ -259,61 +272,11 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                 ),
                 Expanded(
                   child: Padding(
-                      padding: widthScreen > 600
-                          ? const EdgeInsets.all(66.0)
-                          : const EdgeInsets.all(3.0),
-                      child: StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection('postSSS')
-                            .where('uid',
-                                isEqualTo:
-                                    FirebaseAuth.instance.currentUser!.uid)
-                            .snapshots(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> snapshot) {
-                          if (snapshot.hasError) {
-                            return showSnackBar(
-                                context, "Something went wrong");
-                          }
-
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                              ),
-                            );
-                          }
-
-                          return GridView.builder(
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2, // Number of columns
-                              crossAxisSpacing: 10, // Spacing between columns
-                              mainAxisSpacing: 10, // Spacing between rows
-                              childAspectRatio:
-                                  1, // Aspect ratio of each grid item
-                            ),
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              countProdact = snapshot.data!.docs.length;
-                              DocumentSnapshot document =
-                                  snapshot.data!.docs[index];
-                              Map<String, dynamic> data =
-                                  document.data()! as Map<String, dynamic>;
-                              return ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  data["imgPost"],
-                                  height: 100,
-                                  width: 100,
-                                  fit: BoxFit.cover,
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      )),
+                    padding: widthScreen > 600
+                        ? const EdgeInsets.all(66.0)
+                        : const EdgeInsets.all(3.0),
+                    child: _buildStreamBuilderWidget(context),
+                  ),
                 ),
               ],
             ),

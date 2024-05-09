@@ -1,13 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
+import 'package:graduation_project2/firebase/ProfileFarmerController.dart';
 import 'package:graduation_project2/pages/DateTimeFarmer.dart';
 import 'package:graduation_project2/pages/EditeProfilePage.dart';
 import 'package:graduation_project2/shared/colors.dart';
-import 'package:graduation_project2/shared/showSnackBar.dart';
 import 'package:provider/provider.dart';
 
 class ProfileFarmer extends StatefulWidget {
@@ -47,12 +45,12 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
   //   });
   // }
 
-  @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //    getData();//////////////////////////////////
-  // }
+  // @override
+  // // void initState() {
+  // //   // TODO: implement initState
+  // //   super.initState();
+  // //    getData();//////////////////////////////////
+  // // }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +59,7 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
 
     UserProvider userProvider = Provider.of(context, listen: false);
     // userProvider.refreshUser();
-
+  //  Future<int> count = ViewProfilePictures().getCounterPost();
     return isLoading
         ? Scaffold(
             backgroundColor: scaffoldColor,
@@ -107,7 +105,7 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                                 Column(
                                   children: [
                                     Text(
-                                      "$countProdact",
+                                      "${ViewProfilePictures.count}",
                                       style: TextStyle(
                                         fontSize: 22,
                                         fontWeight: FontWeight.bold,
@@ -261,58 +259,8 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                       padding: widthScreen > 600
                           ? const EdgeInsets.all(66.0)
                           : const EdgeInsets.all(3.0),
-                      child: StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection('postSSS')
-                            .where('uid',
-                                isEqualTo:
-                                    FirebaseAuth.instance.currentUser!.uid)
-                            .snapshots(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> snapshot) {
-                          if (snapshot.hasError) {
-                            return showSnackBar(
-                                context, "Something went wrong");
-                          }
-
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                              ),
-                            );
-                          }
-
-                          return GridView.builder(
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2, // Number of columns
-                              crossAxisSpacing: 10, // Spacing between columns
-                              mainAxisSpacing: 10, // Spacing between rows
-                              childAspectRatio:
-                                  1, // Aspect ratio of each grid item
-                            ),
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              countProdact = snapshot.data!.docs.length;
-                              DocumentSnapshot document =
-                                  snapshot.data!.docs[index];
-                              Map<String, dynamic> data =
-                                  document.data()! as Map<String, dynamic>;
-                              return ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  data["imgPost"],
-                                  height: 100,
-                                  width: 100,
-                                  fit: BoxFit.cover,
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      )),
+                      child: ViewProfilePictures()
+                          .StreamBuilderPictureFarmer(context)),
                 ),
               ],
             ),

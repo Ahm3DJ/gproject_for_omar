@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
+import 'package:graduation_project2/firebase/UploadPostController.dart';
 import 'package:graduation_project2/firebase/fireStore.dart';
 import 'package:graduation_project2/model/User.dart';
 import 'package:graduation_project2/shared/colors.dart';
@@ -33,66 +34,67 @@ class _AddProdactState extends State<AddProdact> {
 
   bool isLoading = false;
 
-  uploadImage2Screen(ImageSource source) async {
-    Navigator.pop(context);
-    final XFile? pickedImg = await ImagePicker().pickImage(source: source);
-    try {
-      if (pickedImg != null) {
-        imgPath = await pickedImg.readAsBytes();
-        setState(() {
-          imgName = basename(pickedImg.path);
-          int random = Random().nextInt(9999999);
-          imgName = "$random$imgName";
-          print(imgName);
-        });
-      } else {
-        print("NO img selected");
-      }
-    } catch (e) {
-      print("Error => $e");
-    }
-  }
-  bool fruitProdact = false;
-    bool vegetableProdact = false;
-    bool anotherProdact = false;
+  // uploadImage2Screen(ImageSource source) async {
+  //   Navigator.pop(context);
+  //   final XFile? pickedImg = await ImagePicker().pickImage(source: source);
+  //   try {
+  //     if (pickedImg != null) {
+  //       imgPath = await pickedImg.readAsBytes();
+  //       setState(() {
+  //         imgName = basename(pickedImg.path);
+  //         int random = Random().nextInt(9999999);
+  //         imgName = "$random$imgName";
+  //         print(imgName);
+  //       });
+  //     } else {
+  //       print("NO img selected");
+  //     }
+  //   } catch (e) {
+  //     print("Error => $e");
+  //   }
+  // }
 
-  showmodel() {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return SimpleDialog(
-          children: [
-            SimpleDialogOption(
-              onPressed: () async {
-                // Navigator.of(context).pop();
-                await uploadImage2Screen(ImageSource.camera);
-              },
-              padding: EdgeInsets.all(20),
-              child: Text(
-                "From Camera",
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-            ),
-            SimpleDialogOption(
-              onPressed: () async {
-                // Navigator.of(context).pop();
-                await uploadImage2Screen(ImageSource.gallery);
-              },
-              padding: EdgeInsets.all(20),
-              child: Text(
-                "From Gallary",
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  bool fruitProdact = false;
+  bool vegetableProdact = false;
+  bool anotherProdact = false;
+
+  // showmodel() {
+  //   return showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return SimpleDialog(
+  //         children: [
+  //           SimpleDialogOption(
+  //             onPressed: () async {
+  //               // Navigator.of(context).pop();
+  //               await uploadImage2Screen(ImageSource.camera);
+  //             },
+  //             padding: EdgeInsets.all(20),
+  //             child: Text(
+  //               "From Camera",
+  //               style: TextStyle(
+  //                 fontSize: 18,
+  //               ),
+  //             ),
+  //           ),
+  //           SimpleDialogOption(
+  //             onPressed: () async {
+  //               // Navigator.of(context).pop();
+  //               await uploadImage2Screen(ImageSource.gallery);
+  //             },
+  //             padding: EdgeInsets.all(20),
+  //             child: Text(
+  //               "From Gallary",
+  //               style: TextStyle(
+  //                 fontSize: 18,
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -100,14 +102,17 @@ class _AddProdactState extends State<AddProdact> {
     UserProvider userProvider = Provider.of(context, listen: false);
     userProvider.refreshUser();
     UserDete? userData = userProvider.getUser;
-  
-    return imgPath == null
+    print("cccccccccccccccccc${userData!.username}");
+    return PostController.imgPath == null
         ? Scaffold(
             backgroundColor: scaffoldColor,
             body: Center(
               child: IconButton(
                   onPressed: () {
-                    showmodel();
+                    setState(() {
+                      //showmodel();
+                      PostController.showModel(context);
+                    });
                   },
                   icon: Icon(
                     Icons.upload,
@@ -126,10 +131,10 @@ class _AddProdactState extends State<AddProdact> {
                       });
 
                       await FireBase().uploadPost(
-                        imgName: imgName,
-                        imgPath: imgPath,
+                        imgName: PostController.imgName,
+                        imgPath: PostController.imgPath,
                         description: descrbtionController.text,
-                        profileImg: userData!.profileImg,
+                        profileImg: userData.profileImg,
                         username: userData.username,
                         context: context,
                         price: priceController.text,
@@ -137,19 +142,25 @@ class _AddProdactState extends State<AddProdact> {
                         quntity: quantityController.text,
                         title: userData.title,
                         prodactName: prodactNameController.text,
-                         typeOfProdact:  fruitProdact == true &&
-                                  vegetableProdact == false && anotherProdact==false
-                              ? "Fruits"
-                              : fruitProdact == false && vegetableProdact == true&& anotherProdact==false
-                                  ? "Vegetables"
-                              : fruitProdact == false && vegetableProdact == false&& anotherProdact==true
-                                  ?"Other":null,
-                                   phoneNumber: userData.phoneNumber,
+                        typeOfProdact: fruitProdact == true &&
+                                vegetableProdact == false &&
+                                anotherProdact == false
+                            ? "Fruits"
+                            : fruitProdact == false &&
+                                    vegetableProdact == true &&
+                                    anotherProdact == false
+                                ? "Vegetables"
+                                : fruitProdact == false &&
+                                        vegetableProdact == false &&
+                                        anotherProdact == true
+                                    ? "Other"
+                                    : null,
+                        phoneNumber: userData.phoneNumber,
                       );
 
                       setState(() {
                         isLoading = false;
-                        imgPath = null;
+                        PostController.imgPath = null;
                       });
                     },
                     child: const Text(
@@ -164,7 +175,7 @@ class _AddProdactState extends State<AddProdact> {
               leading: IconButton(
                   onPressed: () {
                     setState(() {
-                      imgPath = null;
+                      PostController.imgPath = null;
                     });
                   },
                   icon: const Icon(Icons.arrow_back)),
@@ -201,7 +212,7 @@ class _AddProdactState extends State<AddProdact> {
                                     child: CircleAvatar(
                                       radius: 33,
                                       backgroundImage:
-                                          NetworkImage(userData!.profileImg
+                                          NetworkImage(userData.profileImg
                                               // widget.snap["profileImg"],
                                               ),
                                     ),
@@ -224,7 +235,7 @@ class _AddProdactState extends State<AddProdact> {
                           height: MediaQuery.of(context).size.height * 0.35,
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: MemoryImage(imgPath!),
+                                  image: MemoryImage(PostController.imgPath!),
                                   fit: BoxFit.cover
                                   //
                                   //
@@ -243,7 +254,6 @@ class _AddProdactState extends State<AddProdact> {
                                   Row(
                                     children: [
                                       GestureDetector(
-                                        
                                         onTap: () {
                                           setState(() {
                                             fruitProdact = true;

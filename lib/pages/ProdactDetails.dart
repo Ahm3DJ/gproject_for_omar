@@ -32,29 +32,29 @@ class _DetailsState extends State<Details> {
     //userProvider.refreshUser();
     UserDete? userData = userProvider.getUser;
 
-    showmodel() {
-      return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return SimpleDialog(
-            children: [
-              SimpleDialogOption(
-                onPressed: () async {
-                  // Navigator.of(context).pop();
-                },
-                padding: EdgeInsets.all(20),
-                child: Text(
-                  "The quantity you requested is greater than the inventory",
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
-      );
-    }
+    // showmodel() {
+    //   return showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return SimpleDialog(
+    //         children: [
+    //           SimpleDialogOption(
+    //             onPressed: () async {
+    //               // Navigator.of(context).pop();
+    //             },
+    //             padding: EdgeInsets.all(20),
+    //             child: Text(
+    //               "The quantity you requested is greater than the inventory",
+    //               style: TextStyle(
+    //                 fontSize: 18,
+    //               ),
+    //             ),
+    //           ),
+    //         ],
+    //       );
+    //     },
+    //   );
+    // }
 
     return Scaffold(
       backgroundColor: scaffoldColor,

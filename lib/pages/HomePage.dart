@@ -425,25 +425,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: heightScreen - 220,
                 child: StreamBuilder<QuerySnapshot>(
-                  stream: fruitProdact
-                      ? FirebaseFirestore.instance
-                          .collection('postSSS')
-                          .where("typeOfProdact", isEqualTo: "Fruits")
-                          .snapshots()
-                      : vegetableProdact
-                          ? FirebaseFirestore.instance
-                              .collection('postSSS')
-                              .where("typeOfProdact", isEqualTo: "Vegetables")
-                              .snapshots()
-                          : anotherProdact
-                              ? FirebaseFirestore.instance
-                                  .collection('postSSS')
-                                  .where("typeOfProdact", isEqualTo: "Other")
-                                  .snapshots()
-                              : FirebaseFirestore.instance
-                                  .collection(
-                                      'postSSS') //'uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid
-                                  .snapshots(),
+                  stream: FireBase().getDataBasedTypeProdact(fruit: fruitProdact, vegetable: vegetableProdact, another: anotherProdact),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasError) {

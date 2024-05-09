@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:graduation_project2/firebase/RegisreationController.dart';
 import 'package:graduation_project2/firebase/authntecation.dart';
 import 'package:graduation_project2/pages/Login.dart';
 import 'package:graduation_project2/shared/colors.dart';
@@ -47,27 +48,7 @@ class _RegisterState extends State<Register> {
   bool farmercheck = false;
   bool storeOwnerCheck = false;
 
-  // uploadImage2Screen(ImageSource source) async {
-  //   final pickedImg = await ImagePicker().pickImage(source: source);
-  //   try {
-  //     if (pickedImg != null) {
-  //       setState(() {
-  //         imgPath = File(pickedImg.path);
-  //         imgName = basename(pickedImg.path);
-  //         int random = Random().nextInt(9999999);
-  //         imgName = "$random$imgName";
-  //         print(imgName);
-  //       });
-  //     } else {
-  //       print("NO img selected");
-  //     }
-  //   } catch (e) {
-  //     print("Error => $e");
-  //   }
 
-  //   if (!mounted) return;
-  //   Navigator.pop(context);
-  // }
 
   uploadImage2Screen(ImageSource source) async {
     Navigator.pop(context);
@@ -269,7 +250,7 @@ class _RegisterState extends State<Register> {
                     ),
                     child: Stack(
                       children: [
-                        imgPath == null
+                        RegistreationController.imgPath == null
                             ? CircleAvatar(
                                 backgroundColor:
                                     Color.fromARGB(255, 225, 225, 225),
@@ -281,14 +262,21 @@ class _RegisterState extends State<Register> {
                             : CircleAvatar(
                                 radius: 71,
                                 // backgroundImage: AssetImage("assets/img/avatar.png"),
-                                backgroundImage: MemoryImage(imgPath!),
+                                backgroundImage: MemoryImage( RegistreationController.imgPath!),
                               ),
                         Positioned(
                           left: 99,
                           bottom: -10,
                           child: IconButton(
-                            onPressed: () {
-                              showmodel();
+                            onPressed: () async {
+                              // showmodel();
+                                await RegistreationController.showModel(context);
+
+setState(() {
+  
+});
+
+
                             },
                             icon: const Icon(Icons.add_a_photo),
                             color: Colors.black,
@@ -390,7 +378,16 @@ class _RegisterState extends State<Register> {
                   ),
                   TextFormField(
                       onChanged: (password) {
-                        onPasswordChanged(password);
+                    ///    onPasswordChanged(password);
+                     RegistreationController.onPasswordChanged(password, (bool is8Char, bool has1Number, bool hasUpper, bool hasLower, bool hasSpecialChars) {
+                        setState(() {
+                          isPassword8Char = is8Char;
+                          isPasswordHas1Number = has1Number;
+                          hasUppercase = hasUpper;
+                          hasLowercase = hasLower;
+                          hasSpecialCharacters = hasSpecialChars;
+                        });
+                      });
                       },
                       // we return "null" when something is valid
                       validator: (value) {
@@ -618,8 +615,8 @@ class _RegisterState extends State<Register> {
                   ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate() &&
-                          imgName != null &&
-                          imgPath != null &&
+                      RegistreationController.    imgName != null &&
+                        RegistreationController.  imgPath != null &&
                           (farmercheck || storeOwnerCheck)) {
                         setState(() {
                           isLoading = true;
@@ -630,8 +627,8 @@ class _RegisterState extends State<Register> {
                           context: context,
                           titleee: titleController.text,
                           usernameee: usernameController.text,
-                          imgName: imgName,
-                          imgPath: imgPath,
+                          imgName:RegistreationController. imgName,
+                          imgPath: RegistreationController.imgPath,
                           age: ageController.text,
                           situation: farmercheck == true &&
                                   storeOwnerCheck == false

@@ -1,9 +1,15 @@
+import 'dart:math';
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:graduation_project2/firebase/Storage.dart';
 import 'package:graduation_project2/model/User.dart';
 import 'package:graduation_project2/model/cart.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:uuid/uuid.dart';
 
@@ -19,7 +25,7 @@ class AuthMethods {
     required age,
     required situation,
     required balance,
-        required phoneNumber,
+    required phoneNumber,
   }) async {
     String message = "ERROR => Not starting the code";
 
@@ -54,7 +60,8 @@ class AuthMethods {
         uid: credential.user!.uid,
         age: age,
         situation: situation,
-        balance: balance, phoneNumber: phoneNumber,
+        balance: balance,
+        phoneNumber: phoneNumber,
       );
       message = "ERROR => create object user  ";
 
@@ -113,7 +120,7 @@ class AuthMethods {
     required farmerAcceptedRequest,
     required farmerCheckDelivery,
     required postUid,
-      required phoneNumber,
+    required phoneNumber,
   }) async {
     String message = "ERROR => Not starting the code";
     print("111111111 1storeOwnerSendRequst11111111111111${context}");
@@ -154,7 +161,8 @@ class AuthMethods {
         usernameFarmer: usernameFarmer,
         usernameStoreOwner: usernameStoreOwner,
         farmerAcceptedRequest: farmerAcceptedRequest,
-        farmerCheckDelivery: farmerCheckDelivery, postUid: postUid, phoneNumber:phoneNumber ,
+        farmerCheckDelivery: farmerCheckDelivery, postUid: postUid,
+        phoneNumber: phoneNumber,
 
         // String title;
         // String username;
@@ -239,7 +247,8 @@ class AuthMethods {
         storeOwnerCheckDelivery: storeOwnerCheckDelivery,
         usernameFarmer: usernameFarmer, usernameStoreOwner: usernameStoreOwner,
         farmerAcceptedRequest: farmerAcceptedRequest,
-        farmerCheckDelivery: farmerCheckDelivery, postUid: postUid, phoneNumber:phoneNumber ,
+        farmerCheckDelivery: farmerCheckDelivery, postUid: postUid,
+        phoneNumber: phoneNumber,
 
         // String title;
         // String username;
@@ -273,11 +282,11 @@ class AuthMethods {
     required imgName,
     required imgPath,
   }) async {
-      String urlll = await getImgURL(
-        imgName: imgName,
-        imgPath: imgPath,
-        folderName: 'profileIMG',
-      );
+    String urlll = await getImgURL(
+      imgName: imgName,
+      imgPath: imgPath,
+      folderName: 'profileIMG',
+    );
 
     FirebaseFirestore.instance
         .collection('userSSS')
@@ -320,4 +329,20 @@ class AuthMethods {
     // .doc(FirebaseAuth.instance.currentUser!.uid)
     // .update({"profileImg":urlll});
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

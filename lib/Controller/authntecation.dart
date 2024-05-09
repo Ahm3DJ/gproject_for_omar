@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:graduation_project2/firebase/Storage.dart';
+import 'package:graduation_project2/Controller/Storage.dart';
 import 'package:graduation_project2/model/User.dart';
 import 'package:graduation_project2/model/cart.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';

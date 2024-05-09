@@ -5,8 +5,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
-import 'package:graduation_project2/firebase/UploadPostController.dart';
-import 'package:graduation_project2/firebase/fireStore.dart';
+import 'package:graduation_project2/Controller/UploadPostController.dart';
+import 'package:graduation_project2/Controller/fireStore.dart';
 import 'package:graduation_project2/model/User.dart';
 import 'package:graduation_project2/shared/colors.dart';
 import 'package:graduation_project2/shared/constant.dart';

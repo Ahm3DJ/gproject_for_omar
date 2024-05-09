@@ -6,7 +6,7 @@ import 'package:graduation_project2/seconderyWidgets/My_Navigator_Widget_To_Logi
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
-import 'package:graduation_project2/firebase/authntecation.dart';
+import 'package:graduation_project2/Controller/authntecation.dart';
 import 'package:graduation_project2/pages/registration.dart';
 import 'package:graduation_project2/responsive/mobile.dart';
 import 'package:graduation_project2/responsive/responsive.dart';

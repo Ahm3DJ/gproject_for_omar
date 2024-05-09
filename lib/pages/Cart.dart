@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation_project2/Controller/CartController.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
 import 'package:graduation_project2/model/User.dart';
 import 'package:graduation_project2/shared/colors.dart';
@@ -19,7 +20,6 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   late final Stream<QuerySnapshot> _usersStream;
 
-  
   @override
   void initState() {
     super.initState();
@@ -115,15 +115,15 @@ class _CartState extends State<Cart> {
                                           ),
                                           IconButton(
                                               onPressed: () async {
-                                                await FirebaseFirestore.instance
-                                                    .collection("cartSSS")
-                                                    .doc(snapshot
-                                                        .data!.docs[index].id)
-                                                    .delete();
-                                                // classInstancee.sum -=
-                                                //     classInstancee.selectedProdact[index].price;
-
-                                                // classInstancee.removeAtIndex(index);
+                                                CartController()
+                                                    .deleteItemFromCart(
+                                                        doc: snapshot.data!
+                                                            .docs[index].id);
+                                                // await FirebaseFirestore.instance
+                                                //     .collection("cartSSS")
+                                                //     .doc(snapshot
+                                                //         .data!.docs[index].id)
+                                                //     .delete();
                                               },
                                               icon: Icon(
                                                 Icons.remove,
@@ -161,180 +161,115 @@ class _CartState extends State<Cart> {
                       ),
                       ElevatedButton(
                         onPressed: () async {
+                          CartController()
+                              .sendProdactToFarmer(context: context);
+
 ////////////////////////////////////get data ffrom cart in fire base and send it to  requsted prodact to firebase and delete item from cart in fire base
 
-                          QuerySnapshot sourceSnapshot = await FirebaseFirestore
-                              .instance
-                              .collection('cartSSS')
-                              .where("uidStorOwner",
-                                  isEqualTo:
-                                      FirebaseAuth.instance.currentUser!.uid)
-                              .get();
+                          // QuerySnapshot sourceSnapshot = await FirebaseFirestore
+                          //     .instance
+                          //     .collection('cartSSS')
+                          //     .where("uidStorOwner",
+                          //         isEqualTo:
+                          //             FirebaseAuth.instance.currentUser!.uid)
+                          //     .get();
 
-                          for (QueryDocumentSnapshot document
-                              in sourceSnapshot.docs) {
-                            // Get the data of the document
-                            Map<String, dynamic> data =
-                                document.data() as Map<String, dynamic>;
+                          // for (QueryDocumentSnapshot document
+                          //     in sourceSnapshot.docs) {
+                          //   // Get the data of the document
+                          //   Map<String, dynamic> data =
+                          //       document.data() as Map<String, dynamic>;
 
-                            // Create a new document in the destination collection with the same data
-                            // await FirebaseFirestore.instance
-                            //     .collection('RequstedDDD')
-                            //     .add(data);
+                          //   String currentQuantity = "";
 
-                            // await FirebaseFirestore.instance
-                            //     .collection('cartSSS')
-                            //     .doc(document.id)
-                            //     .delete();
+                          //   try {
+                          //     DocumentReference docRefUser = FirebaseFirestore
+                          //         .instance
+                          //         .collection(
+                          //             "userSSS") // Replace "your_collection" with your actual collection name
+                          //         .doc(data["uidFarmer"]);
+                          //     DocumentSnapshot docSnapshotUser =
+                          //         await docRefUser.get();
+                          //     Map<String, dynamic>? dataUSER = docSnapshotUser
+                          //         .data() as Map<String, dynamic>?;
+                          //     dynamic specificDataUser = dataUSER!['balance'];
+                          //     // Reference to the document you want to retrieve data from
+                          //     DocumentReference docRef = FirebaseFirestore
+                          //         .instance
+                          //         .collection(
+                          //             "postSSS") // Replace "your_collection" with your actual collection name
+                          //         .doc(data[
+                          //             "postUid"]); // Replace "your_document_id" with your actual document ID
+                          //     print("postUid  Data: ${data["postUid"]}");
 
-                            String currentQuantity = "";
+                          //     // Fetch the document snapshot
+                          //     DocumentSnapshot docSnapshot = await docRef.get();
 
-                            try {
+                          //     if (docSnapshot.exists) {
+                          //       // Access specific fields from the document snapshot
+                          //       Map<String, dynamic>? dataa =
+                          //           docSnapshot.data() as Map<String, dynamic>?;
+                          //       if (dataa != null) {
+                          //         dynamic specificData = dataa['quntity'];
+                          //         currentQuantity = specificData
+                          //             .toString(); // Replace "specific_field" with the field you want to retrieve
+                          //         print("currentQuantity: $currentQuantity");
 
-DocumentReference docRefUser = FirebaseFirestore
-                                  .instance
-                                  .collection(
-                                      "userSSS") // Replace "your_collection" with your actual collection name
-                                  .doc(data[
-                                      "uidFarmer"]);
-                                        DocumentSnapshot docSnapshotUser = await docRefUser.get();
-    Map<String, dynamic>? dataUSER =
-                                    docSnapshotUser.data() as Map<String, dynamic>?;
-  dynamic specificDataUser = dataUSER!['balance'];
-                              // Reference to the document you want to retrieve data from
-                              DocumentReference docRef = FirebaseFirestore
-                                  .instance
-                                  .collection(
-                                      "postSSS") // Replace "your_collection" with your actual collection name
-                                  .doc(data[
-                                      "postUid"]); // Replace "your_document_id" with your actual document ID
-                              print("postUid  Data: ${data["postUid"]}");
+                          //         if (int.parse(currentQuantity) == 0) {
+                          //           showSnackBar(context,
+                          //               "The product  ${data["prodactName"]} is sold");
+                          //         } else if (int.parse(currentQuantity) <
+                          //             int.parse(data["partquntity"])) {
+                          //           showSnackBar(context,
+                          //               "Please reorder the product From Home page ${data["prodactName"]}");
+                          //         } else if (int.parse(currentQuantity) == 0 ||
+                          //             int.parse(currentQuantity) <
+                          //                 int.parse(data["partquntity"])) {
+                          //           await FirebaseFirestore.instance
+                          //               .collection('cartSSS')
+                          //               .doc(document.id)
+                          //               .delete();
+                          //         } else {
+                          //           int newQuantity =
+                          //               int.parse(currentQuantity) -
+                          //                   int.parse(data["partquntity"]);
 
-                              // Fetch the document snapshot
-                              DocumentSnapshot docSnapshot = await docRef.get();
+                          //           await FirebaseFirestore.instance
+                          //               .collection("postSSS")
+                          //               .doc(data["postUid"])
+                          //               .update({
+                          //             "quntity": newQuantity.toString()
+                          //           });
 
-                              if (docSnapshot.exists) {
-                                // Access specific fields from the document snapshot
-                                Map<String, dynamic>? dataa =
-                                    docSnapshot.data() as Map<String, dynamic>?;
-                                if (dataa != null) {
-                                  dynamic specificData = dataa['quntity'];
-                                  currentQuantity = specificData
-                                      .toString(); // Replace "specific_field" with the field you want to retrieve
-                                  print("currentQuantity: $currentQuantity");
-
-                                  if (int.parse(currentQuantity) == 0) {
-                                    showSnackBar(context,
-                                        "The product  ${data["prodactName"]} is sold");
-                                  } else if (int.parse(currentQuantity) <
-                                      int.parse(data["partquntity"])) {
-                                    showSnackBar(context,
-                                        "Please reorder the product From Home page ${data["prodactName"]}");
-                                  } else if (int.parse(currentQuantity) == 0 ||
-                                      int.parse(currentQuantity) <
-                                          int.parse(data["partquntity"])) {
-                                    await FirebaseFirestore.instance
-                                        .collection('cartSSS')
-                                        .doc(document.id)
-                                        .delete();
-                                  } else {
-                                    int newQuantity =
-                                        int.parse(currentQuantity) -
-                                            int.parse(data["partquntity"]);
-
-                                    await FirebaseFirestore.instance
-                                        .collection("postSSS")
-                                        .doc(data["postUid"])
-                                        .update({
-                                      "quntity": newQuantity.toString()
-                                    });
-
-                                    await FirebaseFirestore.instance
-                                        .collection('userSSS')
-                                        .doc(data["uidStorOwner"])
-                                        .update({"balance"  : specificDataUser - (double.parse(data["price"])* double.parse(data["partquntity"])) });
-                                  }
-                                } else {
-                                  print('Document data is null');
-                                }
-                              } else {
-                                print('Document does not exist');
-                              }
-                            } catch (error) {
-                              print('Error fetching data: $error');
-                            }
-
-                            // Create a new document in the destination collection with the same data
-                            await FirebaseFirestore.instance
-                                .collection('RequstedDDD')
-                                .add(data);
-
-                            await FirebaseFirestore.instance
-                                .collection('cartSSS')
-                                .doc(document.id)
-                                .delete();
-                          }
-                          //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                          ///
-                          ///
-                          ///
-                          ///
-                          ///
-                          ///
-                          ///
-
-                          ///
-                          // try {
-                          //   // Reference to the document you want to retrieve data from
-                          //   DocumentReference docRef = FirebaseFirestore
-                          //       .instance
-                          //       .collection(
-                          //           "postSSS") // Replace "your_collection" with your actual collection name
-                          //       .doc(data[
-                          //           "postUid"]); // Replace "your_document_id" with your actual document ID
-
-                          //   // Fetch the document snapshot
-                          //   DocumentSnapshot docSnapshot = await docRef.get();
-
-                          //   if (docSnapshot.exists) {
-                          //     // Access specific fields from the document snapshot
-                          //     Map<String, dynamic>? dataa =
-                          //         docSnapshot.data() as Map<String, dynamic>?;
-                          //     if (dataa != null) {
-                          //       dynamic specificData = dataa['quntity'];
-                          //       currentQuantity = specificData
-                          //           .toString(); // Replace "specific_field" with the field you want to retrieve
-                          //       print("Specific Data: $specificData");
-                          //       print("currentQuantity: $currentQuantity");
+                          //           await FirebaseFirestore.instance
+                          //               .collection('userSSS')
+                          //               .doc(data["uidStorOwner"])
+                          //               .update({
+                          //             "balance": specificDataUser -
+                          //                 (double.parse(data["price"]) *
+                          //                     double.parse(data["partquntity"]))
+                          //           });
+                          //         }
+                          //       } else {
+                          //         print('Document data is null');
+                          //       }
                           //     } else {
-                          //       print('Document data is null');
+                          //       print('Document does not exist');
                           //     }
-                          //   } else {
-                          //     print('Document does not exist');
+                          //   } catch (error) {
+                          //     print('Error fetching data: $error');
                           //   }
-                          // } catch (error) {
-                          //   print('Error fetching data: $error');
+
+                          //   // Create a new document in the destination collection with the same data
+                          //   await FirebaseFirestore.instance
+                          //       .collection('RequstedDDD')
+                          //       .add(data);
+
+                          //   await FirebaseFirestore.instance
+                          //       .collection('cartSSS')
+                          //       .doc(document.id)
+                          //       .delete();
                           // }
-
-                          //                             DocumentSnapshot postRef =
-                          // FirebaseFirestore.instance.collection("postSSS").
-                          // doc(data["postUid"]).get() as DocumentSnapshot<Object?>;
-                          //  String currentQuantity2 =postRef.data()!["quntity"];
-                          // int newQuantity = int.parse(currentQuantity) -
-                          //     int.parse(data["quntity"]);
-                          // print("]]]]]]]]]]]]]]]]]]]]]]]]]]${data["quntity"]}");
-
-                          // print("]]]]]]]]]]]]]]]]]]]]]]]]]]$currentQuantity");
-
-                          // print("]]]]]]]]]]]]]]]]]]]]]]]]]]$newQuantity");
-
-                          // await FirebaseFirestore.instance
-                          //     .collection("postSSS")
-                          //     .doc(data["postUid"])
-                          //     .update({"quntity": newQuantity.toString()});
-
-                          //
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(BTNgreen),

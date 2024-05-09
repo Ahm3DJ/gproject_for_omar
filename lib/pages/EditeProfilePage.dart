@@ -8,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
-import 'package:graduation_project2/firebase/authntecation.dart';
+import 'package:graduation_project2/Controller/authntecation.dart';
 import 'package:graduation_project2/model/User.dart';
 import 'package:graduation_project2/shared/CardEdite.dart';
 import 'package:graduation_project2/shared/colors.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project2/firebase/fireStore.dart';
+import 'package:graduation_project2/Controller/fireStore.dart';
 import 'package:graduation_project2/model/User.dart';
 
 

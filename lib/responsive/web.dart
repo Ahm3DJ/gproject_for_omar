@@ -10,7 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
-import 'package:graduation_project2/firebase/fireStore.dart';
+import 'package:graduation_project2/Controller/fireStore.dart';
 import 'package:graduation_project2/model/User.dart';
 import 'package:graduation_project2/pages/AddProdact.dart';
 import 'package:graduation_project2/pages/Cart.dart';

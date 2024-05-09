@@ -10,8 +10,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:graduation_project2/firebase/RegisreationController.dart';
-import 'package:graduation_project2/firebase/authntecation.dart';
+import 'package:graduation_project2/Controller/RegisreationController.dart';
+import 'package:graduation_project2/Controller/authntecation.dart';
 import 'package:graduation_project2/pages/Login.dart';
 import 'package:graduation_project2/shared/colors.dart';
 import 'package:graduation_project2/shared/constant.dart';
@@ -50,165 +50,116 @@ class _RegisterState extends State<Register> {
 
 
 
-  uploadImage2Screen(ImageSource source) async {
-    Navigator.pop(context);
-    final XFile? pickedImg = await ImagePicker().pickImage(source: source);
-    try {
-      if (pickedImg != null) {
-        imgPath = await pickedImg.readAsBytes();
-        setState(() {
-          imgName = basename(pickedImg.path);
-          int random = Random().nextInt(9999999);
-          imgName = "$random$imgName";
-          print(imgName);
-        });
-      } else {
-        print("NO img selected");
-      }
-    } catch (e) {
-      print("Error => $e");
-    }
-  }
+  // uploadImage2Screen(ImageSource source) async {
+  //   Navigator.pop(context);
+  //   final XFile? pickedImg = await ImagePicker().pickImage(source: source);
+  //   try {
+  //     if (pickedImg != null) {
+  //       imgPath = await pickedImg.readAsBytes();
+  //       setState(() {
+  //         imgName = basename(pickedImg.path);
+  //         int random = Random().nextInt(9999999);
+  //         imgName = "$random$imgName";
+  //         print(imgName);
+  //       });
+  //     } else {
+  //       print("NO img selected");
+  //     }
+  //   } catch (e) {
+  //     print("Error => $e");
+  //   }
+  // }
 
-  showmodel() {
-    return showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          padding: EdgeInsets.all(22),
-          height: 170,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () async {
-                  await uploadImage2Screen(ImageSource.camera);
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.camera,
-                      size: 30,
-                    ),
-                    SizedBox(
-                      width: 11,
-                    ),
-                    Text(
-                      "From Camera",
-                      style: TextStyle(fontSize: 20),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 22,
-              ),
-              GestureDetector(
-                onTap: () {
-                  uploadImage2Screen(ImageSource.gallery);
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.photo_outlined,
-                      size: 30,
-                    ),
-                    SizedBox(
-                      width: 11,
-                    ),
-                    Text(
-                      "From Gallery",
-                      style: TextStyle(fontSize: 20),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+  // showmodel() {
+  //   return showModalBottomSheet(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return Container(
+  //         padding: EdgeInsets.all(22),
+  //         height: 170,
+  //         child: Column(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [
+  //             GestureDetector(
+  //               onTap: () async {
+  //                 await uploadImage2Screen(ImageSource.camera);
+  //               },
+  //               child: Row(
+  //                 children: [
+  //                   Icon(
+  //                     Icons.camera,
+  //                     size: 30,
+  //                   ),
+  //                   SizedBox(
+  //                     width: 11,
+  //                   ),
+  //                   Text(
+  //                     "From Camera",
+  //                     style: TextStyle(fontSize: 20),
+  //                   )
+  //                 ],
+  //               ),
+  //             ),
+  //             SizedBox(
+  //               height: 22,
+  //             ),
+  //             GestureDetector(
+  //               onTap: () {
+  //                 uploadImage2Screen(ImageSource.gallery);
+  //               },
+  //               child: Row(
+  //                 children: [
+  //                   Icon(
+  //                     Icons.photo_outlined,
+  //                     size: 30,
+  //                   ),
+  //                   SizedBox(
+  //                     width: 11,
+  //                   ),
+  //                   Text(
+  //                     "From Gallery",
+  //                     style: TextStyle(fontSize: 20),
+  //                   )
+  //                 ],
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
-  onPasswordChanged(String password) {
-    isPassword8Char = false;
-    isPasswordHas1Number = false;
-    hasUppercase = false;
-    hasLowercase = false;
-    hasSpecialCharacters = false;
-    setState(() {
-      if (password.contains(RegExp(r'.{8,}'))) {
-        isPassword8Char = true;
-      }
+  // onPasswordChanged(String password) {
+  //   isPassword8Char = false;
+  //   isPasswordHas1Number = false;
+  //   hasUppercase = false;
+  //   hasLowercase = false;
+  //   hasSpecialCharacters = false;
+  //   setState(() {
+  //     if (password.contains(RegExp(r'.{8,}'))) {
+  //       isPassword8Char = true;
+  //     }
 
-      if (password.contains(RegExp(r'[0-9]'))) {
-        isPasswordHas1Number = true;
-      }
+  //     if (password.contains(RegExp(r'[0-9]'))) {
+  //       isPasswordHas1Number = true;
+  //     }
 
-      if (password.contains(RegExp(r'[A-Z]'))) {
-        hasUppercase = true;
-      }
+  //     if (password.contains(RegExp(r'[A-Z]'))) {
+  //       hasUppercase = true;
+  //     }
 
-      if (password.contains(RegExp(r'[a-z]'))) {
-        hasLowercase = true;
-      }
+  //     if (password.contains(RegExp(r'[a-z]'))) {
+  //       hasLowercase = true;
+  //     }
 
-      if (password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-        hasSpecialCharacters = true;
-      }
-    });
-  }
+  //     if (password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+  //       hasSpecialCharacters = true;
+  //     }
+  //   });
+  // }
 
-//   register() async {
-//     setState(() {
-//       isLoading = true;
-//     });
 
-//     try {
-//       final credential =
-//           await FirebaseAuth.instance.createUserWithEmailAndPassword(
-//         email: emailController.text,
-//         password: passwordController.text,
-//       );
-
-// // Upload image to firebase storage
-//       final storageRef = FirebaseStorage.instance.ref("users-imgs/$imgName");
-//       await storageRef.putFile(imgPath!);
-//       String urll = await storageRef.getDownloadURL();
-
-//       print(credential.user!.uid);
-
-//       CollectionReference users =
-//           FirebaseFirestore.instance.collection('userSSS');
-
-//       users
-//           .doc(credential.user!.uid)
-//           .set({
-//             "imgLink":   urll     ,
-//             'username': usernameController.text,
-//             'age': ageController.text,
-//             "title": titleController.text,
-//             "email": emailController.text,
-//             "pass": passwordController.text,
-//           })
-//           .then((value) => print("User Added"))
-//           .catchError((error) => print("Failed to add user: $error"));
-//     } on FirebaseAuthException catch (e) {
-//       if (e.code == 'weak-password') {
-//         showSnackBar(context, "The password provided is too weak.");
-//       } else if (e.code == 'email-already-in-use') {
-//         showSnackBar(context, "The account already exists for that email.");
-//       } else {
-//         showSnackBar(context, "ERROR - Please try again late");
-//       }
-//     } catch (err) {
-//       showSnackBar(context, err.toString());
-//     }
-
-//     setState(() {
-//       isLoading = false;
-//     });
-//   }
 
   @override
   void dispose() {

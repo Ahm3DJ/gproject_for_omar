@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation_project2/Controller/ResponsiveController.dart';
 import 'package:graduation_project2/Provider/Notifecation.dart';
 import 'package:graduation_project2/shared/Timer.dart';
 import 'package:graduation_project2/shared/colors.dart';
@@ -88,13 +89,14 @@ class _NotifayStoreOwnerState extends State<NotifayStoreOwner> {
                                         //     .selectedProdact[index].pathImage),
                                       ),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                               "username ${data["usernameStoreOwner"]} "),
                                           Column(
-                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text("price: ${data["price"]} "),
                                               Text("title: ${data["title"]} "),
@@ -111,69 +113,73 @@ class _NotifayStoreOwnerState extends State<NotifayStoreOwner> {
                                               children: [
                                                 GestureDetector(
                                                   onTap: () {
-                                                    final Uri phoneNumber =
-                                                        Uri.parse(
-                                                            "tel:0775218832");
-                                                    final Uri whatsApp = Uri.parse(
-                                                        "https://wa.me/+962${data["phoneNumber"]}");
-                                                    launchUrl(whatsApp);
+                                                    ResponsiveController()
+                                                        .whatsAppMessage();
+                                                    // final Uri phoneNumber =
+                                                    //     Uri.parse(
+                                                    //         "tel:0775218832");
+                                                    // final Uri whatsApp = Uri.parse(
+                                                    //     "https://wa.me/+962${data["phoneNumber"]}");
+                                                    // launchUrl(whatsApp);
                                                   },
                                                   child: SvgPicture.asset(
                                                       "assets/icons8-whatsapp.svg"),
                                                 ),
                                                 IconButton(
                                                     onPressed: () async {
-                                                      await FirebaseFirestore
-                                                          .instance
-                                                          .collection(
-                                                              'notifiayYYY')
-                                                          .doc(snapshot.data!
-                                                              .docs[index].id)
-                                                          .update({
-                                                        "storeOwnerCheckDelivery":
-                                                            true
-                                                      });
-
-                                                      //  await FirebaseFirestore
+                                                      ResponsiveController()
+                                                          .StoreOwnerCheckDelivery(
+                                                              data: data,
+                                                              doc: snapshot
+                                                                  .data!
+                                                                  .docs[index]
+                                                                  .id,
+                                                              context: context);
+                                                      // await FirebaseFirestore
                                                       //     .instance
-                                                      //     .collection(data[
-                                                      //         "NotifiyProdactUid"])
-                                                      //     .get();
+                                                      //     .collection(
+                                                      //         'notifiayYYY')
+                                                      //     .doc(snapshot.data!
+                                                      //         .docs[index].id)
+                                                      //     .update({
+                                                      //   "storeOwnerCheckDelivery":
+                                                      //       true
+                                                      // });
 
-                                                      documentSnapshot =
-                                                          await FirebaseFirestore
-                                                              .instance
-                                                              .collection(
-                                                                  'RequstedDDD')
-                                                              .doc(data[
-                                                                  "requstedProdactUID"])
-                                                              .get();
+                                                      // documentSnapshot =
+                                                      //     await FirebaseFirestore
+                                                      //         .instance
+                                                      //         .collection(
+                                                      //             'RequstedDDD')
+                                                      //         .doc(data[
+                                                      //             "requstedProdactUID"])
+                                                      //         .get();
 
-                                                      if (data[
-                                                              "storeOwnerCheckDelivery"] &&
-                                                          documentSnapshot.get(
-                                                              'farmerCheckDelivery')) {
-                                                        showSnackBar(context,
-                                                            "Delevdeliveryary is Done ......");
+                                                      // if (data[
+                                                      //         "storeOwnerCheckDelivery"] &&
+                                                      //     documentSnapshot.get(
+                                                      //         'farmerCheckDelivery')) {
+                                                      //   showSnackBar(context,
+                                                      //       "Delevdeliveryary is Done ......");
 
-                                                        DeleteItem(
-                                                            notifiyProdactUid:
-                                                                snapshot
-                                                                    .data!
-                                                                    .docs[index]
-                                                                    .id,
-                                                            requstedProdactUid:
-                                                                data[
-                                                                    "requstedProdactUID"],
-                                                            seconds: 1);
-                                                      } else if (data[
-                                                              "storeOwnerCheckDelivery"] &&
-                                                          documentSnapshot.get(
-                                                                  'farmerCheckDelivery') ==
-                                                              false) {
-                                                        showSnackBar(context,
-                                                            "Farmer  is not check delivery ");
-                                                      }
+                                                      //   DeleteItem(
+                                                      //       notifiyProdactUid:
+                                                      //           snapshot
+                                                      //               .data!
+                                                      //               .docs[index]
+                                                      //               .id,
+                                                      //       requstedProdactUid:
+                                                      //           data[
+                                                      //               "requstedProdactUID"],
+                                                      //       seconds: 1);
+                                                      // } else if (data[
+                                                      //         "storeOwnerCheckDelivery"] &&
+                                                      //     documentSnapshot.get(
+                                                      //             'farmerCheckDelivery') ==
+                                                      //         false) {
+                                                      //   showSnackBar(context,
+                                                      //       "Farmer  is not check delivery ");
+                                                      // }
                                                     },
                                                     icon: Icon(
                                                       Icons.check,
@@ -200,19 +206,6 @@ class _NotifayStoreOwnerState extends State<NotifayStoreOwner> {
                                 );
                               });
                         })),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(BTNgreen),
-                    padding: MaterialStateProperty.all(EdgeInsets.all(12)),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8))),
-                  ),
-                  child: Text(
-                    "click here",
-                    style: TextStyle(fontSize: 19, color: Colors.white),
-                  ),
-                ),
               ],
             ),
           ),

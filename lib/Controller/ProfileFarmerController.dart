@@ -6,16 +6,21 @@ import 'package:flutter/material.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';
 
 class ViewProfilePictures {
+  late Map map;
 
-static   int  count=0;
-   getCounterPost() async {
+
+
+
+  
+  static int count = 0;
+  getCounterPost() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('postSSS')
         .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get();
 
     // Get the count of documents that match the condition
-     count = querySnapshot.docs.length;
+    count = querySnapshot.docs.length;
     return count;
   }
 
@@ -29,9 +34,10 @@ static   int  count=0;
       ),
       itemCount: snapshot.docs.length,
       itemBuilder: (BuildContext context, int index) {
-          count = snapshot.docs.length;
+        count = snapshot.docs.length;
         DocumentSnapshot document = snapshot.docs[index];
         Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+        map = data;
         return ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Image.network(

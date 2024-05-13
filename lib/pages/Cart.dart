@@ -288,7 +288,7 @@ class _CartState extends State<Cart> {
                                   borderRadius: BorderRadius.circular(8))),
                         ),
                         child: Text(
-                          "click here",
+                          "Send Order To farmer ",
                           style: TextStyle(fontSize: 19, color: Colors.white),
                         ),
                       ),

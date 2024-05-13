@@ -107,6 +107,8 @@ class _EditeProfiePageState extends State<EditeProfiePage> {
 
   @override
   Widget build(BuildContext context) {
+        final double widthScreen = MediaQuery.of(context).size.width;
+
     UserProvider userProvider = Provider.of(context, listen: false);
     UserDete? userData = userProvider.getUser;
     return Scaffold(
@@ -134,7 +136,11 @@ class _EditeProfiePageState extends State<EditeProfiePage> {
         title: Text("Profile Page"),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(22.0),
+        
+          padding: widthScreen > 600
+                ? EdgeInsets.symmetric(horizontal: widthScreen * .3)
+                : const EdgeInsets.all(0),
+         
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

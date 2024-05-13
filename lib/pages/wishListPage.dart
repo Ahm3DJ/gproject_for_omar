@@ -64,7 +64,7 @@ class _WishListState extends State<WishList> {
                         borderRadius: BorderRadius.circular(8))),
                   ),
                   child: Text(
-                    "click here",
+                    "Remove All ",
                     style: TextStyle(fontSize: 19, color: Colors.white),
                   ),
                 ),

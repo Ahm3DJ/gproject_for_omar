@@ -19,15 +19,16 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
   late final Stream<QuerySnapshot> _usersStream;
-
   @override
   void initState() {
     super.initState();
-    _usersStream = FirebaseFirestore.instance
-        .collection('cartSSS')
-        .where("uidStorOwner",
-            isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .snapshots();
+    _usersStream = CartController().streamCart(collectionn: "cartSSS", uid: "uidStorOwner");
+
+    //  FirebaseFirestore.instance
+    //     .collection('cartSSS')
+    //     .where("uidStorOwner",
+    //         isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+    //     .snapshots();
   }
 
   @override
@@ -59,113 +60,113 @@ class _CartState extends State<Cart> {
                   child: Column(
                     children: [
                       Container(
-                        height: heightScreen - 250,
-                        margin: EdgeInsets.only(bottom: 20),
-                        child: StreamBuilder<QuerySnapshot>(
-                            stream: _usersStream,
-                            builder: (BuildContext context,
-                                AsyncSnapshot<QuerySnapshot> snapshot) {
-                              if (snapshot.hasError) {
-                                return Text('Something went wrong');
-                              }
+                          height: heightScreen - 250,
+                          margin: EdgeInsets.only(bottom: 20),
+                          child: CartController().StreamBuilderCart(context, uid: "uidStorOwner", collectionn: "cartSSS")
 
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return Text("Loading");
-                              }
+                          // StreamBuilder<QuerySnapshot>(
+                          //     stream: _usersStream,
+                          //     builder: (BuildContext context,
+                          //         AsyncSnapshot<QuerySnapshot> snapshot) {
+                          //       if (snapshot.hasError) {
+                          //         return Text('Something went wrong');
+                          //       }
 
-                              return ListView.builder(
-                                  //      itemCount: classInstancee.selectedProdact.length,
-                                  itemCount: snapshot.data!.docs.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    Map<String, dynamic> data =
-                                        snapshot.data!.docs[index].data()
-                                            as Map<String, dynamic>;
-                                    cartDoc = snapshot.data!.docs[index].id;
-                                    return Card(
-                                      child: Container(
-                                          child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          CircleAvatar(
-                                            backgroundImage:
-                                                NetworkImage(data["imgPost"]),
-                                            // AssetImage(classInstancee
-                                            //     .selectedProdact[index].pathImage),
-                                          ),
-                                          Column(
-                                            children: [
-                                              Text(
-                                                  "username ${data["usernameFarmer"]} "),
-                                              Column(
-                                                children: [
-                                                  Text(
-                                                      "price: ${data["price"]} "),
-                                                  Text(
-                                                      "title: ${data["title"]} "),
-                                                  Text(
-                                                      "quantity: ${data["partquntity"]} "),
-                                                  Text(
-                                                      "ProdactName: ${data["prodactName"]} "),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          IconButton(
-                                              onPressed: () async {
-                                                CartController()
-                                                    .deleteItemFromCart(
-                                                        doc: snapshot.data!
-                                                            .docs[index].id);
-                                                // await FirebaseFirestore.instance
-                                                //     .collection("cartSSS")
-                                                //     .doc(snapshot
-                                                //         .data!.docs[index].id)
-                                                //     .delete();
-                                              },
-                                              icon: Icon(
-                                                Icons.remove,
-                                                color: Colors.red,
-                                                size: 30,
-                                              ))
-                                        ],
-                                      )),
+                          //       if (snapshot.connectionState ==
+                          //           ConnectionState.waiting) {
+                          //         return Text("Loading");
+                          //       }
 
-                                      // child: ListTile(
-                                      //   subtitle: Text(
-                                      //       //            "\$${classInstancee.selectedProdact[index].price}  -  ${classInstancee.selectedProdact[index].location}"
-                                      //       ""),
-                                      //   leading: CircleAvatar(
-                                      //     backgroundImage:
-                                      //     NetworkImage(data["imgPost"]),
-                                      //     // AssetImage(classInstancee
-                                      //     //     .selectedProdact[index].pathImage),
-                                      //   ),
-                                      //   title: Text(
-                                      //       // classInstancee.selectedProdact[index].flowerName
-                                      //     data["prodactName"]),
-                                      //   trailing: IconButton(
-                                      //       onPressed: () {
-                                      //         // classInstancee.sum -=
-                                      //         //     classInstancee.selectedProdact[index].price;
+                          //       return ListView.builder(
+                          //           //      itemCount: classInstancee.selectedProdact.length,
+                          //           itemCount: snapshot.data!.docs.length,
+                          //           itemBuilder:
+                          //               (BuildContext context, int index) {
+                          //             Map<String, dynamic> data =
+                          //                 snapshot.data!.docs[index].data()
+                          //                     as Map<String, dynamic>;
+                          //             cartDoc = snapshot.data!.docs[index].id;
+                          //             return Card(
+                          //               child: Container(
+                          //                   child: Row(
+                          //                 mainAxisAlignment:
+                          //                     MainAxisAlignment.spaceBetween,
+                          //                 children: [
+                          //                   CircleAvatar(
+                          //                     backgroundImage:
+                          //                         NetworkImage(data["imgPost"]),
+                          //                     // AssetImage(classInstancee
+                          //                     //     .selectedProdact[index].pathImage),
+                          //                   ),
+                          //                   Column(
+                          //                     children: [
+                          //                       Text(
+                          //                           "username ${data["usernameFarmer"]} "),
+                          //                       Column(
+                          //                         children: [
+                          //                           Text(
+                          //                               "price: ${data["price"]} "),
+                          //                           Text(
+                          //                               "title: ${data["title"]} "),
+                          //                           Text(
+                          //                               "quantity: ${data["partquntity"]} "),
+                          //                           Text(
+                          //                               "ProdactName: ${data["prodactName"]} "),
+                          //                         ],
+                          //                       ),
+                          //                     ],
+                          //                   ),
+                          //                   IconButton(
+                          //                       onPressed: () async {
+                          //                         await FirebaseFirestore.instance
+                          //                             .collection("cartSSS")
+                          //                             .doc(snapshot
+                          //                                 .data!.docs[index].id)
+                          //                             .delete();
+                          //                         // classInstancee.sum -=
+                          //                         //     classInstancee.selectedProdact[index].price;
 
-                                      //         // classInstancee.removeAtIndex(index);
-                                      //       },
-                                      //       icon: Icon(Icons.remove)),
-                                      // ),
-                                    );
-                                  });
-                            }),
-                      ),
+                          //                         // classInstancee.removeAtIndex(index);
+                          //                       },
+                          //                       icon: Icon(
+                          //                         Icons.remove,
+                          //                         color: Colors.red,
+                          //                         size: 30,
+                          //                       ))
+                          //                 ],
+                          //               )),
+
+                          //               // child: ListTile(
+                          //               //   subtitle: Text(
+                          //               //       //            "\$${classInstancee.selectedProdact[index].price}  -  ${classInstancee.selectedProdact[index].location}"
+                          //               //       ""),
+                          //               //   leading: CircleAvatar(
+                          //               //     backgroundImage:
+                          //               //     NetworkImage(data["imgPost"]),
+                          //               //     // AssetImage(classInstancee
+                          //               //     //     .selectedProdact[index].pathImage),
+                          //               //   ),
+                          //               //   title: Text(
+                          //               //       // classInstancee.selectedProdact[index].flowerName
+                          //               //     data["prodactName"]),
+                          //               //   trailing: IconButton(
+                          //               //       onPressed: () {
+                          //               //         // classInstancee.sum -=
+                          //               //         //     classInstancee.selectedProdact[index].price;
+
+                          //               //         // classInstancee.removeAtIndex(index);
+                          //               //       },
+                          //               //       icon: Icon(Icons.remove)),
+                          //               // ),
+                          //             );
+                          //           });
+                          //     }),
+
+                          ),
                       ElevatedButton(
                         onPressed: () async {
-                          CartController()
-                              .sendProdactToFarmer(context: context);
-
 ////////////////////////////////////get data ffrom cart in fire base and send it to  requsted prodact to firebase and delete item from cart in fire base
-
+                          CartController().sendProdactToFarmer(context: context);
                           // QuerySnapshot sourceSnapshot = await FirebaseFirestore
                           //     .instance
                           //     .collection('cartSSS')
@@ -270,6 +271,13 @@ class _CartState extends State<Cart> {
                           //       .doc(document.id)
                           //       .delete();
                           // }
+                          //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                          ///
+                          ///
+                          ///
+                          ///
+                          ///
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(BTNgreen),

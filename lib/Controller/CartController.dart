@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';
 import 'package:path/path.dart';
 
@@ -108,26 +109,132 @@ class CartController {
   deleteItemFromCart({required doc}) async {
     await FirebaseFirestore.instance
         .collection("cartSSS")
-        .doc(doc)//snapshot.data!.docs[index].id
+        .doc(doc) //snapshot.data!.docs[index].id
         .delete();
   }
-
-
 
   late Stream<QuerySnapshot> usersStream;
 
   void initializeStream() {
     usersStream = FirebaseFirestore.instance
         .collection('cartSSS')
-        .where("uidStorOwner", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .where("uidStorOwner",
+            isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .snapshots();
   }
 
+  Widget ListWidgetCart(QuerySnapshot snapshot) {
+    return ListView.builder(
+      itemCount: snapshot.docs.length,
+      itemBuilder: (BuildContext context, int index) {
+        DocumentSnapshot document = snapshot.docs[index];
+        Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+        return Card(
+                                      child: Container(
+                                          child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundImage:
+                                                NetworkImage(data["imgPost"]),
+                                            // AssetImage(classInstancee
+                                            //     .selectedProdact[index].pathImage),
+                                          ),
+                                          Column(
+                                            children: [
+                                              Text(
+                                                  "username ${data["usernameFarmer"]} "),
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                      "price: ${data["price"]} "),
+                                                  Text(
+                                                      "title: ${data["title"]} "),
+                                                  Text(
+                                                      "quantity: ${data["partquntity"]} "),
+                                                  Text(
+                                                      "ProdactName: ${data["prodactName"]} "),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          IconButton(
+                                              onPressed: () async {
+                                                await FirebaseFirestore.instance
+                                                    .collection("cartSSS")
+                                                    .doc(snapshot
+                                                        .docs[index].id)
+                                                    .delete();
+                                                // classInstancee.sum -=
+                                                //     classInstancee.selectedProdact[index].price;
 
+                                                // classInstancee.removeAtIndex(index);
+                                              },
+                                              icon: Icon(
+                                                Icons.remove,
+                                                color: Colors.red,
+                                                size: 30,
+                                              ))
+                                        ],
+                                      )),
 
+                                      // child: ListTile(
+                                      //   subtitle: Text(
+                                      //       //            "\$${classInstancee.selectedProdact[index].price}  -  ${classInstancee.selectedProdact[index].location}"
+                                      //       ""),
+                                      //   leading: CircleAvatar(
+                                      //     backgroundImage:
+                                      //     NetworkImage(data["imgPost"]),
+                                      //     // AssetImage(classInstancee
+                                      //     //     .selectedProdact[index].pathImage),
+                                      //   ),
+                                      //   title: Text(
+                                      //       // classInstancee.selectedProdact[index].flowerName
+                                      //     data["prodactName"]),
+                                      //   trailing: IconButton(
+                                      //       onPressed: () {
+                                      //         // classInstancee.sum -=
+                                      //         //     classInstancee.selectedProdact[index].price;
 
+                                      //         // classInstancee.removeAtIndex(index);
+                                      //       },
+                                      //       icon: Icon(Icons.remove)),
+                                      // ),
+                                    );
+                                  
+      },
+    );
+  }
 
+  Widget StreamBuilderCart(BuildContext context,{required collectionn,required uid}) {
+    return StreamBuilder<QuerySnapshot>(
+      stream:streamCart(uid: uid, collectionn: collectionn),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return showSnackBar(context, "Something went wrong");
+        }
 
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Colors.white,
+            ),
+          );
+        }
 
+        return ListWidgetCart(snapshot.data!);
+      },
+    );
+  }
 
+  Stream<QuerySnapshot> streamCart({required collectionn,required uid}) {
+    late final Stream<QuerySnapshot> _usersStream;
+    _usersStream = FirebaseFirestore.instance
+        .collection('cartSSS')
+        .where("uidStorOwner",
+            isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .snapshots();
+    return _usersStream;
+  }
 }

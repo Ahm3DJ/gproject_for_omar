@@ -17,6 +17,7 @@ import 'package:graduation_project2/pages/ProfileFarmer.dart';
 import 'package:graduation_project2/pages/ProfileStore.dart';
 import 'package:graduation_project2/pages/RequstedProdactFarmer.dart';
 import 'package:graduation_project2/pages/notifStoreOwner.dart';
+import 'package:graduation_project2/pages/wishListPage.dart';
 import 'package:graduation_project2/shared/colors.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';
 import 'package:provider/provider.dart';
@@ -172,7 +173,7 @@ class _MobileScerrenState extends State<MobileScerren> {
                 controller: _pageController,
                 children: [
                   HomePage(),
-                  Center(child: Text("I love YOU <3")),
+                  WishList(),
                   userData.situation == "Farmer" ? AddProdact() : Cart(),
                   userData.situation == "Farmer"
                       ? ProfileFarmer()

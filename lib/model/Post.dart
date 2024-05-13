@@ -16,6 +16,7 @@ class PostData {
   final String prodactName;
   final String typeOfProdact;
   final String phoneNumber;
+  final List Likes;
 
   PostData({
     required this.profileImg,
@@ -32,8 +33,8 @@ class PostData {
     required this.title,
     required this.prodactName,
     required this.typeOfProdact,
-        required this.phoneNumber,
-
+    required this.phoneNumber,
+    required this.Likes
   });
 
 // To convert the UserData(Data type) to   Map<String, Object>
@@ -53,7 +54,8 @@ class PostData {
       "title": title,
       "prodactName": prodactName,
       "typeOfProdact": typeOfProdact,
-        "phoneNumber": phoneNumber,
+      "phoneNumber": phoneNumber,
+      "phoneNumLikesber": Likes,
     };
   }
 
@@ -76,7 +78,8 @@ class PostData {
       price: snapshot["price"],
       title: snapshot["title"],
       prodactName: snapshot["prodactName"],
-      typeOfProdact: snapshot["typeOfProdact"], phoneNumber:snapshot["phoneNumber"],
+      typeOfProdact: snapshot["typeOfProdact"],
+      phoneNumber: snapshot["phoneNumber"], Likes: snapshot["Likes"],
     );
   }
 }

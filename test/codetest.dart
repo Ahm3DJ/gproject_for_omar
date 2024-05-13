@@ -1,285 +1,393 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
-import 'package:graduation_project2/pages/DateTimeFarmer.dart';
-import 'package:graduation_project2/pages/EditeProfilePage.dart';
+import 'package:graduation_project2/Controller/authntecation.dart';
+import 'package:graduation_project2/model/User.dart';
 import 'package:graduation_project2/shared/colors.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';
 import 'package:provider/provider.dart';
 
-class ProfileFarmer extends StatefulWidget {
-  const ProfileFarmer({Key? key}) : super(key: key);
+class Details extends StatefulWidget {
+  const Details({super.key, required this.data});
+  final Map data;
+  // late Prodact prodacts;
+  // Details({required this.prodacts});
 
   @override
-  State<ProfileFarmer> createState() => _ProfileFarmerState();
+  State<Details> createState() => _DetailsState();
 }
 
-class _ProfileFarmerState extends State<ProfileFarmer> {
-  Map userDate = {};
-  bool isLoading = false;
-  int countProdact = 0;
+class _DetailsState extends State<Details> {
+  bool showMore = true;
+  bool star1 = false;
+  bool star2 = false;
+  bool star3 = false;
+  bool star4 = false;
+  bool star5 = false;
 
-  Widget _buildGridWidget(QuerySnapshot snapshot) {
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        childAspectRatio: 1,
-      ),
-      itemCount: snapshot.docs.length,
-      itemBuilder: (BuildContext context, int index) {
-        countProdact = snapshot.docs.length;
-        DocumentSnapshot document = snapshot.docs[index];
-        Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Image.network(
-            data["imgPost"],
-            height: 100,
-            width: 100,
-            fit: BoxFit.cover,
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildStreamBuilderWidget(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('postSSS')
-          .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-          .snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return showSnackBar(context, "Something went wrong");
-        }
-
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(
-              color: Colors.white,
-            ),
-          );
-        }
-
-        return _buildGridWidget(snapshot.data!);
-      },
-    );
-  }
-
+  final addQuantityControllar = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final double widthScreen = MediaQuery.of(context).size.width;
-    final allDataFromDB = Provider.of<UserProvider>(context).getUser;
+    final double heightScreen = MediaQuery.of(context).size.height;
+    UserProvider userProvider = Provider.of(context, listen: false);
+    //userProvider.refreshUser();
+    UserDete? userData = userProvider.getUser;
 
-    return isLoading
-        ? Scaffold(
-            backgroundColor: scaffoldColor,
-            body: Center(
-              child: CircularProgressIndicator(
-                color: Colors.white,
+    // showmodel() {
+    //   return showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return SimpleDialog(
+    //         children: [
+    //           SimpleDialogOption(
+    //             onPressed: () async {
+    //               // Navigator.of(context).pop();
+    //             },
+    //             padding: EdgeInsets.all(20),
+    //             child: Text(
+    //               "The quantity you requested is greater than the inventory",
+    //               style: TextStyle(
+    //                 fontSize: 18,
+    //               ),
+    //             ),
+    //           ),
+    //         ],
+    //       );
+    //     },
+    //   );
+    // }
+
+    return Scaffold(
+      backgroundColor: scaffoldColor,
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 76, 141, 95),
+        title: Text("Details Item "),
+        actions: [
+          // AppBarRebited()
+        ],
+      ),
+      body: Padding(
+        padding: widthScreen > 600
+            ? EdgeInsets.symmetric(horizontal: widthScreen * .3)
+            : const EdgeInsets.all(0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Image.asset(widget.prodacts.pathImage),
+              Container(
+                height: heightScreen - 350,
+                margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                child: ClipRRect(
+                    child: Image.network(
+                      "${widget.data["imgPost"]}",
+                      height: 100,
+                      // width: 300,
+                      fit: BoxFit.cover,
+                    ),
+                    //  Image.asset("assets/FlatParsley_1400x.webp")
+
+                    borderRadius: BorderRadius.circular(40)),
               ),
-            ),
-          )
-        : Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-              backgroundColor: appbarGreen,
-              title: Text(allDataFromDB!.username),
-            ),
-            body: Column(
-              children: [
-                Container(
+
+              Container(
+                height: 600,
+                decoration: BoxDecoration(
                   color: scaffoldColor,
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.fromLTRB(22, 15, 0, 0),
-                            padding: EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color.fromARGB(125, 78, 91, 110),
-                            ),
-                            child: CircleAvatar(
-                              radius: 40,
-                              backgroundImage:
-                                  NetworkImage(allDataFromDB.profileImg),
-                            ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Column(
-                                  children: [
-                                    Text(
-                                      "$countProdact",
-                                      style: TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      "Product",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 17,
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(5, 5, 0, 0),
-                        child: Row(
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                      color: Color.fromARGB(255, 37, 23, 18), width: 2),
+                ),
+                child: Column(
+                  children: [
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            IconButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DateTimeFarmer(),
-                                  ),
-                                );
-                              },
-                              icon: Icon(
-                                Icons.history,
-                                color: Color.fromARGB(168, 3, 65, 27),
-                                size: 26,
-                              ),
+                            Text(
+                              // " \$${widget.prodacts.price}",
+                              "Prodact Name: ${widget.data["prodactName"]}",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
                             ),
-                            Text("History"),
+                            Text(
+                              // " \$${widget.prodacts.price}",
+                              " Prodact price:  \$${widget.data["price"]} ",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            Text(
+                              // " \$${widget.prodacts.price}",
+                              " Quantity :  ${widget.data["quntity"]} kg ",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: 15,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(left: 10),
+                              height: 25,
+                              width: 30,
+                              child: Text("New"),
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 255, 129, 129),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                star1 = true;
+                                star2 = false;
+                                star3 = false;
+                                star4 = false;
+                                star5 = false;
+                                setState(() {
+                                  
+                                });
+                              },
+                              child: Icon(
+                                Icons.star,
+                                color: star1? Color.fromARGB(255, 255, 191, 0):Colors.white,
+                                size: 26,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                star1 = true;
+                                star2 = true;
+                                star3 = false;
+                                star4 = false;
+                                star5 = false;setState(() {
+                                  
+                                });
+                              },
+                              child: Icon(
+                                Icons.star,
+                                color:star2? Color.fromARGB(255, 255, 191, 0):Colors.white,
+                                size: 26,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                star1 = true;
+                                star2 = true;
+                                star3 = true;
+                                star4 = false;
+                                star5 = false;setState(() {
+                                  
+                                });
+                              },
+                              child: Icon(
+                                Icons.star,
+                                color:star3? Color.fromARGB(255, 255, 191, 0):Colors.white,
+                                size: 26,
+                              ),
+                            ),
+                          GestureDetector(
+                              onTap: () {
+                                star1 = true;
+                                star2 = true;
+                                star3 = true;
+                                star4 = true;
+                                star5 = false;setState(() {
+                                  
+                                });
+                              },
+                              child: Icon(
+                                Icons.star,
+                                color:star4? Color.fromARGB(255, 255, 191, 0):Colors.white,
+                                size: 26,
+                              ),
+                            ),
+                          GestureDetector(
+                              onTap: () {
+                                star1 = true;
+                                star2 = true;
+                                star3 = true;
+                                star4 = true;
+                                star5 = true;setState(() {
+                                  
+                                });
+                              },
+                              child: Icon(
+                                Icons.star,
+                                color:star5? Color.fromARGB(255, 255, 191, 0):Colors.white,
+                                size: 26,
+                              ),)
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.edit_location,
+                              color: Color.fromARGB(168, 3, 65, 27),
+                              size: 26,
+                            ),
+                            // Text(widget.prodacts.location),
+                            Text(widget.data["title"])
+                          ],
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Container(
+                        margin: EdgeInsets.only(left: 10),
+                        width: double.infinity,
+                        child: Text(
+                          "Details : ",
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                          textAlign: TextAlign.start,
+                        )),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 73, 114, 87),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Text(
+                        "${widget.data["description"]}",
+                        style: TextStyle(fontSize: 15, color: Colors.white),
+                        maxLines: showMore ? 3 : null,
+                        overflow: TextOverflow.fade,
                       ),
-                      Divider(
-                        color: Colors.white,
-                        thickness: widthScreen > 600 ? 0.06 : 0.43,
-                      ),
-                      SizedBox(
-                        height: 9,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EditeProfiePage(),
-                                ),
-                              );
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          setState(() {
+                            showMore = !showMore;
+                          });
+                        },
+                        child:
+                            showMore ? Text("Show more") : Text("Show less")),
+                    TextField(
+                        controller: addQuantityControllar,
+                        keyboardType: TextInputType.number,
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          fillColor: Colors.white,
+
+                          hintText: "Add quantity ",
+                          prefixIcon: Icon(Icons.production_quantity_limits),
+                          // To delete borders
+                          enabledBorder: OutlineInputBorder(
+                            // borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: BTNgreen,
+                            ),
+                          ),
+                          // fillColor: Colors.red,
+                          filled: true,
+                          contentPadding: EdgeInsets.all(8),
+                        )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    userData!.situation == "Store Owner"
+                        ? ElevatedButton(
+                            onPressed: () async {
+                              if (int.parse(
+                                      addQuantityControllar.text.toString()) >
+                                  int.parse(widget.data["quntity"])) {
+                                showSnackBar(context,
+                                    "The quantity you requested is greater than the inventory");
+                              } else {
+                                await AuthMethods().AddProdactToUserCart(
+                                  context: context,
+                                  titleee: widget.data["title"],
+                                  usernameFarmer: widget.data["username"],
+                                  usernameStoreOwner: userData.username,
+                                  profileImg: userData.profileImg,
+                                  uidFarmer: widget.data["uid"],
+                                  prodactName: widget.data["prodactName"],
+                                  imgPost: widget.data["imgPost"],
+                                  partquntity: addQuantityControllar.text,
+                                  price: widget.data["price"],
+                                  uidStorOwner: userData.uid,
+                                  storeOwnerCheckDelivery: false,
+                                  farmerAcceptedRequest: false,
+                                  farmerCheckDelivery: false,
+                                  postUid: widget.data["postId"],
+                                  phoneNumber: widget.data["phoneNumber"],
+
+                                  // FirebaseAuth.instance.currentUser!.uid
+                                );
+                                Navigator.pop(context);
+                              }
                             },
-                            icon: Icon(
-                              Icons.edit,
-                              color: Colors.white,
-                              size: 24.0,
-                            ),
-                            label: Text(
-                              "Edit Profile Farmer",
-                              style: TextStyle(
-                                fontSize: 17,
-                                color: Colors.white,
-                              ),
-                            ),
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                Color.fromARGB(0, 90, 103, 223),
-                              ),
-                              padding: MaterialStateProperty.all(
-                                EdgeInsets.symmetric(
-                                  vertical: widthScreen > 600 ? 19 : 10,
-                                  horizontal: 15,
-                                ),
-                              ),
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(7),
-                                  side: BorderSide(
-                                    color: Color.fromARGB(109, 255, 255, 255),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          ElevatedButton.icon(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.logout,
-                              size: 24.0,
-                              color: Colors.white,
-                            ),
-                            label: Text(
-                              "Log out",
-                              style: TextStyle(
-                                fontSize: 17,
-                                color: Colors.white,
-                              ),
-                            ),
                             style: ButtonStyle(
                               backgroundColor:
-                                  MaterialStateProperty.all(Colors.green),
+                                  MaterialStateProperty.all(Colors.white),
                               padding: MaterialStateProperty.all(
-                                EdgeInsets.symmetric(
-                                  vertical: widthScreen > 600 ? 19 : 10,
-                                  horizontal: 33,
-                                ),
-                              ),
+                                  EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 30)),
                               shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(7),
-                                ),
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30))),
+                            ),
+                            child: Text(
+                              "Add to Cart ",
+                              style: TextStyle(fontSize: 19),
+                            ),
+                          )
+                        : ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.white),
+                              padding: MaterialStateProperty.all(
+                                  EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 30)),
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30))),
+                            ),
+                            child: Text(
+                              "Go back ",
+                              style: TextStyle(
+                                fontSize: 19,
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 9,
-                      ),
-                      Divider(
-                        color: Colors.white,
-                        thickness: widthScreen > 600 ? 0.06 : 0.43,
-                      ),
-                    ],
-                  ),
+                  ],
                 ),
-                SizedBox(
-                  height: 5,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: widthScreen > 600
-                        ? const EdgeInsets.all(66.0)
-                        : const EdgeInsets.all(3.0),
-                    child: _buildStreamBuilderWidget(context),
-                  ),
-                ),
-              ],
-            ),
-          );
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

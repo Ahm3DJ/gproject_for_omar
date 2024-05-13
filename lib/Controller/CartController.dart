@@ -24,11 +24,12 @@ class CartController {
                 "userSSS") // Replace "your_collection" with your actual collection name
             .doc(data["uidFarmer"]);
         DocumentSnapshot docSnapshotUser = await docRefUser.get();
+
         Map<String, dynamic>? dataUSER =
             docSnapshotUser.data() as Map<String, dynamic>?;
         dynamic specificDataUser = dataUSER!['balance'];
         // Reference to the document you want to retrieve data from
-        DocumentReference docRef = FirebaseFirestore.instance
+        DocumentReference docRefPost = FirebaseFirestore.instance
             .collection(
                 "postSSS") // Replace "your_collection" with your actual collection name
             .doc(data[
@@ -36,14 +37,14 @@ class CartController {
         print("postUid  Data: ${data["postUid"]}");
 
         // Fetch the document snapshot
-        DocumentSnapshot docSnapshot = await docRef.get();
+        DocumentSnapshot docSnapshot = await docRefPost.get();
 
         if (docSnapshot.exists) {
           // Access specific fields from the document snapshot
-          Map<String, dynamic>? dataa =
+          Map<String, dynamic>? dataaPost =
               docSnapshot.data() as Map<String, dynamic>?;
-          if (dataa != null) {
-            dynamic specificData = dataa['quntity'];
+          if (dataaPost != null) {
+            dynamic specificData = dataaPost['quntity'];
             currentQuantity = specificData
                 .toString(); // Replace "specific_field" with the field you want to retrieve
             print("currentQuantity: $currentQuantity");
@@ -130,86 +131,78 @@ class CartController {
         DocumentSnapshot document = snapshot.docs[index];
         Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
         return Card(
-                                      child: Container(
-                                          child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          CircleAvatar(
-                                            backgroundImage:
-                                                NetworkImage(data["imgPost"]),
-                                            // AssetImage(classInstancee
-                                            //     .selectedProdact[index].pathImage),
-                                          ),
-                                          Column(
-                                            children: [
-                                              Text(
-                                                  "username ${data["usernameFarmer"]} "),
-                                              Column(
-                                                children: [
-                                                  Text(
-                                                      "price: ${data["price"]} "),
-                                                  Text(
-                                                      "title: ${data["title"]} "),
-                                                  Text(
-                                                      "quantity: ${data["partquntity"]} "),
-                                                  Text(
-                                                      "ProdactName: ${data["prodactName"]} "),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          IconButton(
-                                              onPressed: () async {
-                                                await FirebaseFirestore.instance
-                                                    .collection("cartSSS")
-                                                    .doc(snapshot
-                                                        .docs[index].id)
-                                                    .delete();
-                                                // classInstancee.sum -=
-                                                //     classInstancee.selectedProdact[index].price;
+          child: Container(
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CircleAvatar(
+                backgroundImage: NetworkImage(data["imgPost"]),
+                // AssetImage(classInstancee
+                //     .selectedProdact[index].pathImage),
+              ),
+              Column(
+                children: [
+                  Text("username ${data["usernameFarmer"]} "),
+                  Column(
+                    children: [
+                      Text("price: ${data["price"]} "),
+                      Text("title: ${data["title"]} "),
+                      Text("quantity: ${data["partquntity"]} "),
+                      Text("ProdactName: ${data["prodactName"]} "),
+                    ],
+                  ),
+                ],
+              ),
+              IconButton(
+                  onPressed: () async {
+                    await FirebaseFirestore.instance
+                        .collection("cartSSS")
+                        .doc(snapshot.docs[index].id)
+                        .delete();
+                    // classInstancee.sum -=
+                    //     classInstancee.selectedProdact[index].price;
 
-                                                // classInstancee.removeAtIndex(index);
-                                              },
-                                              icon: Icon(
-                                                Icons.remove,
-                                                color: Colors.red,
-                                                size: 30,
-                                              ))
-                                        ],
-                                      )),
+                    // classInstancee.removeAtIndex(index);
+                  },
+                  icon: Icon(
+                    Icons.remove,
+                    color: Colors.red,
+                    size: 30,
+                  ))
+            ],
+          )),
 
-                                      // child: ListTile(
-                                      //   subtitle: Text(
-                                      //       //            "\$${classInstancee.selectedProdact[index].price}  -  ${classInstancee.selectedProdact[index].location}"
-                                      //       ""),
-                                      //   leading: CircleAvatar(
-                                      //     backgroundImage:
-                                      //     NetworkImage(data["imgPost"]),
-                                      //     // AssetImage(classInstancee
-                                      //     //     .selectedProdact[index].pathImage),
-                                      //   ),
-                                      //   title: Text(
-                                      //       // classInstancee.selectedProdact[index].flowerName
-                                      //     data["prodactName"]),
-                                      //   trailing: IconButton(
-                                      //       onPressed: () {
-                                      //         // classInstancee.sum -=
-                                      //         //     classInstancee.selectedProdact[index].price;
+          // child: ListTile(
+          //   subtitle: Text(
+          //       //            "\$${classInstancee.selectedProdact[index].price}  -  ${classInstancee.selectedProdact[index].location}"
+          //       ""),
+          //   leading: CircleAvatar(
+          //     backgroundImage:
+          //     NetworkImage(data["imgPost"]),
+          //     // AssetImage(classInstancee
+          //     //     .selectedProdact[index].pathImage),
+          //   ),
+          //   title: Text(
+          //       // classInstancee.selectedProdact[index].flowerName
+          //     data["prodactName"]),
+          //   trailing: IconButton(
+          //       onPressed: () {
+          //         // classInstancee.sum -=
+          //         //     classInstancee.selectedProdact[index].price;
 
-                                      //         // classInstancee.removeAtIndex(index);
-                                      //       },
-                                      //       icon: Icon(Icons.remove)),
-                                      // ),
-                                    );
-                                  
+          //         // classInstancee.removeAtIndex(index);
+          //       },
+          //       icon: Icon(Icons.remove)),
+          // ),
+        );
       },
     );
   }
 
-  Widget StreamBuilderCart(BuildContext context,{required collectionn,required uid}) {
+  Widget StreamBuilderCart(BuildContext context,
+      {required collectionn, required uid}) {
     return StreamBuilder<QuerySnapshot>(
-      stream:streamCart(uid: uid, collectionn: collectionn),
+      stream: streamCart(uid: uid, collectionn: collectionn),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return showSnackBar(context, "Something went wrong");
@@ -228,7 +221,7 @@ class CartController {
     );
   }
 
-  Stream<QuerySnapshot> streamCart({required collectionn,required uid}) {
+  Stream<QuerySnapshot> streamCart({required collectionn, required uid}) {
     late final Stream<QuerySnapshot> _usersStream;
     _usersStream = FirebaseFirestore.instance
         .collection('cartSSS')

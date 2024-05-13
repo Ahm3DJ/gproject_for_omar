@@ -13,10 +13,10 @@ class RequstedProdactConrtoller {
   late Map mapData;
 
   AcceptedRequst({required data, required doc}) async {
-    DocumentReference docRef =
+  
+  DocumentReference docRef =
         await FirebaseFirestore.instance.collection('notifiayYYY').add(data);
     String NotifayUid = docRef.id;
-
     await FirebaseFirestore.instance
         .collection("RequstedDDD")
         .doc(doc) //snapshot.data!.docs[index].id
@@ -610,4 +610,6 @@ class RequstedProdactConrtoller {
         .snapshots();
     return _usersStream;
   }
+
+
 }

@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:graduation_project2/Controller/Storage.dart';
 import 'package:graduation_project2/model/Post.dart';
 import 'package:graduation_project2/model/User.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';
-import 'package:path/path.dart';
 import 'package:uuid/uuid.dart';
 
 class FireBase {
@@ -106,7 +104,8 @@ class FireBase {
           title: title,
           prodactName: prodactName,
           typeOfProdact: typeOfProdact,
-          phoneNumber: phoneNumber);
+          phoneNumber: phoneNumber,
+          Likes: []);
 
       message = "ERROR => erroe hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
       posts
@@ -126,9 +125,7 @@ class FireBase {
   }
 
   Stream<QuerySnapshot<Object?>> getDataBasedTypeProdact(
-      {required bool fruit, required bool vegetable, required bool another}) 
-      
-      {
+      {required bool fruit, required bool vegetable, required bool another}) {
     String typeProdact = "";
     if (fruit) {
       typeProdact = "Fruits";
@@ -148,4 +145,57 @@ class FireBase {
         .where("typeOfProdact", isEqualTo: typeProdact)
         .snapshots();
   }
+
+  // toggleLike(
+  //     {required Map<String, dynamic> postData,
+  //   }) async {
+  //   FirebaseFirestore fbf =  FirebaseFirestore.instance;
+  //   String? WhislistUid;
+  //   try {
+  //     if (postData["likes"].contains(FirebaseAuth.instance.currentUser!.uid)) {
+  //       await fbf
+  //           .collection("postSSS")
+  //           .doc(postData["postId"])
+  //           .update({
+  //         "likes":
+  //             FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid])
+  //       });
+
+  //   QuerySnapshot querySnapshot = await fbf
+  //         .collection('WishListTTT')
+  //         .where("postId", isEqualTo: postData["postId"])
+  //         .where("uid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+  //         .get();
+
+  //     querySnapshot.docs.forEach((doc) async {
+  //       await doc.reference.delete();
+  //     });
+  //     } else {
+  //       await fbf
+  //           .collection("postSSS")
+  //           .doc(postData["postId"])
+  //           .update({
+  //         "likes":
+  //             FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
+  //       });
+
+  //       // await FirebaseFirestore.instance
+  //       //     .collection('WishListTTT')
+  //       //     .add(postData);
+
+  //       DocumentReference docRef = await fbf
+  //           .collection('WishListTTT')
+  //           .add(postData);
+  //       WhislistUid = docRef.id;
+  //       await fbf
+  //           .collection('WishListTTT')
+  //           .doc(WhislistUid)
+  //           .set({"WhislistUid": WhislistUid, "UidClickWish": FirebaseAuth.instance.currentUser!.uid}, SetOptions(merge: true));
+  //     }
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
+
+
 }

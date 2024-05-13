@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
+import 'package:graduation_project2/Controller/fireStore.dart';
+import 'package:graduation_project2/Controller/wishListController.dart';
 import 'package:graduation_project2/pages/ProdactDetails.dart';
 import 'package:graduation_project2/shared/colors.dart';
 
@@ -11,7 +13,7 @@ import 'package:intl/intl.dart';
 
 class PostDesign extends StatefulWidget {
   // current post
-  final Map data;
+  final Map<String, dynamic> data;
   const PostDesign({Key? key, required this.data}) : super(key: key);
 
   @override
@@ -21,7 +23,6 @@ class PostDesign extends StatefulWidget {
 class _PostDesignState extends State<PostDesign> {
   int commentCount = 0;
   bool showHeart = false;
-  bool isLikeAnimating = false;
 
   getCommentCount() async {
     try {
@@ -89,17 +90,17 @@ class _PostDesignState extends State<PostDesign> {
     );
   }
 
-  onClickekonPic() async {
-    setState(() {
-      isLikeAnimating = true;
-    });
-    await FirebaseFirestore.instance
-        .collection("postSSS")
-        .doc(widget.data["postId"])
-        .update({
-      "likes": FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
-    });
-  }
+  // onClickekonPic() async {
+  //   setState(() {
+  //     isLikeAnimating = true;
+  //   });
+  //   await FirebaseFirestore.instance
+  //       .collection("postSSS")
+  //       .doc(widget.data["postId"])
+  //       .update({
+  //     "likes": FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
+  //   });
+  // }
 
   // @override
   // void initState() {
@@ -174,8 +175,25 @@ class _PostDesignState extends State<PostDesign> {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.favorite_border),
+                      onPressed: () async {
+
+
+                        await WishListController().toggleLike(postData: widget. data,);
+                      
+                      setState(() {
+                        
+                      });
+                      
+                      },
+                      icon:  widget.data['likes'].contains(
+                                FirebaseAuth.instance.currentUser!.uid)
+                            ? const Icon(
+                                Icons.favorite,
+                                color: Colors.red,
+                              )
+                            : const Icon(
+                                Icons.favorite_border,
+                              ),
                     ),
                     IconButton(
                       onPressed: () {
@@ -198,7 +216,8 @@ class _PostDesignState extends State<PostDesign> {
               margin: EdgeInsets.fromLTRB(10, 0, 0, 10),
               width: double.infinity,
               child: Text(
-                "10 Likes",
+                            "${widget.data["likes"].length} ${widget.data["likes"].length > 1 ? "Likes" : "Like"}      ",
+
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     fontSize: 18, color: Color.fromARGB(214, 157, 157, 165)),
@@ -210,33 +229,20 @@ class _PostDesignState extends State<PostDesign> {
               ),
               Text(
                 "${widget.data["username"]}",
-                // "USERNAME ",
+        
                 textAlign: TextAlign.start,
                 style: TextStyle(
-                    fontSize: 20, color: Color.fromARGB(255, 189, 196, 199)),
+                    fontSize: 20, color: Colors.green[500]),
               ),
               Text(
                 " ${widget.data["caption"]}",
-                // " Sidi Bou Said ♥",
+            
                 textAlign: TextAlign.start,
                 style: TextStyle(
-                    fontSize: 18, color: Color.fromARGB(255, 189, 196, 199)),
+                    fontSize: 18, color: Colors.green[200]),
               ),
             ],
           ),
-          //            GestureDetector(
-          //              onTap: () {},
-          //              child: Container(
-          // margin: EdgeInsets.fromLTRB(10, 13, 9, 10),
-          // width: double.infinity,
-          // child: Text(
-          //   "view all 100 comments",
-          //   style: TextStyle(
-          //       fontSize: 18,
-          //       color: Color.fromARGB(214, 157, 157, 165)),
-          //   textAlign: TextAlign.start,
-          // )),
-          //            ),
           Container(
               margin: EdgeInsets.fromLTRB(10, 0, 9, 10),
               width: double.infinity,

@@ -23,6 +23,12 @@ class Details extends StatefulWidget {
 
 class _DetailsState extends State<Details> {
   bool showMore = true;
+  bool star1 = false;
+  bool star2 = false;
+  bool star3 = false;
+  bool star4 = false;
+  bool star5 = false;
+
   final addQuantityControllar = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -57,7 +63,7 @@ class _DetailsState extends State<Details> {
     // }
 
     return Scaffold(
-      backgroundColor: scaffoldColor,
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 76, 141, 95),
         title: Text("Details Item "),
@@ -74,14 +80,20 @@ class _DetailsState extends State<Details> {
             children: [
               // Image.asset(widget.prodacts.pathImage),
               Container(
-                height: heightScreen - 250,
+                height: heightScreen - 450,
                 margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: ClipRRect(
-                    child: Image.network("${widget.data["imgPost"]}"),
+                    child: Image.network(
+                      "${widget.data["imgPost"]}",
+                      // height: 100,
+                      width: 350,
+                      fit: BoxFit.cover,
+                    ),
                     //  Image.asset("assets/FlatParsley_1400x.webp")
 
                     borderRadius: BorderRadius.circular(40)),
               ),
+              SizedBox(height: 5,),
 
               Container(
                 height: 600,
@@ -97,26 +109,26 @@ class _DetailsState extends State<Details> {
                       scrollDirection: Axis.horizontal,
                       child: Container(
                         margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                        child: Column(
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
                               // " \$${widget.prodacts.price}",
                               "Prodact Name: ${widget.data["prodactName"]}",
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
+                                  TextStyle(color: Colors.black, fontSize: 20),
                             ),
                             Text(
                               // " \$${widget.prodacts.price}",
                               " Prodact price:  \$${widget.data["price"]} ",
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
+                                  TextStyle(color: Colors.black, fontSize: 20),
                             ),
                             Text(
                               // " \$${widget.prodacts.price}",
                               " Quantity :  ${widget.data["quntity"]} kg ",
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
+                                  TextStyle(color: Colors.black, fontSize: 20,),
                             ),
                           ],
                         ),
@@ -144,23 +156,86 @@ class _DetailsState extends State<Details> {
                             SizedBox(
                               width: 10,
                             ),
-                            Icon(
-                              Icons.star,
-                              color: Color.fromARGB(255, 255, 191, 0),
-                              size: 26,
+                            GestureDetector(
+                              onTap: () {
+                                star1 = true;
+                                star2 = false;
+                                star3 = false;
+                                star4 = false;
+                                star5 = false;
+                                setState(() {
+                                  
+                                });
+                              },
+                              child: Icon(
+                                Icons.star,
+                                color: star1? Color.fromARGB(255, 255, 191, 0):Colors.white,
+                                size: 26,
+                              ),
                             ),
-                            Icon(Icons.star,
-                                color: Color.fromARGB(255, 255, 191, 0),
-                                size: 26),
-                            Icon(Icons.star,
-                                color: Color.fromARGB(255, 255, 191, 0),
-                                size: 26),
-                            Icon(Icons.star,
-                                color: Color.fromARGB(255, 255, 191, 0),
-                                size: 26),
-                            Icon(Icons.star,
-                                color: Color.fromARGB(255, 255, 191, 0),
-                                size: 26),
+                            GestureDetector(
+                              onTap: () {
+                                star1 = true;
+                                star2 = true;
+                                star3 = false;
+                                star4 = false;
+                                star5 = false;setState(() {
+                                  
+                                });
+                              },
+                              child: Icon(
+                                Icons.star,
+                                color:star2? Color.fromARGB(255, 255, 191, 0):Colors.white,
+                                size: 26,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                star1 = true;
+                                star2 = true;
+                                star3 = true;
+                                star4 = false;
+                                star5 = false;setState(() {
+                                  
+                                });
+                              },
+                              child: Icon(
+                                Icons.star,
+                                color:star3? Color.fromARGB(255, 255, 191, 0):Colors.white,
+                                size: 26,
+                              ),
+                            ),
+                          GestureDetector(
+                              onTap: () {
+                                star1 = true;
+                                star2 = true;
+                                star3 = true;
+                                star4 = true;
+                                star5 = false;setState(() {
+                                  
+                                });
+                              },
+                              child: Icon(
+                                Icons.star,
+                                color:star4? Color.fromARGB(255, 255, 191, 0):Colors.white,
+                                size: 26,
+                              ),
+                            ),
+                          GestureDetector(
+                              onTap: () {
+                                star1 = true;
+                                star2 = true;
+                                star3 = true;
+                                star4 = true;
+                                star5 = true;setState(() {
+                                  
+                                });
+                              },
+                              child: Icon(
+                                Icons.star,
+                                color:star5? Color.fromARGB(255, 255, 191, 0):Colors.white,
+                                size: 26,
+                              ),)
                           ],
                         ),
                         Row(
@@ -263,13 +338,12 @@ class _DetailsState extends State<Details> {
                                   storeOwnerCheckDelivery: false,
                                   farmerAcceptedRequest: false,
                                   farmerCheckDelivery: false,
-                                   postUid: widget.data["postId"], phoneNumber: widget.data["phoneNumber"],
+                                  postUid: widget.data["postId"],
+                                  phoneNumber: widget.data["phoneNumber"],
 
                                   // FirebaseAuth.instance.currentUser!.uid
                                 );
-                              Navigator.pop(context);
-
-
+                                Navigator.pop(context);
                               }
                             },
                             style: ButtonStyle(

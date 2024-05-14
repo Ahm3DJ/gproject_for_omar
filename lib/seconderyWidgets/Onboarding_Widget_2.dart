@@ -33,7 +33,7 @@ class OnboardingWidget2 extends StatelessWidget {
                     height: 400,
                   ),
                   const Text(
-                    'Fresh Vegetables and Fruits',
+                    'Delivered to your doorstep!',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 26,

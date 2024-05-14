@@ -322,4 +322,78 @@ void main() {
 
     expect(user1.phoneNumber, 'empty');
   });
+
+  test('age_testing:Case36', () {
+    //Accept age from 15 to 100 years old only
+    String age = '14';
+
+    expect(isAgeValid(age), false);
+  });
+
+  test('age_testing:Case37', () {
+    //Accept age from 15 to 100 years old only
+    String age = '15';
+
+    expect(isAgeValid(age), true);
+  });
+
+  test('age_testing:Case38', () {
+    //Accept age from 15 to 100 years old only
+    String age = '99';
+
+    expect(isAgeValid(age), true);
+  });
+
+  test('age_testing:Case39', () {
+    //Accept age from 15 to 100 years old only
+    String age = '100';
+
+    expect(isAgeValid(age), true);
+  });
+
+  test('age_testing:Case40', () {
+    //Accept age from 15 to 100 years old only
+    String age = '101';
+
+    expect(isAgeValid(age), false);
+  });
+
+  test('title_testing:Case41', () {
+    //Accept age String whether capital or small letters (accepted string length is 2-6)
+    String title = 'ah';
+
+    expect(isTitleValid(title), true);
+  });
+
+  test('title_testing:Case42', () {
+    //Accept age String whether capital or small letters (accepted string length is 2-6)
+    String title = 'ahmeda';
+
+    expect(isTitleValid(title), true);
+  });
+
+  test('title_testing:Case43', () {
+    //Accept age String whether capital or small letters (accepted string length is 2-6)
+    String title = 'a';
+
+    expect(isTitleValid(title), false);
+  });
+
+  test('title_testing:Case44', () {
+    //Accept age String whether capital or small letters (accepted string length is 2-6)
+    String title = 'ahmedghazi';
+
+    expect(isTitleValid(title), false);
+  });
+
+  test('CartPage_phoneNumber_testing:Case45', () {
+    //Invalid 4 : This number is 3 characters
+    ProdactCartAllUser user1 = ProdactCartAllUser.anonymous();
+    user1.PhoneNumber = '079';
+
+    expect(user1.phoneNumber, 'empty');
+  });
+
+  //  String prodactName;
+  //   String partquntity;
 }

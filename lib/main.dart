@@ -17,7 +17,7 @@ import 'package:graduation_project2/responsive/responsive.dart';
 import 'package:graduation_project2/responsive/web.dart';
 import 'package:provider/provider.dart';
 import 'shared/showSnackBar.dart';
-
+import 'package:graduation_project2/seconderyWidgets/Onboarding_Widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 // import 'package:firebase_storage/firebase_storage.dart';
 // import 'package:image_picker/image_picker.dart';
@@ -54,16 +54,16 @@ class MyApp extends StatelessWidget {
     //   await userProvider.refreshUser();
     // }
 
-    return   MultiProvider(
+    return MultiProvider(
       providers: [
         ChangeNotifierProvider<UserProvider>(
           create: (context) => UserProvider(),
         ),
         // Add more providers as needed
-           ChangeNotifierProvider<UserSituationProvider>(
+        ChangeNotifierProvider<UserSituationProvider>(
           create: (context) => UserSituationProvider(),
         ),
-          ChangeNotifierProvider<Notificationn>(
+        ChangeNotifierProvider<Notificationn>(
           create: (context) => Notificationn(),
         ),
         ChangeNotifierProvider<RequstedProvider>(
@@ -84,16 +84,15 @@ class MyApp extends StatelessWidget {
               return showSnackBar(context, "Something went wrong");
             } else if (snapshot.hasData) {
               return
-              //  Login(); 
-              //   Register();
-              // HomePage();
-              Resposive(
+                  //  Login();
+                  //   Register();
+                  // HomePage();
+                  Resposive(
                 myMobileScreen: MobileScerren(),
                 myWebScreen: WebScerren(),
               );
-            } 
-            else {
-              return Login();
+            } else {
+              return OnboardingWidget();
             }
           },
         ),

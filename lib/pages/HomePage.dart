@@ -267,223 +267,197 @@ class _HomePageState extends State<HomePage> {
         padding: widthScreen > 600
             ? EdgeInsets.symmetric(horizontal: widthScreen * .3)
             : const EdgeInsets.all(0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 250,
-                // width: double.infinity,
-                child: Stack(
-                  children: [
-                    Container(
-                        // height: 300,
-                        width: double.infinity,
-                        child: Image.asset(
-                          "assets/annie-spratt-m1t-RJ1iCIU-unsplash.jpg",
-                          fit: BoxFit.cover,
-                        )),
-                    Positioned(
-                        bottom: 100,
-                        left: 50,
-                        child: Text(
-                          "Welcome ....",
-                          style: TextStyle(
-                            fontSize: 30,
-                            color: Colors.black,
-                          ),
-                        )),
-                    Positioned(
-                        bottom: 50,
-                        right: 40,
-                        child: Container(
-                          width: widthScreen / 10 * 8,
-                          child: TextField(
-                              controller: searchController,
-                              keyboardType: TextInputType.text,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                hintText: "Search....",
-                                prefixIcon: Icon(Icons.search),
-                                // To delete borders
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30)),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: BTNgreen,
-                                  ),
-                                ),
-                                // fillColor: Colors.red,
-                                filled: true,
-                                contentPadding: EdgeInsets.all(8),
-                              )),
-                        )),
-                  ],
+        child:CustomScrollView(
+  slivers: [
+    SliverToBoxAdapter(
+      child: SizedBox(
+        height: 250,
+        child: Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              child: Image.asset(
+                "assets/annie-spratt-m1t-RJ1iCIU-unsplash.jpg",
+                fit: BoxFit.cover,
+              ),
+            ),
+            Positioned(
+              bottom: 100,
+              left: 50,
+              child: Text(
+                "Welcome ....",
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.black,
                 ),
               ),
-
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 10.0),
-                decoration: BoxDecoration(
-                  color: contantPost,
-                  borderRadius: BorderRadius.circular(20.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
+            ),
+            Positioned(
+              bottom: 50,
+              right: 40,
+              child: Container(
+                width: widthScreen / 10 * 8,
+                child: TextField(
+                  controller: searchController,
+                  keyboardType: TextInputType.text,
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    hintText: "Search....",
+                    prefixIcon: Icon(Icons.search),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          fruitProdact = true;
-                          vegetableProdact = false;
-                          anotherProdact = false;
-                        });
-                      },
-                      style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            fruitProdact ? Colors.white : Colors.black),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            fruitProdact ? Colors.green : Colors.transparent),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                            side:
-                                BorderSide(color: Colors.green), // Border color
-                          ),
-                        ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: BTNgreen,
                       ),
-                      child: Text("Fruits"),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          fruitProdact = false;
-                          vegetableProdact = true;
-                          anotherProdact = false;
-                        });
-                      },
-                      style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            vegetableProdact ? Colors.white : Colors.black),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            vegetableProdact
-                                ? Colors.green
-                                : Colors.transparent),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                            side:
-                                BorderSide(color: Colors.green), // Border color
-                          ),
-                        ),
-                      ),
-                      child: Text("Vegetables"),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          fruitProdact = false;
-                          vegetableProdact = false;
-                          anotherProdact = true;
-                        });
-                      },
-                      style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            anotherProdact ? Colors.white : Colors.black),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            anotherProdact ? Colors.green : Colors.transparent),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                            side:
-                                BorderSide(color: Colors.green), // Border color
-                          ),
-                        ),
-                      ),
-                      child: Text("Other"),
-                    ),
-                  ],
+                    filled: true,
+                    contentPadding: EdgeInsets.all(8),
+                  ),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
-
-              SizedBox(
-                height: heightScreen - 220,
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: FireBase().getDataBasedTypeProdact(fruit: fruitProdact, vegetable: vegetableProdact, another: anotherProdact),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasError) {
-                      return showSnackBar(context, "Something went wrong");
-                    }
-
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                          child: CircularProgressIndicator(
-                        color: Colors.white,
-                      ));
-                    }
-
-                    return ListView(
-                      children:
-                          snapshot.data!.docs.map((DocumentSnapshot document) {
-                        Map<String, dynamic> data =
-                            document.data()! as Map<String, dynamic>;
-                        return
-                            // Text("data");
-
-                            PostDesign(
-                          data: data,
-                        );
-                      }).toList(),
-                    );
-
-                    //  Text("data");
-
-                    //     SizedBox(
-                    //   height: 500,
-                    //   child: Expanded(
-                    //     child: ListView(
-                    //       children: snapshot.data!.docs
-                    //           .map((DocumentSnapshot document) {
-                    //         Map<String, dynamic> data =
-                    //             document.data()! as Map<String, dynamic>;
-                    //         print("hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee ");
-
-                    //         return
-
-                    //               Text("omar");
-                    //         //     PostDesign(
-                    //         //   data: data,
-                    //         // );
-                    //       }).toList(),
-                    //     ),
-                    //   ),
-                    // );
-                  },
-                ),
-              )
-
-              // // // AssetImage("assets/smiley-4832492_960_720.png"),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
+    ),
+    SliverToBoxAdapter(
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 10.0),
+        decoration: BoxDecoration(
+          color: contantPost,
+          borderRadius: BorderRadius.circular(20.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  fruitProdact = true;
+                  vegetableProdact = false;
+                  anotherProdact = false;
+                });
+              },
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(
+                  fruitProdact ? Colors.white : Colors.black,
+                ),
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  fruitProdact ? Colors.green : Colors.transparent,
+                ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    side: BorderSide(color: Colors.green),
+                  ),
+                ),
+              ),
+              child: Text("Fruits"),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  fruitProdact = false;
+                  vegetableProdact = true;
+                  anotherProdact = false;
+                });
+              },
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(
+                  vegetableProdact ? Colors.white : Colors.black,
+                ),
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  vegetableProdact ? Colors.green : Colors.transparent,
+                ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    side: BorderSide(color: Colors.green),
+                  ),
+                ),
+              ),
+              child: Text("Vegetables"),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  fruitProdact = false;
+                  vegetableProdact = false;
+                  anotherProdact = true;
+                });
+              },
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(
+                  anotherProdact ? Colors.white : Colors.black,
+                ),
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  anotherProdact ? Colors.green : Colors.transparent,
+                ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    side: BorderSide(color: Colors.green),
+                  ),
+                ),
+              ),
+              child: Text("Other"),
+            ),
+          ],
+        ),
+      ),
+    ),
+    SliverPadding(
+      padding: EdgeInsets.symmetric(vertical: 10.0),
+      sliver: StreamBuilder<QuerySnapshot>(
+        stream: FireBase().getDataBasedTypeProdact(
+          fruit: fruitProdact,
+          vegetable: vegetableProdact,
+          another: anotherProdact,
+        ),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return SliverToBoxAdapter(
+              child: showSnackBar(context, "Something went wrong"),
+            );
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return SliverToBoxAdapter(
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              ),
+            );
+          }
+
+          return SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                DocumentSnapshot document = snapshot.data!.docs[index];
+                Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+                return PostDesign(data: data);
+              },
+              childCount: snapshot.data!.docs.length,
+            ),
+          );
+        },
+      ),
+    ),
+  ],
+)
+),
     );
   }
 }

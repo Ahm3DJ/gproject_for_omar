@@ -8,7 +8,7 @@ class ProdactCartAllUser {
   String profileImg;
   String uidFarmer;
   String uidStorOwner;
-
+//
   String prodactName;
   String partquntity;
   String imgPost;

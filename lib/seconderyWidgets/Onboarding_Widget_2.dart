@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:graduation_project2/pages/Login.dart';
+import 'package:graduation_project2/pages/registration.dart';
 
 class OnboardingWidget2 extends StatelessWidget {
   OnboardingWidget2({super.key});
@@ -41,7 +42,7 @@ class OnboardingWidget2 extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(
-                    height: 280,
+                    height: 200,
                   ),
                   Directionality(
                     textDirection: TextDirection.rtl,
@@ -49,7 +50,7 @@ class OnboardingWidget2 extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(horizontal: 100)),
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(builder: (context) => Login()),
                           );
@@ -60,7 +61,31 @@ class OnboardingWidget2 extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 22, fontWeight: FontWeight.bold),
                         )),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+
+                
+                                    Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(horizontal: 100)),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => Register()),
+                          );
+                        },
+                        icon: const Icon(Icons.navigate_before),
+                        label: const Text(
+                          '!Sign Up',
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.bold),
+                        )),
                   )
+            
                 ]),
           ),
         ),

@@ -50,7 +50,7 @@ class OnboardingWidget extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(horizontal: 100)),
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => OnboardingWidget2()),

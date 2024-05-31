@@ -1,19 +1,14 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
-import 'package:graduation_project2/Controller/fireStore.dart';
 import 'package:graduation_project2/Controller/wishListController.dart';
 import 'package:graduation_project2/pages/ProdactDetails.dart';
-import 'package:graduation_project2/shared/colors.dart';
-
 import 'package:intl/intl.dart';
 
 class PostDesign extends StatefulWidget {
-  // current post
   final Map<String, dynamic> data;
+
   const PostDesign({Key? key, required this.data}) : super(key: key);
 
   @override
@@ -21,24 +16,7 @@ class PostDesign extends StatefulWidget {
 }
 
 class _PostDesignState extends State<PostDesign> {
-  int commentCount = 0;
-  bool showHeart = false;
-
-  getCommentCount() async {
-    try {
-      QuerySnapshot commentdata = await FirebaseFirestore.instance
-          .collection("postSSS")
-          .doc(widget.data["postId"])
-          .collection("commentSSS")
-          .get();
-
-      setState(() {
-        commentCount = commentdata.docs.length;
-      });
-    } catch (e) {
-      print(e.toString());
-    }
-  }
+  bool isLiked = false;
 
   showmodel() {
     return showDialog(
@@ -90,85 +68,60 @@ class _PostDesignState extends State<PostDesign> {
     );
   }
 
-  // onClickekonPic() async {
-  //   setState(() {
-  //     isLikeAnimating = true;
-  //   });
-  //   await FirebaseFirestore.instance
-  //       .collection("postSSS")
-  //       .doc(widget.data["postId"])
-  //       .update({
-  //     "likes": FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
-  //   });
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getCommentCount();
-  // }
-
   @override
   Widget build(BuildContext context) {
-    final double widthScreen = MediaQuery.of(context).size.width;
-    return
-
-        //  Text("omarr");
-        Container(
-      margin: EdgeInsets.only(bottom: 20),
-      decoration: BoxDecoration(
-          color: contantPost, borderRadius: BorderRadius.circular(30)),
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      elevation: 4,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 13),
+            padding: const EdgeInsets.all(12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    Container(
-                      //  padding: EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color.fromARGB(125, 78, 91, 110),
-                      ),
-                      child: CircleAvatar(
-                        radius: 33,
-                        backgroundImage: NetworkImage(
-                          widget.data["profileImg"],
-                          // "https://i.pinimg.com/564x/94/df/a7/94dfa775f1bad7d81aa9898323f6f359.jpg"
-                        ),
-                      ),
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.grey[300],
+                      backgroundImage: NetworkImage(widget.data["profileImg"]),
                     ),
-                    SizedBox(
-                      width: 17,
-                    ),
+                    const SizedBox(width: 10),
                     Text(
                       widget.data["username"],
-                      // "Omar Essam",
-                      style: TextStyle(fontSize: 15),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
                 IconButton(
-                    onPressed: () {
-                      showmodel();
-                    },
-                    icon: Icon(Icons.more_vert)),
+                  onPressed: () {
+                    showmodel();
+                  }, // Add your action here
+                  icon: const Icon(Icons.more_vert),
+                ),
               ],
             ),
           ),
-          Image.network(
-            widget.data["imgPost"],
-            // "assets/FlatParsley_1400x.webp",
-            fit: BoxFit.cover,
-
-            height: MediaQuery.of(context).size.height * 0.35,
-            width: double.infinity,
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(
+              bottom: Radius.circular(20),
+            ),
+            child: Image.network(
+              widget.data["imgPost"],
+              fit: BoxFit.cover,
+              height: MediaQuery.of(context).size.height * 0.3,
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 11),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -176,16 +129,13 @@ class _PostDesignState extends State<PostDesign> {
                   children: [
                     IconButton(
                       onPressed: () async {
-
-
                         await WishListController().toggleLike(postData: widget. data,);
-                      
-                      setState(() {
-                        
-                      });
-                      
+
+                        setState(() {
+                          isLiked = !isLiked;
+                        });
                       },
-                      icon:  widget.data['likes'].contains(
+                      icon: widget.data['likes'].contains(
                                 FirebaseAuth.instance.currentUser!.uid)
                             ? const Icon(
                                 Icons.favorite,
@@ -196,63 +146,57 @@ class _PostDesignState extends State<PostDesign> {
                               ),
                     ),
                     IconButton(
-                      onPressed: () {
-                        Navigator.push(
+                      onPressed: () {  Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => Details(data: widget.data),
-                            ));
-                      },
-                      icon: Icon(
-                        Icons.inventory_outlined,
-                      ),
+                            ));}, 
+                      icon: const Icon(Icons.comment),
                     ),
                   ],
+                ),
+                IconButton(
+                  onPressed: () {}, // Add your action here
+                  icon: const Icon(Icons.share),
                 ),
               ],
             ),
           ),
-          Container(
-              margin: EdgeInsets.fromLTRB(10, 0, 0, 10),
-              width: double.infinity,
-              child: Text(
-                            "${widget.data["likes"].length} ${widget.data["likes"].length > 1 ? "Likes" : "Like"}      ",
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Text(
+            "${widget.data["likes"].length} ${widget.data["likes"].length > 1 ? "Likes" : "Like"}      ",
 
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    fontSize: 18, color: Color.fromARGB(214, 157, 157, 165)),
-              )),
-          Row(
-            children: [
-              SizedBox(
-                width: 9,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
               ),
-              Text(
-                "${widget.data["username"]}",
-        
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    fontSize: 20, color: Colors.green[500]),
-              ),
-              Text(
-                " ${widget.data["caption"]}",
-            
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    fontSize: 18, color: Colors.green[200]),
-              ),
-            ],
+            ),
           ),
-          Container(
-              margin: EdgeInsets.fromLTRB(10, 0, 9, 10),
-              width: double.infinity,
-              child: Text(
-                DateFormat('MMMM d, ' 'y')
-                    .format(widget.data["datePublished"].toDate()),
-                style: TextStyle(
-                    fontSize: 18, color: Color.fromARGB(214, 157, 157, 165)),
-                textAlign: TextAlign.start,
-              )),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 4, 12, 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.data["caption"],
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  DateFormat('MMMM d, y')
+                      .format(widget.data["datePublished"].toDate()),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

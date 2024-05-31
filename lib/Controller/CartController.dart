@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';
-import 'package:path/path.dart';
 
 class CartController {
   sendProdactToFarmer({required context}) async {
@@ -22,7 +21,7 @@ class CartController {
         DocumentReference docRefUser = FirebaseFirestore.instance
             .collection(
                 "userSSS") // Replace "your_collection" with your actual collection name
-            .doc(data["uidFarmer"]);
+            .doc(data["uidStorOwner"]);
         DocumentSnapshot docSnapshotUser = await docRefUser.get();
 
         Map<String, dynamic>? dataUSER =
@@ -75,9 +74,9 @@ class CartController {
                   .collection('userSSS')
                   .doc(data["uidStorOwner"])
                   .update({
-                "balance": specificDataUser -
+                "balance":( specificDataUser -
                     (double.parse(data["price"]) *
-                        double.parse(data["partquntity"]))
+                        double.parse(data["partquntity"])))
               });
             }
           } else {
@@ -90,7 +89,6 @@ class CartController {
         print('Error fetching data: $error');
       }
 
-      // Create a new document in the destination collection with the same data
       await FirebaseFirestore.instance.collection('RequstedDDD').add(data);
 
       await FirebaseFirestore.instance
@@ -98,13 +96,7 @@ class CartController {
           .doc(document.id)
           .delete();
     }
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///
-    ///
-    ///
-    ///
-    ///
-    ///
+
   }
 
   deleteItemFromCart({required doc}) async {
@@ -141,14 +133,17 @@ class CartController {
                 //     .selectedProdact[index].pathImage),
               ),
               Column(
+                
                 children: [
-                  Text("username ${data["usernameFarmer"]} "),
+                  Text("Username :${data["usernameFarmer"]} " ,style: const TextStyle(fontFamily: "Schyler")),
                   Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+
                     children: [
-                      Text("price: ${data["price"]} "),
-                      Text("title: ${data["title"]} "),
-                      Text("quantity: ${data["partquntity"]} "),
-                      Text("ProdactName: ${data["prodactName"]} "),
+                      Text("price: ${data["price"]} ",style: const TextStyle(fontFamily: "Schyler"),),
+                      Text("title: ${data["title"]} ",style: const TextStyle(fontFamily: "Schyler")),
+                      Text("quantity: ${data["partquntity"]} ",style: const TextStyle(fontFamily: "Schyler"),),
+                      Text("ProdactName: ${data["prodactName"]} ",style: const TextStyle(fontFamily: "Schyler"),),
                     ],
                   ),
                 ],
@@ -164,7 +159,7 @@ class CartController {
 
                     // classInstancee.removeAtIndex(index);
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.remove,
                     color: Colors.red,
                     size: 30,
@@ -172,28 +167,7 @@ class CartController {
             ],
           )),
 
-          // child: ListTile(
-          //   subtitle: Text(
-          //       //            "\$${classInstancee.selectedProdact[index].price}  -  ${classInstancee.selectedProdact[index].location}"
-          //       ""),
-          //   leading: CircleAvatar(
-          //     backgroundImage:
-          //     NetworkImage(data["imgPost"]),
-          //     // AssetImage(classInstancee
-          //     //     .selectedProdact[index].pathImage),
-          //   ),
-          //   title: Text(
-          //       // classInstancee.selectedProdact[index].flowerName
-          //     data["prodactName"]),
-          //   trailing: IconButton(
-          //       onPressed: () {
-          //         // classInstancee.sum -=
-          //         //     classInstancee.selectedProdact[index].price;
-
-          //         // classInstancee.removeAtIndex(index);
-          //       },
-          //       icon: Icon(Icons.remove)),
-          // ),
+        
         );
       },
     );

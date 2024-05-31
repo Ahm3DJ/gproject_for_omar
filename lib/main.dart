@@ -9,21 +9,12 @@ import 'package:graduation_project2/Provider/Req.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
 import 'package:graduation_project2/Provider/UserSituationProvider%20.dart';
 import 'package:graduation_project2/firebase_options.dart';
-import 'package:graduation_project2/pages/HomePage.dart';
-import 'package:graduation_project2/pages/Login.dart';
-import 'package:graduation_project2/pages/registration.dart';
 import 'package:graduation_project2/responsive/mobile.dart';
 import 'package:graduation_project2/responsive/responsive.dart';
 import 'package:graduation_project2/responsive/web.dart';
 import 'package:provider/provider.dart';
 import 'shared/showSnackBar.dart';
 import 'package:graduation_project2/seconderyWidgets/Onboarding_Widget.dart';
-import 'package:url_launcher/url_launcher.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
-// import 'package:image_picker/image_picker.dart';
-
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -83,11 +74,12 @@ class MyApp extends StatelessWidget {
             } else if (snapshot.hasError) {
               return showSnackBar(context, "Something went wrong");
             } else if (snapshot.hasData) {
-              return
-                  //  Login();
-                  //   Register();
-                  // HomePage();
-                  Resposive(
+            //   return OnboardingWidget();
+            //   //  Login();
+            //   //   Register();
+            //   // HomePage();
+            //   ///////////////////
+            return  Resposive(
                 myMobileScreen: MobileScerren(),
                 myWebScreen: WebScerren(),
               );

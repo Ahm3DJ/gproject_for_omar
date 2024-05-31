@@ -42,8 +42,8 @@ class PostController {
               // Navigator.of(context).pop();
               await uploadImage2Screen(context, ImageSource.camera);
             },
-            padding: EdgeInsets.all(20),
-            child: Text(
+            padding: const EdgeInsets.all(20),
+            child: const Text(
               "From Camera",
               style: TextStyle(
                 fontSize: 18,
@@ -55,8 +55,8 @@ class PostController {
               // Navigator.of(context).pop();
               await uploadImage2Screen(context, ImageSource.gallery);
             },
-            padding: EdgeInsets.all(20),
-            child: Text(
+            padding: const EdgeInsets.all(20),
+            child: const Text(
               "From Gallary",
               style: TextStyle(
                 fontSize: 18,

@@ -1,15 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:graduation_project2/Controller/CartController.dart';
-import 'package:graduation_project2/Controller/RequstedProdactController.dart';
-import 'package:graduation_project2/Controller/ResponsiveController.dart';
+
 import 'package:graduation_project2/Controller/wishListController.dart';
 import 'package:graduation_project2/shared/colors.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 
 class WishList extends StatefulWidget {
   const WishList({super.key});
@@ -37,8 +33,8 @@ class _WishListState extends State<WishList> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 76, 141, 95),
-          title: Text("WishList  "),
+          backgroundColor: const Color.fromARGB(255, 76, 141, 95),
+          title: const Text("WishList  "),
           //  actions: [AppBarRebited()],
         ),
         body: Center(
@@ -50,7 +46,7 @@ class _WishListState extends State<WishList> {
               children: [
                 Container(
                     height: 550,
-                    margin: EdgeInsets.only(bottom: 20),
+                    margin: const EdgeInsets.only(bottom: 20),
                     child: WishListController().StreamBuilderWishList(context,
                         collectionn: "RequstedDDD", uid: "uidFarmer")),
                 ElevatedButton(
@@ -59,11 +55,11 @@ class _WishListState extends State<WishList> {
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(BTNgreen),
-                    padding: MaterialStateProperty.all(EdgeInsets.all(12)),
+                    padding: MaterialStateProperty.all(const EdgeInsets.all(12)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8))),
                   ),
-                  child: Text(
+                  child: const Text(
                     "Remove All ",
                     style: TextStyle(fontSize: 19, color: Colors.white),
                   ),

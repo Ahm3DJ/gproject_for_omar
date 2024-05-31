@@ -14,20 +14,10 @@ class FireBase {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
 
-    // var snapshot = snap.data() as Map<String, dynamic>;
 
     return UserDete.convertSnap2Model(snap);
 
-    // return UserDete(
-    //   password: snapshot["password"],
-    //   email: snapshot["email"],
-    //   title: snapshot["title"],
-    //   username: snapshot["username"],
-    //   profileImg: snapshot["profileImg"],
-    //   uid: snapshot["uid"],
-    //   age: snapshot["age"],
-    //   situation: snapshot["situation"],
-    // );
+  
   }
 
   Future<Map> getData({required context}) async {
@@ -43,13 +33,6 @@ class FireBase {
 
       userDate = snapshot.data()!;
 
-//  To get posts length
-      // var snapshotPosts = await FirebaseFirestore.instance
-      //     .collection('postSSS')
-      //     .where("uid", isEqualTo: widget.uiddd)
-      //     .get();
-
-      // postCount = snapshotPosts.docs.length;
     } catch (e) {
       showSnackBar(context, "Error");
     }
@@ -146,56 +129,7 @@ class FireBase {
         .snapshots();
   }
 
-  // toggleLike(
-  //     {required Map<String, dynamic> postData,
-  //   }) async {
-  //   FirebaseFirestore fbf =  FirebaseFirestore.instance;
-  //   String? WhislistUid;
-  //   try {
-  //     if (postData["likes"].contains(FirebaseAuth.instance.currentUser!.uid)) {
-  //       await fbf
-  //           .collection("postSSS")
-  //           .doc(postData["postId"])
-  //           .update({
-  //         "likes":
-  //             FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid])
-  //       });
-
-  //   QuerySnapshot querySnapshot = await fbf
-  //         .collection('WishListTTT')
-  //         .where("postId", isEqualTo: postData["postId"])
-  //         .where("uid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-  //         .get();
-
-  //     querySnapshot.docs.forEach((doc) async {
-  //       await doc.reference.delete();
-  //     });
-  //     } else {
-  //       await fbf
-  //           .collection("postSSS")
-  //           .doc(postData["postId"])
-  //           .update({
-  //         "likes":
-  //             FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
-  //       });
-
-  //       // await FirebaseFirestore.instance
-  //       //     .collection('WishListTTT')
-  //       //     .add(postData);
-
-  //       DocumentReference docRef = await fbf
-  //           .collection('WishListTTT')
-  //           .add(postData);
-  //       WhislistUid = docRef.id;
-  //       await fbf
-  //           .collection('WishListTTT')
-  //           .doc(WhislistUid)
-  //           .set({"WhislistUid": WhislistUid, "UidClickWish": FirebaseAuth.instance.currentUser!.uid}, SetOptions(merge: true));
-  //     }
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
+  
 
 
 }

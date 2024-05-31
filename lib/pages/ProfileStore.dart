@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
@@ -20,38 +19,8 @@ class _ProfileStoreOwnerState extends State<ProfileStoreOwner> {
   int followers = 0;
   int following = 0;
 
-  // getData() async {
-  //   // Get data from DB
 
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   try {
-  //     DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
-  //         .instance
-  //         .collection('userSSS')
-  //         .doc(FirebaseAuth.instance.currentUser!.uid)
-  //         .get();
-
-  //     userDate = snapshot.data()!;
-
-  //     followers = userDate["followers"].length;
-  //     following = userDate["following"].length;
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
-
-  @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //    getData();//////////////////////////////////
-  // }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +28,7 @@ class _ProfileStoreOwnerState extends State<ProfileStoreOwner> {
     final allDataFromDB = Provider.of<UserProvider>(context).getUser;
 
     return isLoading
-        ? Scaffold(
+        ? const Scaffold(
             backgroundColor: scaffoldColor,
             body: Center(
                 child: CircularProgressIndicator(
@@ -69,8 +38,22 @@ class _ProfileStoreOwnerState extends State<ProfileStoreOwner> {
         : Scaffold(
             backgroundColor: scaffoldColor,
             appBar: AppBar(
+                actions: [Container(
+            width: 55,
+            
+              child: Stack(
+                children: [
+                  Positioned(child: Text("\$",style: TextStyle(fontSize: 20),),),
+                  Positioned(child: Text("${allDataFromDB!.balance}"),
+                  bottom: 14,
+                  right: 10,)
+                ],
+              ),
+            )
+
+            ],
               backgroundColor: appbarGreen,
-              title: Text(allDataFromDB!.username) //Text(userDate["username"])
+              title: Text(allDataFromDB.username) //Text(userDate["username"])
               ,
             ),
             body: Padding(
@@ -84,9 +67,9 @@ class _ProfileStoreOwnerState extends State<ProfileStoreOwner> {
                     Row(
                       children: [
                         Container(
-                          margin: EdgeInsets.fromLTRB(22, 15, 0, 0),
-                          padding: EdgeInsets.all(4),
-                          decoration: BoxDecoration(
+                          margin: const EdgeInsets.fromLTRB(22, 15, 0, 0),
+                          padding: const EdgeInsets.all(4),
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Color.fromARGB(125, 78, 91, 110),
                           ),
@@ -95,10 +78,9 @@ class _ProfileStoreOwnerState extends State<ProfileStoreOwner> {
                             backgroundImage:
                                 NetworkImage(allDataFromDB.profileImg),
 
-                            // backgroundImage: NetworkImage(userDate["ProfileStoreOwnerImg"]),
                           ),
                         ),
-                        Expanded(
+                        const Expanded(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -140,13 +122,13 @@ class _ProfileStoreOwnerState extends State<ProfileStoreOwner> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          margin: EdgeInsets.fromLTRB(5, 5, 0, 0),
+                          margin: const EdgeInsets.fromLTRB(5, 5, 0, 0),
                           child: Expanded(
                             child: Row(
                               children: [
                                 IconButton(
                                   onPressed: () {},
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.edit_location,
                                     color: Color.fromARGB(168, 3, 65, 27),
                                     size: 26,
@@ -160,7 +142,7 @@ class _ProfileStoreOwnerState extends State<ProfileStoreOwner> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(5, 5, 0, 0),
+                          margin: const EdgeInsets.fromLTRB(5, 5, 0, 0),
                           child: Row(
                             children: [
                               IconButton(
@@ -169,10 +151,10 @@ class _ProfileStoreOwnerState extends State<ProfileStoreOwner> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            DateTimebarches()),
+                                            const DateTimebarches()),
                                   );
                                 },
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.history,
                                   color: Color.fromARGB(168, 3, 65, 27),
                                   size: 26,
@@ -180,20 +162,20 @@ class _ProfileStoreOwnerState extends State<ProfileStoreOwner> {
                               ),
 
                               // Text(widget.prodacts.location),
-                              Text("History")
+                              const Text("History")
                             ],
                           ),
                         )
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Divider(
                       color: Colors.white,
                       thickness: widthScreen > 600 ? 0.06 : 0.43,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 9,
                     ),
                     Row(
@@ -207,18 +189,18 @@ class _ProfileStoreOwnerState extends State<ProfileStoreOwner> {
                                   builder: (context) => EditeProfiePage()),
                             );
                           },
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.edit,
                             color: Colors.white,
                             size: 24.0,
                           ),
-                          label: Text(
+                          label: const Text(
                             "Edit Profile Store",
                             style: TextStyle(fontSize: 17, color: Colors.white),
                           ),
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Color.fromARGB(0, 90, 103, 223)),
+                                const Color.fromARGB(0, 90, 103, 223)),
                             padding: MaterialStateProperty.all(
                                 EdgeInsets.symmetric(
                                     vertical: widthScreen > 600 ? 19 : 10,
@@ -226,7 +208,7 @@ class _ProfileStoreOwnerState extends State<ProfileStoreOwner> {
                             shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(7),
-                                side: BorderSide(
+                                side: const BorderSide(
                                     color: Color.fromARGB(109, 255, 255, 255),
                                     // width: 1,
                                     style: BorderStyle.solid),
@@ -234,17 +216,17 @@ class _ProfileStoreOwnerState extends State<ProfileStoreOwner> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 15,
                         ),
                         ElevatedButton.icon(
                           onPressed: () {},
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.logout,
                             size: 24.0,
                             color: Colors.white,
                           ),
-                          label: Text(
+                          label: const Text(
                             "Log out",
                             style: TextStyle(fontSize: 17, color: Colors.white),
                           ),
@@ -264,14 +246,14 @@ class _ProfileStoreOwnerState extends State<ProfileStoreOwner> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 9,
                     ),
                     Divider(
                       color: Colors.white,
                       thickness: widthScreen > 600 ? 0.06 : 0.43,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Expanded(
@@ -281,19 +263,18 @@ class _ProfileStoreOwnerState extends State<ProfileStoreOwner> {
                             : const EdgeInsets.all(3.0),
                         child: GridView.builder(
                             gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
+                                const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
                                     childAspectRatio: 3 / 2,
                                     crossAxisSpacing: 10,
                                     mainAxisSpacing: 10),
-                            itemCount: 3,
+                            itemCount: 0,
                             itemBuilder: (BuildContext context, int index) {
                               return ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.network(
                                   "https://cdn1-m.alittihad.ae/store/archive/image/2021/10/22/6266a092-72dd-4a2f-82a4-d22ed9d2cc59.jpg?width=1300",
-                                  // height: 333,
-                                  // width: 100,
+                        
 
                                   fit: BoxFit.cover,
                                 ),

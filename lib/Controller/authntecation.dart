@@ -1,16 +1,13 @@
-import 'dart:math';
-import 'dart:typed_data';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:graduation_project2/Controller/Storage.dart';
 import 'package:graduation_project2/model/User.dart';
 import 'package:graduation_project2/model/cart.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
+
 import 'package:uuid/uuid.dart';
 
 class AuthMethods {
@@ -293,12 +290,7 @@ class AuthMethods {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .update({"profileImg": urlll});
 
-    // FirebaseFirestore.instance
-    //     .collection('postSSS')
-    //     .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-    //     .get()
-    //     .then();
-
+    
     CollectionReference postsCollection =
         FirebaseFirestore.instance.collection('postSSS');
 
@@ -307,27 +299,10 @@ class AuthMethods {
         .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get();
 
-    // Loop through each document
     for (DocumentSnapshot docSnapshot in querySnapshot.docs) {
-      // Update the 'profileImg' field in each document
       await docSnapshot.reference.update({'profileImg': urlll});
     }
 
-//  CollectionReference postsCollection =
-//         FirebaseFirestore.instance.collection('postSSS');
-
-//     // Get all documents from the collection
-//     QuerySnapshot querySnapshot = await postsCollection.get();
-
-//     // Loop through each document
-//     for (DocumentSnapshot docSnapshot in querySnapshot.docs) {
-//       // Update the 'profileImg' field in each document
-//       await docSnapshot.reference.update({'profileImg': urlll});
-//     }
-    //   FirebaseFirestore.instance
-    // .collection('postSSS')
-    // .doc(FirebaseAuth.instance.currentUser!.uid)
-    // .update({"profileImg":urlll});
   }
 
 

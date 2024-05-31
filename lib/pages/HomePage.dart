@@ -1,10 +1,7 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project2/Provider/Notifecation.dart';
 import 'package:graduation_project2/Provider/Req.dart';
@@ -19,7 +16,6 @@ import 'package:graduation_project2/pages/RequstedProdactFarmer.dart';
 import 'package:graduation_project2/pages/notifStoreOwner.dart';
 import 'package:graduation_project2/shared/PostDesign.dart';
 import 'package:graduation_project2/shared/colors.dart';
-import 'package:graduation_project2/shared/constant.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';
 import 'package:provider/provider.dart';
 
@@ -36,18 +32,18 @@ class _HomePageState extends State<HomePage> {
 
   bool isLoading = true;
 
-  // getDate() async {
-  //   // Get data from DB
+  getDate() async {
+    // Get data from DB
 
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   userDate = await FireBase().getData(context: context) as Map<String, dynamic>;
+    setState(() {
+      isLoading = true;
+    });
+    userDate = await FireBase().getData(context: context) as Map<String, dynamic>;
 
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   bool fruitProdact = false;
   bool vegetableProdact = false;
@@ -89,7 +85,7 @@ class _HomePageState extends State<HomePage> {
 
     return
         // isLoading
-        //     ?  Scaffold(
+        //     ?  const Scaffold(
         //         backgroundColor: scaffoldColor,
         //         body: Center(
         //             child: CircularProgressIndicator(
@@ -103,7 +99,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: appbarGreen,
         actions: [
           Stack(children: <Widget>[
-            Text(
+            const Text(
                 '                                                                              '),
             IconButton(
               onPressed: () {
@@ -113,11 +109,11 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => userData?.situation == "Farmer"
-                          ? RequsteProdact()
+                          ? const RequsteProdact()
                           : NotifayStoreOwner(),
                     ));
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.notification_important_rounded,
               ),
             ),
@@ -125,12 +121,12 @@ class _HomePageState extends State<HomePage> {
               left: 11,
               top: 11,
               child: Container(
-                padding: EdgeInsets.all(2),
+                padding: const EdgeInsets.all(2),
                 decoration: BoxDecoration(
                   color: Colors.red,
                   borderRadius: BorderRadius.circular(6),
                 ),
-                constraints: BoxConstraints(
+                constraints: const BoxConstraints(
                   minWidth: 14,
                   minHeight: 14,
                 ),
@@ -138,7 +134,7 @@ class _HomePageState extends State<HomePage> {
                   userData?.situation == "Farmer"
                       ? '${reqProvider.getCountREQ()}'
                       : '${counter}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 8,
                   ),
@@ -150,7 +146,7 @@ class _HomePageState extends State<HomePage> {
           CircleAvatar(
             backgroundImage: NetworkImage(userData!.profileImg),
           ),
-          Text("     "),
+          const Text("     "),
           // IconButton(
           //   onPressed: () {},
           //   icon: Icon(
@@ -167,68 +163,88 @@ class _HomePageState extends State<HomePage> {
           children: [
             Column(
               children: [
-                UserAccountsDrawerHeader(
+              UserAccountsDrawerHeader(
                   currentAccountPicture: CircleAvatar(
-                    backgroundImage: NetworkImage(userData!.profileImg),
+                    radius: 40,
+                    backgroundColor: Colors.white,
+                    child: CircleAvatar(
+                      radius: 38,
+                      backgroundImage: NetworkImage(userData.profileImg),
+                    ),
                   ),
-                  accountName: Text(userData.username),
-                  // Text(allDataFromDB.getUser!.username),
-                  //  currentAccountPicture: GetImagFromFireBase(),
-                  // accountName:GetDataTest(documentId: userInfo.uid, returnData: 'username',)
-
-                  // Text(userInfo.displayName!=null?userInfo.displayName!:"Omar Quraan"),
-                  accountEmail: //Text("sadada"),
-                      Text(userData.email),
-
-                  // ,  accountEmail: Text(userInfo.email! ),
-                  decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 53, 137, 78),
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage(
-                              "assets/nathan-dumlao-bRdRUUtbxO0-unsplash-1536x1024.jpeg"))),
+                  accountName: Text(
+                    userData.username,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                  accountEmail: Text(
+                    userData.email,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 53, 137, 78),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(
+                        Colors.black45,
+                        BlendMode.darken,
+                      ),
+                      image: AssetImage(
+                        "assets/nathan-dumlao-bRdRUUtbxO0-unsplash-1536x1024.jpeg",
+                      ),
+                    ),
+                  ),
                 ),
-                ListTile(
-                    title: Text("Home"),
-                    leading: Icon(Icons.home),
+                    ListTile(
+                    title: const Text("Home", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+),
+                    leading: const Icon(Icons.home,color: Colors.green),
                     onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => HomePage(),
+                            builder: (context) => const HomePage(),
                           ));
                     }),
                 ListTile(
-                    title: Text("My products"),
-                    leading: Icon(Icons.add_shopping_cart),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => userData.situation == "Farmer"
-                                ? RequsteProdact()
-                                : Cart(),
-                          ));
-                    }),
-                ListTile(
-                    title: Text("Profile Page "),
-                    leading: Icon(Icons.person),
+                    title: const Text("My products",        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+),
+                    leading: const Icon(Icons.add_shopping_cart, color: Colors.green),
                     onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => userData.situation == "Farmer"
-                                ? ProfileFarmer()
-                                : ProfileStoreOwner(),
+                                ? const RequsteProdact()
+                                : const Cart(),
                           ));
                     }),
                 ListTile(
-                    title: Text("About"),
-                    leading: Icon(Icons.help_center),
+                    title: const Text("Profile Page "  ,      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+),
+                    leading: const Icon(Icons.person, color: Colors.green),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => userData.situation == "Farmer"
+                                ? const ProfileFarmer()
+                                : const ProfileStoreOwner(),
+                          ));
+                    }),
+                ListTile(
+                    title: const Text("About",        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+),
+                    leading: const Icon(Icons.help_center, color: Colors.green),
                     onTap: () {}),
                 ListTile(
-                    title: Text("Logout"),
-                    leading: Icon(Icons.exit_to_app),
+                    title: const Text("Logout"     ,   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+),
+                    leading: const Icon(Icons.exit_to_app, color: Colors.green),
                     onTap: () async {
                       await FirebaseAuth.instance.signOut();
                       //  Navigator.pop(context);
@@ -238,12 +254,12 @@ class _HomePageState extends State<HomePage> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Login(),
+                            builder: (context) => const Login(),
                           ));
                     }),
               ],
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
@@ -281,7 +297,7 @@ class _HomePageState extends State<HomePage> {
                 fit: BoxFit.cover,
               ),
             ),
-            Positioned(
+            const Positioned(
               bottom: 100,
               left: 50,
               child: Text(
@@ -301,7 +317,7 @@ class _HomePageState extends State<HomePage> {
                   controller: searchController,
                   keyboardType: TextInputType.text,
                   obscureText: false,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Search....",
                     prefixIcon: Icon(Icons.search),
                     enabledBorder: OutlineInputBorder(
@@ -325,7 +341,7 @@ class _HomePageState extends State<HomePage> {
     ),
     SliverToBoxAdapter(
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10.0),
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
         decoration: BoxDecoration(
           color: contantPost,
           borderRadius: BorderRadius.circular(20.0),
@@ -334,7 +350,7 @@ class _HomePageState extends State<HomePage> {
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 2,
               blurRadius: 5,
-              offset: Offset(0, 3),
+              offset: const Offset(0, 3),
             ),
           ],
         ),
@@ -359,11 +375,11 @@ class _HomePageState extends State<HomePage> {
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
-                    side: BorderSide(color: Colors.green),
+                    side: const BorderSide(color: Colors.green),
                   ),
                 ),
               ),
-              child: Text("Fruits"),
+              child: const Text("Fruits"),
             ),
             TextButton(
               onPressed: () {
@@ -383,11 +399,11 @@ class _HomePageState extends State<HomePage> {
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
-                    side: BorderSide(color: Colors.green),
+                    side: const BorderSide(color: Colors.green),
                   ),
                 ),
               ),
-              child: Text("Vegetables"),
+              child: const Text("Vegetables"),
             ),
             TextButton(
               onPressed: () {
@@ -407,18 +423,18 @@ class _HomePageState extends State<HomePage> {
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
-                    side: BorderSide(color: Colors.green),
+                    side: const BorderSide(color: Colors.green),
                   ),
                 ),
               ),
-              child: Text("Other"),
+              child: const Text("Other"),
             ),
           ],
         ),
       ),
     ),
     SliverPadding(
-      padding: EdgeInsets.symmetric(vertical: 10.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
       sliver: StreamBuilder<QuerySnapshot>(
         stream: FireBase().getDataBasedTypeProdact(
           fruit: fruitProdact,
@@ -433,7 +449,7 @@ class _HomePageState extends State<HomePage> {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return SliverToBoxAdapter(
+            return const SliverToBoxAdapter(
               child: Center(
                 child: CircularProgressIndicator(
                   color: Colors.white,

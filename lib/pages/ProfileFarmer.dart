@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
@@ -19,49 +18,17 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
   Map userDate = {};
   bool isLoading = false;
   int countProdact = 0;
-  // getData() async {
-  //   // Get data from DB
 
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   try {
-  //     DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
-  //         .instance
-  //         .collection('userSSS')
-  //         .doc(FirebaseAuth.instance.currentUser!.uid)
-  //         .get();
-
-  //     userDate = snapshot.data()!;
-
-  //     followers = userDate["followers"].length;
-  //     following = userDate["following"].length;
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
-
-  // @override
-  // // void initState() {
-  // //   // TODO: implement initState
-  // //   super.initState();
-  // //    getData();//////////////////////////////////
-  // // }
-/////////////
   @override
   Widget build(BuildContext context) {
     final double widthScreen = MediaQuery.of(context).size.width;
     final allDataFromDB = Provider.of<UserProvider>(context).getUser;
 
     UserProvider userProvider = Provider.of(context, listen: false);
-    // userProvider.refreshUser();
+  //   userProvider.refreshUser();
     //  Future<int> count = ViewProfilePictures().getCounterPost();
     return isLoading
-        ? Scaffold(
+        ? const Scaffold(
             backgroundColor: scaffoldColor,
             body: Center(
                 child: CircularProgressIndicator(
@@ -71,8 +38,22 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
         : Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
+            actions: [Container(
+            width: 55,
+            
+              child: Stack(
+                children: [
+                  Positioned(child: Text("\$",style: TextStyle(fontSize: 20),),),
+                  Positioned(child: Text("${allDataFromDB!.balance}"),
+                  bottom: 14,
+                  right: 10,)
+                ],
+              ),
+            )
+
+            ],
               backgroundColor: appbarGreen,
-              title: Text(allDataFromDB!.username) //Text(userDate["username"])
+              title: Text(allDataFromDB.username) //Text(userDate["username"])
               ,
             ),
             body: Padding(
@@ -82,24 +63,23 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
               child: Column(
                 children: [
                   Container(
-                    color: scaffoldColor,
+                    color: Colors.green[50],
                     child: Column(
                       children: [
                         Row(
                           children: [
                             Container(
-                              margin: EdgeInsets.fromLTRB(22, 15, 0, 0),
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
+                              margin: const EdgeInsets.fromLTRB(22, 15, 0, 0),
+                              padding: const EdgeInsets.all(4),
+                              decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Color.fromARGB(125, 78, 91, 110),
+                                color: const Color.fromARGB(125, 78, 91, 110),
                               ),
                               child: CircleAvatar(
                                 radius: 40,
                                 backgroundImage:
                                     NetworkImage(allDataFromDB.profileImg),
 
-                                // backgroundImage: NetworkImage(userDate["ProfileFarmerImg"]),
                               ),
                             ),
                             Expanded(
@@ -110,15 +90,15 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                                     children: [
                                       Text(
                                         "${ViewProfilePictures.count}",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 22,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
-                                      Text(
+                                      const Text(
                                         "Prodact",
                                         style: TextStyle(
                                             fontSize: 15,
@@ -127,10 +107,10 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 17,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 17,
                                   ),
                                 ],
@@ -139,7 +119,7 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                           ],
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(5, 5, 0, 0),
+                          margin: const EdgeInsets.fromLTRB(5, 5, 0, 0),
                           child: Row(
                             children: [
                               IconButton(
@@ -147,10 +127,10 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => DateTimeFarmer()),
+                                        builder: (context) => const DateTimeFarmer()),
                                   );
                                 },
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.history,
                                   color: Color.fromARGB(168, 3, 65, 27),
                                   size: 26,
@@ -158,21 +138,21 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                               ),
 
                               // Text(widget.prodacts.location),
-                              Text("History")
+                              const Text("History")
                             ],
                           ),
                         )
 
                         //  Text(userDate["title"]))
                         ,
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         Divider(
                           color: Colors.white,
                           thickness: widthScreen > 600 ? 0.06 : 0.43,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 9,
                         ),
                         Row(
@@ -186,19 +166,19 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                                       builder: (context) => EditeProfiePage()),
                                 );
                               },
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.edit,
                                 color: Colors.white,
                                 size: 24.0,
                               ),
-                              label: Text(
+                              label: const Text(
                                 "Edit Profile Farmer",
                                 style: TextStyle(
                                     fontSize: 17, color: Colors.white),
                               ),
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
-                                    Color.fromARGB(0, 90, 103, 223)),
+                                    const Color.fromARGB(0, 90, 103, 223)),
                                 padding: MaterialStateProperty.all(
                                     EdgeInsets.symmetric(
                                         vertical: widthScreen > 600 ? 19 : 10,
@@ -206,7 +186,7 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                                 shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(7),
-                                    side: BorderSide(
+                                    side: const BorderSide(
                                         color:
                                             Color.fromARGB(109, 255, 255, 255),
                                         // width: 1,
@@ -215,17 +195,17 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 15,
                             ),
                             ElevatedButton.icon(
                               onPressed: () {},
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.logout,
                                 size: 24.0,
                                 color: Colors.white,
                               ),
-                              label: Text(
+                              label: const Text(
                                 "Log out",
                                 style: TextStyle(
                                     fontSize: 17, color: Colors.white),
@@ -246,7 +226,7 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 9,
                         ),
                         Divider(
@@ -256,7 +236,7 @@ class _ProfileFarmerState extends State<ProfileFarmer> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Expanded(

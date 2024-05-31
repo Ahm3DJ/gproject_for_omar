@@ -16,7 +16,7 @@ class _MyNavigatorWidgetState extends State<MyNavigatorWidget> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: appbarGreen,
-          title: Text("Sign in"),
+          title: const Text("Sign in"),
         ),
         body: Container(
           decoration: const BoxDecoration(
@@ -63,7 +63,7 @@ class _MyNavigatorWidgetState extends State<MyNavigatorWidget> {
 class MyResponsiveWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: Text('Responsive Widget'),
       ),

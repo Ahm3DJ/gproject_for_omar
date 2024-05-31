@@ -24,9 +24,15 @@ class ResponsiveController {
         .doc(data["requstedProdactUID"])
         .get();
 
+
+
+
     if (data["storeOwnerCheckDelivery"] &&
         documentSnapshot.get('farmerCheckDelivery')) {
-      showSnackBar(context, "Delevdeliveryary is Done ......");
+      showSnackBar(context, "Delevary is Done .........");
+      ///////////////////////////////to convert money to farmer 
+
+
 
       DeleteItem(
           notifiyProdactUid:doc,

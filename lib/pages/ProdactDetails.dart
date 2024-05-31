@@ -1,6 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -14,9 +12,7 @@ import 'package:provider/provider.dart';
 class Details extends StatefulWidget {
   const Details({super.key, required this.data});
   final Map data;
-  // late Prodact prodacts;
-  // Details({required this.prodacts});
-
+  
   @override
   State<Details> createState() => _DetailsState();
 }
@@ -38,35 +34,12 @@ class _DetailsState extends State<Details> {
     //userProvider.refreshUser();
     UserDete? userData = userProvider.getUser;
 
-    // showmodel() {
-    //   return showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return SimpleDialog(
-    //         children: [
-    //           SimpleDialogOption(
-    //             onPressed: () async {
-    //               // Navigator.of(context).pop();
-    //             },
-    //             padding: EdgeInsets.all(20),
-    //             child: Text(
-    //               "The quantity you requested is greater than the inventory",
-    //               style: TextStyle(
-    //                 fontSize: 18,
-    //               ),
-    //             ),
-    //           ),
-    //         ],
-    //       );
-    //     },
-    //   );
-    // }
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 76, 141, 95),
-        title: Text("Details Item "),
+        backgroundColor: const Color.fromARGB(255, 76, 141, 95),
+        title: const Text("Details Item "),
         actions: [
           // AppBarRebited()
         ],
@@ -81,7 +54,7 @@ class _DetailsState extends State<Details> {
               // Image.asset(widget.prodacts.pathImage),
               Container(
                 height: heightScreen - 450,
-                margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: ClipRRect(
                     child: Image.network(
                       "${widget.data["imgPost"]}",
@@ -93,7 +66,7 @@ class _DetailsState extends State<Details> {
 
                     borderRadius: BorderRadius.circular(40)),
               ),
-              SizedBox(height: 5,),
+              const SizedBox(height: 5,),
 
               Container(
                 height: 600,
@@ -101,14 +74,14 @@ class _DetailsState extends State<Details> {
                   color: scaffoldColor,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                      color: Color.fromARGB(255, 37, 23, 18), width: 2),
+                      color: const Color.fromARGB(255, 37, 23, 18), width: 2),
                 ),
                 child: Column(
                   children: [
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Container(
-                        margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                        margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                         child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -116,19 +89,19 @@ class _DetailsState extends State<Details> {
                               // " \$${widget.prodacts.price}",
                               "Prodact Name: ${widget.data["prodactName"]}",
                               style:
-                                  TextStyle(color: Colors.black, fontSize: 20),
+                                  const TextStyle(color: Colors.black, fontSize: 20),
                             ),
                             Text(
                               // " \$${widget.prodacts.price}",
                               " Prodact price:  \$${widget.data["price"]} ",
                               style:
-                                  TextStyle(color: Colors.black, fontSize: 20),
+                                  const TextStyle(color: Colors.black, fontSize: 20),
                             ),
                             Text(
                               // " \$${widget.prodacts.price}",
                               " Quantity :  ${widget.data["quntity"]} kg ",
                               style:
-                                  TextStyle(color: Colors.black, fontSize: 20,),
+                                  const TextStyle(color: Colors.black, fontSize: 20,),
                             ),
                           ],
                         ),
@@ -144,16 +117,16 @@ class _DetailsState extends State<Details> {
                           children: [
                             Container(
                               alignment: Alignment.center,
-                              margin: EdgeInsets.only(left: 10),
+                              margin: const EdgeInsets.only(left: 10),
                               height: 25,
                               width: 30,
-                              child: Text("New"),
+                              child: const Text("New"),
                               decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 255, 129, 129),
+                                color: const Color.fromARGB(255, 255, 129, 129),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             GestureDetector(
@@ -169,7 +142,7 @@ class _DetailsState extends State<Details> {
                               },
                               child: Icon(
                                 Icons.star,
-                                color: star1? Color.fromARGB(255, 255, 191, 0):Colors.white,
+                                color: star1? const Color.fromARGB(255, 255, 191, 0):Colors.white,
                                 size: 26,
                               ),
                             ),
@@ -185,7 +158,7 @@ class _DetailsState extends State<Details> {
                               },
                               child: Icon(
                                 Icons.star,
-                                color:star2? Color.fromARGB(255, 255, 191, 0):Colors.white,
+                                color:star2? const Color.fromARGB(255, 255, 191, 0):Colors.white,
                                 size: 26,
                               ),
                             ),
@@ -201,7 +174,7 @@ class _DetailsState extends State<Details> {
                               },
                               child: Icon(
                                 Icons.star,
-                                color:star3? Color.fromARGB(255, 255, 191, 0):Colors.white,
+                                color:star3? const Color.fromARGB(255, 255, 191, 0):Colors.white,
                                 size: 26,
                               ),
                             ),
@@ -217,7 +190,7 @@ class _DetailsState extends State<Details> {
                               },
                               child: Icon(
                                 Icons.star,
-                                color:star4? Color.fromARGB(255, 255, 191, 0):Colors.white,
+                                color:star4? const Color.fromARGB(255, 255, 191, 0):Colors.white,
                                 size: 26,
                               ),
                             ),
@@ -233,14 +206,14 @@ class _DetailsState extends State<Details> {
                               },
                               child: Icon(
                                 Icons.star,
-                                color:star5? Color.fromARGB(255, 255, 191, 0):Colors.white,
+                                color:star5? const Color.fromARGB(255, 255, 191, 0):Colors.white,
                                 size: 26,
                               ),)
                           ],
                         ),
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.edit_location,
                               color: Color.fromARGB(168, 3, 65, 27),
                               size: 26,
@@ -255,9 +228,9 @@ class _DetailsState extends State<Details> {
                       height: 16,
                     ),
                     Container(
-                        margin: EdgeInsets.only(left: 10),
+                        margin: const EdgeInsets.only(left: 10),
                         width: double.infinity,
-                        child: Text(
+                        child: const Text(
                           "Details : ",
                           style: TextStyle(
                             fontSize: 18,
@@ -268,14 +241,14 @@ class _DetailsState extends State<Details> {
                       height: 16,
                     ),
                     Container(
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 73, 114, 87),
+                          color: const Color.fromARGB(255, 73, 114, 87),
                           borderRadius: BorderRadius.circular(20)),
                       child: Text(
                         "${widget.data["description"]}",
-                        style: TextStyle(fontSize: 15, color: Colors.white),
+                        style: const TextStyle(fontSize: 15, color: Colors.white),
                         maxLines: showMore ? 3 : null,
                         overflow: TextOverflow.fade,
                       ),
@@ -287,12 +260,12 @@ class _DetailsState extends State<Details> {
                           });
                         },
                         child:
-                            showMore ? Text("Show more") : Text("Show less")),
+                            showMore ? const Text("Show more") : const Text("Show less")),
                     TextField(
                         controller: addQuantityControllar,
                         keyboardType: TextInputType.number,
                         obscureText: false,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           fillColor: Colors.white,
 
                           hintText: "Add quantity ",
@@ -311,7 +284,7 @@ class _DetailsState extends State<Details> {
                           filled: true,
                           contentPadding: EdgeInsets.all(8),
                         )),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     userData!.situation == "Store Owner"
@@ -350,13 +323,13 @@ class _DetailsState extends State<Details> {
                               backgroundColor:
                                   MaterialStateProperty.all(Colors.white),
                               padding: MaterialStateProperty.all(
-                                  EdgeInsets.symmetric(
+                                  const EdgeInsets.symmetric(
                                       vertical: 10, horizontal: 30)),
                               shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(30))),
                             ),
-                            child: Text(
+                            child: const Text(
                               "Add to Cart ",
                               style: TextStyle(fontSize: 19),
                             ),
@@ -369,13 +342,13 @@ class _DetailsState extends State<Details> {
                               backgroundColor:
                                   MaterialStateProperty.all(Colors.white),
                               padding: MaterialStateProperty.all(
-                                  EdgeInsets.symmetric(
+                                  const EdgeInsets.symmetric(
                                       vertical: 10, horizontal: 30)),
                               shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(30))),
                             ),
-                            child: Text(
+                            child: const Text(
                               "Go back ",
                               style: TextStyle(
                                 fontSize: 19,

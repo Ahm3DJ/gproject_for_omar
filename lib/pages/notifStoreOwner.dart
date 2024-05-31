@@ -1,16 +1,13 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project2/Controller/ResponsiveController.dart';
 import 'package:graduation_project2/Provider/Notifecation.dart';
-import 'package:graduation_project2/shared/Timer.dart';
-import 'package:graduation_project2/shared/colors.dart';
-import 'package:graduation_project2/shared/showSnackBar.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class NotifayStoreOwner extends StatefulWidget {
   @override
@@ -38,9 +35,8 @@ class _NotifayStoreOwnerState extends State<NotifayStoreOwner> {
     late DocumentSnapshot documentSnapshot;
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 76, 141, 95),
-          title: Text("NotifayStoreOwner  "),
-          //  actions: [AppBarRebited()],
+          backgroundColor: const Color.fromARGB(255, 76, 141, 95),
+          title: const Text("NotifayStoreOwner  "),
         ),
         body: Center(
           child: Padding(
@@ -51,30 +47,27 @@ class _NotifayStoreOwnerState extends State<NotifayStoreOwner> {
               children: [
                 Container(
                     height: 600,
-                    margin: EdgeInsets.only(bottom: 20),
+                    margin: const EdgeInsets.only(bottom: 20),
                     child: StreamBuilder<QuerySnapshot>(
                         stream: _usersStream,
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
                           if (snapshot.hasError) {
-                            return Text('Something went wrong');
+                            return const Text('Something went wrong');
                           }
 
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return Text("Loading");
+                            return const Text("Loading");
                           }
 
                           return ListView.builder(
-                              //      itemCount: classInstancee.selectedProdact.length,
                               itemCount: snapshot.data!.docs.length,
                               itemBuilder: (BuildContext context, int index) {
                                 Map<String, dynamic> data =
                                     snapshot.data!.docs[index].data()
                                         as Map<String, dynamic>;
-                                // classInstancee.count =
-                                //     snapshot.data!.docs.length;
-                                // classInstancee.l1 = data;
+                      
 
                                 return Card(
                                   child: Container(
@@ -85,25 +78,24 @@ class _NotifayStoreOwnerState extends State<NotifayStoreOwner> {
                                       CircleAvatar(
                                         backgroundImage:
                                             NetworkImage("${data["imgPost"]}"),
-                                        // AssetImage(classInstancee
-                                        //     .selectedProdact[index].pathImage),
+                                
                                       ),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                              "username ${data["usernameStoreOwner"]} "),
+                                              "username ${data["usernameStoreOwner"]} ",style: const TextStyle(fontFamily: "Schyler")),
                                           Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Text("price: ${data["price"]} "),
-                                              Text("title: ${data["title"]} "),
+                                              Text("price: ${data["price"]} ",style: const TextStyle(fontFamily: "Schyler")),
+                                              Text("title: ${data["title"]} ",style: const TextStyle(fontFamily: "Schyler")),
                                               Text(
-                                                  "quantity: ${data["partquntity"]} "),
+                                                  "quantity: ${data["partquntity"]} ",style: const TextStyle(fontFamily: "Schyler")),
                                               Text(
-                                                  "ProdactName: ${data["prodactName"]} "),
+                                                  "ProdactName: ${data["prodactName"]} ",style: const TextStyle(fontFamily: "Schyler")),
                                             ],
                                           ),
                                         ],
@@ -115,12 +107,7 @@ class _NotifayStoreOwnerState extends State<NotifayStoreOwner> {
                                                   onTap: () {
                                                     ResponsiveController()
                                                         .whatsAppMessage();
-                                                    // final Uri phoneNumber =
-                                                    //     Uri.parse(
-                                                    //         "tel:0775218832");
-                                                    // final Uri whatsApp = Uri.parse(
-                                                    //     "https://wa.me/+962${data["phoneNumber"]}");
-                                                    // launchUrl(whatsApp);
+                                                
                                                   },
                                                   child: SvgPicture.asset(
                                                       "assets/icons8-whatsapp.svg"),
@@ -135,53 +122,9 @@ class _NotifayStoreOwnerState extends State<NotifayStoreOwner> {
                                                                   .docs[index]
                                                                   .id,
                                                               context: context);
-                                                      // await FirebaseFirestore
-                                                      //     .instance
-                                                      //     .collection(
-                                                      //         'notifiayYYY')
-                                                      //     .doc(snapshot.data!
-                                                      //         .docs[index].id)
-                                                      //     .update({
-                                                      //   "storeOwnerCheckDelivery":
-                                                      //       true
-                                                      // });
-
-                                                      // documentSnapshot =
-                                                      //     await FirebaseFirestore
-                                                      //         .instance
-                                                      //         .collection(
-                                                      //             'RequstedDDD')
-                                                      //         .doc(data[
-                                                      //             "requstedProdactUID"])
-                                                      //         .get();
-
-                                                      // if (data[
-                                                      //         "storeOwnerCheckDelivery"] &&
-                                                      //     documentSnapshot.get(
-                                                      //         'farmerCheckDelivery')) {
-                                                      //   showSnackBar(context,
-                                                      //       "Delevdeliveryary is Done ......");
-
-                                                      //   DeleteItem(
-                                                      //       notifiyProdactUid:
-                                                      //           snapshot
-                                                      //               .data!
-                                                      //               .docs[index]
-                                                      //               .id,
-                                                      //       requstedProdactUid:
-                                                      //           data[
-                                                      //               "requstedProdactUID"],
-                                                      //       seconds: 1);
-                                                      // } else if (data[
-                                                      //         "storeOwnerCheckDelivery"] &&
-                                                      //     documentSnapshot.get(
-                                                      //             'farmerCheckDelivery') ==
-                                                      //         false) {
-                                                      //   showSnackBar(context,
-                                                      //       "Farmer  is not check delivery ");
-                                                      // }
+                                                      
                                                     },
-                                                    icon: Icon(
+                                                    icon: const Icon(
                                                       Icons.check,
                                                       color: Colors.green,
                                                     )),
@@ -196,7 +139,7 @@ class _NotifayStoreOwnerState extends State<NotifayStoreOwner> {
                                                     .delete();
                                                 // classInstancee.count--;
                                               },
-                                              child: Text(
+                                              child: const Text(
                                                 "Rejcted",
                                                 style: TextStyle(
                                                     color: Colors.red),

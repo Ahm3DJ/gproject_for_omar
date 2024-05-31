@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_function_literals_in_foreach_calls
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
 import 'package:graduation_project2/model/User.dart';
 import 'package:graduation_project2/shared/colors.dart';
-import 'package:graduation_project2/shared/showSnackBar.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -42,8 +40,8 @@ class _DateTimeFarmerState extends State<DateTimeFarmer> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 76, 141, 95),
-          title: Text("DateTimeFarmer  "),
+          backgroundColor: const Color.fromARGB(255, 76, 141, 95),
+          title: const Text("DateTimeFarmer  "),
           //  actions: [AppBarRebited()],
         ),
         body: SingleChildScrollView(
@@ -58,18 +56,18 @@ class _DateTimeFarmerState extends State<DateTimeFarmer> {
                     children: [
                       Container(
                         height: heightScreen - 250,
-                        margin: EdgeInsets.only(bottom: 20),
+                        margin: const EdgeInsets.only(bottom: 20),
                         child: StreamBuilder<QuerySnapshot>(
                             stream: _usersStream,
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasError) {
-                                return Text('Something went wrong');
+                                return const Text('Something went wrong');
                               }
 
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
-                                return Text("Loading");
+                                return const Text("Loading");
                               }
 
                               return ListView.builder(
@@ -113,49 +111,11 @@ class _DateTimeFarmerState extends State<DateTimeFarmer> {
                                                   "Date of purchase:  ${data["datePublished"] == null ? data["datePublished"] : DateFormat('MMMM d, ' 'y').format(data["datePublished"].toDate())} ")
                                             ],
                                           ),
-                                          SizedBox(),
-                                          // IconButton(
-                                          //     onPressed: () async {
-                                          //       await FirebaseFirestore.instance
-                                          //           .collection("DateTimeFarmerSSS")
-                                          //           .doc(snapshot
-                                          //               .data!.docs[index].id)
-                                          //           .delete();
-                                          //       // classInstancee.sum -=
-                                          //       //     classInstancee.selectedProdact[index].price;
-
-                                          //       // classInstancee.removeAtIndex(index);
-                                          //     },
-                                          //     icon: Icon(
-                                          //       Icons.remove,
-                                          //       color: Colors.red,
-                                          //       size: 30,
-                                          //     ))
+                                          const SizedBox(),
+                                  
                                         ],
                                       )),
 
-                                      // child: ListTile(
-                                      //   subtitle: Text(
-                                      //       //            "\$${classInstancee.selectedProdact[index].price}  -  ${classInstancee.selectedProdact[index].location}"
-                                      //       ""),
-                                      //   leading: CircleAvatar(
-                                      //     backgroundImage:
-                                      //     NetworkImage(data["imgPost"]),
-                                      //     // AssetImage(classInstancee
-                                      //     //     .selectedProdact[index].pathImage),
-                                      //   ),
-                                      //   title: Text(
-                                      //       // classInstancee.selectedProdact[index].flowerName
-                                      //     data["prodactName"]),
-                                      //   trailing: IconButton(
-                                      //       onPressed: () {
-                                      //         // classInstancee.sum -=
-                                      //         //     classInstancee.selectedProdact[index].price;
-
-                                      //         // classInstancee.removeAtIndex(index);
-                                      //       },
-                                      //       icon: Icon(Icons.remove)),
-                                      // ),
                                     );
                                   });
                             }),
@@ -167,12 +127,12 @@ class _DateTimeFarmerState extends State<DateTimeFarmer> {
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(BTNgreen),
                           padding:
-                              MaterialStateProperty.all(EdgeInsets.all(12)),
+                              MaterialStateProperty.all(const EdgeInsets.all(12)),
                           shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8))),
                         ),
-                        child: Text(
+                        child: const Text(
                           "click here",
                           style: TextStyle(fontSize: 19, color: Colors.white),
                         ),

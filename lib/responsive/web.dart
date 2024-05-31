@@ -1,14 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:graduation_project2/Provider/Notifecation.dart';
 import 'package:graduation_project2/Provider/Req.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
@@ -51,13 +45,7 @@ class _WebScerrenState extends State<WebScerren> {
       userDate =
           await FireBase().getData(context: context) as Map<String, dynamic>;
 
-//  To get posts length
-      // var snapshotPosts = await FirebaseFirestore.instance
-      //     .collection('postSSS')
-      //     .where("uid", isEqualTo: widget.uiddd)
-      //     .get();
 
-      // postCount = snapshotPosts.docs.length;
     } catch (e) {
       print(e.toString());
     }

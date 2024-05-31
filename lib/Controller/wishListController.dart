@@ -48,9 +48,7 @@ var collectionRef = FirebaseFirestore.instance.collection("WishListTTT");
               FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
         });
 
-        // await FirebaseFirestore.instance
-        //     .collection('WishListTTT')
-        //     .add(postData);
+      
 
         DocumentReference docRef =
             await fbf.collection('WishListTTT').add(postData);
@@ -106,14 +104,12 @@ var collectionRef = FirebaseFirestore.instance.collection("WishListTTT");
         return Card(
           child: Container(
               child: SingleChildScrollView(
-            //scrollDirection: Axis.horizontal,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CircleAvatar(
                   backgroundImage: NetworkImage("${data["imgPost"]}"),
-                  // AssetImage(classInstancee
-                  //     .selectedProdact[index].pathImage),
+              
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,7 +136,7 @@ var collectionRef = FirebaseFirestore.instance.collection("WishListTTT");
 
                       toggleLike(postData: Da);
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.remove,
                       color: Colors.red,
                       size: 30,

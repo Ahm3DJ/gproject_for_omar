@@ -1,7 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project2/Provider/Notifecation.dart';
@@ -19,7 +16,6 @@ import 'package:graduation_project2/pages/RequstedProdactFarmer.dart';
 import 'package:graduation_project2/pages/notifStoreOwner.dart';
 import 'package:graduation_project2/pages/wishListPage.dart';
 import 'package:graduation_project2/shared/colors.dart';
-import 'package:graduation_project2/shared/showSnackBar.dart';
 import 'package:provider/provider.dart';
 import 'package:graduation_project2/seconderyWidgets/My_Navigator_Widget_To_Login.dart';
 
@@ -169,17 +165,17 @@ class _MobileScerrenState extends State<MobileScerren> {
                 onPageChanged: (index) {
                   print("------- $index");
                 },
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 controller: _pageController,
                 children: [
-                  HomePage(),
-                  WishList(),
-                  userData.situation == "Farmer" ? AddProdact() : Cart(),
+                  const HomePage(),
+                  const WishList(),
+                  userData.situation == "Farmer" ?  AddProdact() :  Cart(),
                   userData.situation == "Farmer"
-                      ? ProfileFarmer()
-                      : ProfileStoreOwner(),
+                      ?  ProfileFarmer()
+                      :  ProfileStoreOwner(),
                   userData.situation == "Farmer"
-                      ? RequsteProdact()
+                      ?  RequsteProdact()
                       : NotifayStoreOwner(),
                 ],
               ),

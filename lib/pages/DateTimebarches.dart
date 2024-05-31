@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_function_literals_in_foreach_calls
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:graduation_project2/Provider/UserProvider.dart';
 import 'package:graduation_project2/model/User.dart';
 import 'package:graduation_project2/shared/colors.dart';
-import 'package:graduation_project2/shared/showSnackBar.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -43,8 +41,8 @@ class _DateTimebarchesState extends State<DateTimebarches> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 76, 141, 95),
-          title: Text("DateTimebarches  "),
+          backgroundColor: const Color.fromARGB(255, 76, 141, 95),
+          title: const Text("DateTimebarches  "),
           //  actions: [AppBarRebited()],
         ),
         body: SingleChildScrollView(
@@ -59,22 +57,21 @@ class _DateTimebarchesState extends State<DateTimebarches> {
                     children: [
                       Container(
                         height: heightScreen - 250,
-                        margin: EdgeInsets.only(bottom: 20),
+                        margin: const EdgeInsets.only(bottom: 20),
                         child: StreamBuilder<QuerySnapshot>(
                             stream: _usersStream,
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasError) {
-                                return Text('Something went wrong');
+                                return const Text('Something went wrong');
                               }
 
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
-                                return Text("Loading");
+                                return const Text("Loading");
                               }
 
                               return ListView.builder(
-                                  //      itemCount: classInstancee.selectedProdact.length,
                                   itemCount: snapshot.data!.docs.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
@@ -92,71 +89,33 @@ class _DateTimebarchesState extends State<DateTimebarches> {
                                           CircleAvatar(
                                             backgroundImage:
                                                 NetworkImage(data["imgPost"]),
-                                            // AssetImage(classInstancee
-                                            //     .selectedProdact[index].pathImage),
+                                            
                                           ),
                                           Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                  "Farmer :  ${data["usernameFarmer"]} "),
+                                                  "Farmer :  ${data["usernameFarmer"]} ",style: TextStyle(fontFamily: "Schyler")),
                                               Text(
-                                                  "Quantity: ${data["partquntity"]} "),
+                                                  "Quantity: ${data["partquntity"]} ",style: TextStyle(fontFamily: "Schyler")),
                                               Text(
-                                                  "Price : ${data["price"]} for 1KG  "),
+                                                  "Price : ${data["price"]} for 1KG  ",style: TextStyle(fontFamily: "Schyler")),
                                               Text(
-                                                  "Total Price: ${(double.parse(data["price"]) * double.parse(data["partquntity"])).toString()} "),
+                                                  "Total Price: ${(double.parse(data["price"]) * double.parse(data["partquntity"])).toString()} ",style: TextStyle(fontFamily: "Schyler")),
                                               Text("title: ${data["title"]} "),
                                               Text(
-                                                  "Prodact Name: ${data["prodactName"]} "),
+                                                  "Prodact Name: ${data["prodactName"]} ",style: TextStyle(fontFamily: "Schyler")),
                                               Text(
-                                                  "Date of purchase:  ${data["datePublished"] == null ? data["datePublished"] : DateFormat('MMMM d, ' 'y').format(data["datePublished"].toDate())} ")
+                                                  "Date of purchase:  ${data["datePublished"] == null ? data["datePublished"] : DateFormat('MMMM d, ' 'y').format(data["datePublished"].toDate())} ",style: TextStyle(fontFamily: "Schyler"))
                                             ],
                                           ),
-                                          SizedBox(),
-                                          // IconButton(
-                                          //     onPressed: () async {
-                                          //       await FirebaseFirestore.instance
-                                          //           .collection("DateTimebarchesSSS")
-                                          //           .doc(snapshot
-                                          //               .data!.docs[index].id)
-                                          //           .delete();
-                                          //       // classInstancee.sum -=
-                                          //       //     classInstancee.selectedProdact[index].price;
-
-                                          //       // classInstancee.removeAtIndex(index);
-                                          //     },
-                                          //     icon: Icon(
-                                          //       Icons.remove,
-                                          //       color: Colors.red,
-                                          //       size: 30,
-                                          //     ))
+                                          const SizedBox(),
+                                    
                                         ],
                                       )),
 
-                                      // child: ListTile(
-                                      //   subtitle: Text(
-                                      //       //            "\$${classInstancee.selectedProdact[index].price}  -  ${classInstancee.selectedProdact[index].location}"
-                                      //       ""),
-                                      //   leading: CircleAvatar(
-                                      //     backgroundImage:
-                                      //     NetworkImage(data["imgPost"]),
-                                      //     // AssetImage(classInstancee
-                                      //     //     .selectedProdact[index].pathImage),
-                                      //   ),
-                                      //   title: Text(
-                                      //       // classInstancee.selectedProdact[index].flowerName
-                                      //     data["prodactName"]),
-                                      //   trailing: IconButton(
-                                      //       onPressed: () {
-                                      //         // classInstancee.sum -=
-                                      //         //     classInstancee.selectedProdact[index].price;
-
-                                      //         // classInstancee.removeAtIndex(index);
-                                      //       },
-                                      //       icon: Icon(Icons.remove)),
-                                      // ),
+                                    
                                     );
                                   });
                             }),
@@ -168,12 +127,12 @@ class _DateTimebarchesState extends State<DateTimebarches> {
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(BTNgreen),
                           padding:
-                              MaterialStateProperty.all(EdgeInsets.all(12)),
+                              MaterialStateProperty.all(const EdgeInsets.all(12)),
                           shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8))),
                         ),
-                        child: Text(
+                        child: const Text(
                           "click here",
                           style: TextStyle(fontSize: 19, color: Colors.white),
                         ),

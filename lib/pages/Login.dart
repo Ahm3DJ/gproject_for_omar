@@ -1,20 +1,13 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation_project2/seconderyWidgets/My_Navigator_Widget_To_Login.dart';
 
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:graduation_project2/Provider/UserProvider.dart';
 import 'package:graduation_project2/Controller/authntecation.dart';
 import 'package:graduation_project2/pages/registration.dart';
 import 'package:graduation_project2/responsive/mobile.dart';
 import 'package:graduation_project2/responsive/responsive.dart';
 import 'package:graduation_project2/responsive/web.dart';
 import 'package:graduation_project2/shared/colors.dart';
-import 'package:graduation_project2/shared/constant.dart';
 import 'package:graduation_project2/shared/showSnackBar.dart';
-import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -24,56 +17,45 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  bool isVisable = false;
+  bool isVisible = true;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool isLoading = false;
   final _formKey1 = GlobalKey<FormState>();
 
-  // signIn() async {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
+  String? emailValidator(String? email) {
+    if (email == null || email.isEmpty) {
+      return 'Email is required';
+    }
+    final regex = RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+    return regex.hasMatch(email) ? null : 'Enter a valid email';
+  }
 
-  //   try {
-  //     final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-  //         email: emailController.text, password: passwordController.text);
-  //   } on FirebaseAuthException catch (e) {
-  //     showSnackBar(context, "ERROR :  ${e.code} ");
-  //   }
-
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
+// Custom validator function for password
+  String? passwordValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
+    return value.length < 8 ? 'Enter at least 8 characters' : null;
+  }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
 
-//    getDataFromDB() async {
-//  UserProvider userProvider = Provider.of(context, listen: false);
-//  await userProvider.refreshUser();
-//  }
-
-//  @override
-//  void initState() {
-//     super.initState();
-//     getDataFromDB();
-//  }
   @override
   Widget build(BuildContext context) {
     final double widthScreen = MediaQuery.of(context).size.width;
-    // final googleSignInProvider = Provider.of<GoogleSignInProvider>(context);
+
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: appbarGreen,
-          title: Text("Sign in"),
+          title: const Text("Sign In"),
+          centerTitle: true,
         ),
         body: Center(
             child: Padding(
@@ -90,68 +72,48 @@ class _LoginState extends State<Login> {
                       height: 64,
                     ),
                     TextFormField(
-                        key: Key('Email_TextFormField'),
-                        // we return "null" when something is valid
-                        validator: (email) {
-                          return email!.contains(RegExp(
-                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))
-                              ? null
-                              : "Enter a valid email";
-                        },
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        controller: emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        obscureText: false,
-                        decoration: decorationTextfield.copyWith(
-                            hintText: "Enter Your Email : ",
-                            suffixIcon: Icon(Icons.email))),
-                    const SizedBox(
-                      height: 33,
+                      validator: emailValidator,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        hintText: "Enter Your Email",
+                        labelText: "Email",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        prefixIcon: const Icon(Icons.email),
+                      ),
                     ),
-                    // TextField(
-                    //     controller: passwordController,
-                    //     keyboardType: TextInputType.text,
-                    //     obscureText: isVisable ? false : true,
-                    //     decoration: decorationTextfield.copyWith(
-                    //         hintText: "Enter Your Password : ",
-                    //         suffixIcon: IconButton(
-                    //             onPressed: () {
-                    //               setState(() {
-                    //                 isVisable = !isVisable;
-                    //               });
-                    //             },
-                    //             icon: isVisable
-                    //                 ? Icon(Icons.visibility)
-                    //                 : Icon(Icons.visibility_off)))),
-
+                    const SizedBox(height: 16.0),
                     TextFormField(
-                        key: Key('Password_TextFormField'),
-                        validator: (value) {
-                          return value!.length < 8
-                              ? "Enter at least 8 characters"
-                              : null;
-                        },
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        controller: passwordController,
-                        keyboardType: TextInputType.text,
-                        obscureText: isVisable ? true : false,
-                        decoration: decorationTextfield.copyWith(
-                            hintText: "Enter Your Password : ",
-                            suffixIcon: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    isVisable = !isVisable;
-                                  });
-                                },
-                                icon: isVisable
-                                    ? Icon(Icons.visibility)
-                                    : Icon(Icons.visibility_off)))),
-
-                    const SizedBox(
-                      height: 33,
+                      validator: passwordValidator,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      controller: passwordController,
+                      keyboardType: TextInputType.text,
+                      obscureText: isVisible,
+                      decoration: InputDecoration(
+                        hintText: "Enter Your Password",
+                        labelText: "Password",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isVisible = !isVisible;
+                            });
+                          },
+                          icon: Icon(
+                            isVisible ? Icons.visibility : Icons.visibility_off,
+                          ),
+                        ),
+                      ),
                     ),
+                    const SizedBox(height: 66),
                     ElevatedButton(
-                      key: Key('signin_ElevatedButton'),
+                      key: const Key('signin_ElevatedButton'),
                       onPressed: () async {
                         if (_formKey1.currentState!.validate()) {
                           setState(() {
@@ -169,7 +131,7 @@ class _LoginState extends State<Login> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Resposive(
+                                  builder: (context) => const Resposive(
                                     myMobileScreen: MobileScerren(),
                                     myWebScreen: WebScerren(),
                                   ),
@@ -178,52 +140,47 @@ class _LoginState extends State<Login> {
                             showSnackBar(context, "Email or pass invalid ");
                           }
                         } else {
-                          showSnackBar(context, "ERROR Form Field ");
+                          showSnackBar(context, "Check The FormField ");
 
                           setState(() {
                             isLoading = false;
                           });
                         }
                       },
-                      child: isLoading
-                          ? CircularProgressIndicator(
-                              color: Colors.white,
-                            )
-                          : Text(
-                              "Sign In ",
-                              style: TextStyle(fontSize: 19),
-                            ),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(BTNgreen),
-                        padding: MaterialStateProperty.all(EdgeInsets.all(12)),
+                        padding:
+                            MaterialStateProperty.all(const EdgeInsets.all(12)),
                         shape: MaterialStateProperty.all(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8))),
                       ),
+                      child: isLoading
+                          ? const CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                          : const Text(
+                              "Sign In ",
+                              style:
+                                  TextStyle(fontSize: 19, color: Colors.white),
+                            ),
                     ),
                     const SizedBox(
-                      height: 33,
+                      height: 42,
                     ),
-
-                    const SizedBox(
-                      height: 9,
-                    ),
-
                     Row(
-                      //I fixed the row size here to max during testing @AhmedGhazi
-
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Do not have an account?",
+                        const Text("Don't have an account?",
                             style: TextStyle(fontSize: 18)),
                         TextButton(
                             onPressed: () {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Register()),
+                                    builder: (context) => const Register()),
                               );
                             },
-                            child: Text('sign up',
+                            child: const Text('sign up',
                                 style: TextStyle(
                                     fontSize: 18,
                                     decoration: TextDecoration.underline))),

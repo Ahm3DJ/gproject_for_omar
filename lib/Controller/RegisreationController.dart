@@ -35,7 +35,7 @@ class RegistreationController {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          padding: EdgeInsets.all(22),
+          padding: const EdgeInsets.all(22),
           height: 170,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -45,7 +45,7 @@ class RegistreationController {
                   await uploadImage2Screen(context, ImageSource.camera);
                   Navigator.pop(context);
                 },
-                child: Row(
+                child: const Row(
                   children: [
                     Icon(
                       Icons.camera,
@@ -61,7 +61,7 @@ class RegistreationController {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 22,
               ),
               GestureDetector(
@@ -69,7 +69,7 @@ class RegistreationController {
                   await uploadImage2Screen(context, ImageSource.gallery);
                   Navigator.pop(context);
                 },
-                child: Row(
+                child: const Row(
                   children: [
                     Icon(
                       Icons.photo_outlined,

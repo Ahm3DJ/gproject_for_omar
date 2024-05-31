@@ -1,6 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -10,9 +8,7 @@ import 'package:graduation_project2/Controller/fireStore.dart';
 import 'package:graduation_project2/model/User.dart';
 import 'package:graduation_project2/shared/colors.dart';
 import 'package:graduation_project2/shared/constant.dart';
-import 'package:image_picker/image_picker.dart';
 
-import 'package:path/path.dart' show basename;
 import 'package:provider/provider.dart';
 
 class AddProdact extends StatefulWidget {
@@ -34,67 +30,9 @@ class _AddProdactState extends State<AddProdact> {
 
   bool isLoading = false;
 
-  // uploadImage2Screen(ImageSource source) async {
-  //   Navigator.pop(context);
-  //   final XFile? pickedImg = await ImagePicker().pickImage(source: source);
-  //   try {
-  //     if (pickedImg != null) {
-  //       imgPath = await pickedImg.readAsBytes();
-  //       setState(() {
-  //         imgName = basename(pickedImg.path);
-  //         int random = Random().nextInt(9999999);
-  //         imgName = "$random$imgName";
-  //         print(imgName);
-  //       });
-  //     } else {
-  //       print("NO img selected");
-  //     }
-  //   } catch (e) {
-  //     print("Error => $e");
-  //   }
-  // }
-
   bool fruitProdact = false;
   bool vegetableProdact = false;
   bool anotherProdact = false;
-
-  // showmodel() {
-  //   return showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return SimpleDialog(
-  //         children: [
-  //           SimpleDialogOption(
-  //             onPressed: () async {
-  //               // Navigator.of(context).pop();
-  //               await uploadImage2Screen(ImageSource.camera);
-  //             },
-  //             padding: EdgeInsets.all(20),
-  //             child: Text(
-  //               "From Camera",
-  //               style: TextStyle(
-  //                 fontSize: 18,
-  //               ),
-  //             ),
-  //           ),
-  //           SimpleDialogOption(
-  //             onPressed: () async {
-  //               // Navigator.of(context).pop();
-  //               await uploadImage2Screen(ImageSource.gallery);
-  //             },
-  //             padding: EdgeInsets.all(20),
-  //             child: Text(
-  //               "From Gallary",
-  //               style: TextStyle(
-  //                 fontSize: 18,
-  //               ),
-  //             ),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +52,7 @@ class _AddProdactState extends State<AddProdact> {
                       PostController.showModel(context);
                     });
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.upload,
                     size: 55,
                   )),
@@ -184,8 +122,8 @@ class _AddProdactState extends State<AddProdact> {
               child: Column(
                 children: [
                   isLoading
-                      ? LinearProgressIndicator()
-                      : Divider(
+                      ? const LinearProgressIndicator()
+                      : const Divider(
                           thickness: 1,
                           height: 30,
                         ),
@@ -205,7 +143,7 @@ class _AddProdactState extends State<AddProdact> {
                                 children: [
                                   Container(
                                     //  padding: EdgeInsets.all(1),
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: Color.fromARGB(125, 78, 91, 110),
                                     ),
@@ -217,13 +155,13 @@ class _AddProdactState extends State<AddProdact> {
                                               ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 17,
                                   ),
                                   Text(
                                     // widget.snap["username"],
                                     userData.username,
-                                    style: TextStyle(fontSize: 15),
+                                    style: const TextStyle(fontSize: 15),
                                   ),
                                 ],
                               ),
@@ -244,7 +182,7 @@ class _AddProdactState extends State<AddProdact> {
                         Form(
                           child: Column(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Row(
@@ -262,8 +200,8 @@ class _AddProdactState extends State<AddProdact> {
                                           });
                                         },
                                         child: Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: Icon(
+                                          margin: const EdgeInsets.all(10),
+                                          child: const Icon(
                                             Icons.check,
                                             color: Colors.white,
                                             size: 15,
@@ -279,10 +217,10 @@ class _AddProdactState extends State<AddProdact> {
                                                   color: Colors.grey)),
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 10,
                                       ),
-                                      Text("Fruits  "),
+                                      const Text("Fruits  "),
                                     ],
                                   ),
                                   Row(
@@ -296,8 +234,8 @@ class _AddProdactState extends State<AddProdact> {
                                           });
                                         },
                                         child: Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: Icon(
+                                          margin: const EdgeInsets.all(10),
+                                          child: const Icon(
                                             Icons.check,
                                             color: Colors.white,
                                             size: 15,
@@ -313,10 +251,10 @@ class _AddProdactState extends State<AddProdact> {
                                                   color: Colors.grey)),
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 10,
                                       ),
-                                      Text("Vegetables "),
+                                      const Text("Vegetables "),
                                     ],
                                   ),
                                   Row(
@@ -330,8 +268,8 @@ class _AddProdactState extends State<AddProdact> {
                                           });
                                         },
                                         child: Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: Icon(
+                                          margin: const EdgeInsets.all(10),
+                                          child: const Icon(
                                             Icons.check,
                                             color: Colors.white,
                                             size: 15,
@@ -347,10 +285,10 @@ class _AddProdactState extends State<AddProdact> {
                                                   color: Colors.grey)),
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 10,
                                       ),
-                                      Text("Another Prodact "),
+                                      const Text("Another Prodact "),
                                     ],
                                   ),
                                 ],
@@ -368,8 +306,8 @@ class _AddProdactState extends State<AddProdact> {
                                   obscureText: false,
                                   decoration: decorationTextfield.copyWith(
                                       hintText: "Enter Prodact Name   ",
-                                      suffixIcon: Icon(Icons.comment_sharp))),
-                              SizedBox(
+                                      suffixIcon: const Icon(Icons.comment_sharp))),
+                              const SizedBox(
                                 height: 10,
                               ),
                               TextFormField(
@@ -386,8 +324,8 @@ class _AddProdactState extends State<AddProdact> {
                                   decoration: decorationTextfield.copyWith(
                                       hintText:
                                           "Write a caption to post ....  ",
-                                      suffixIcon: Icon(Icons.comment_sharp))),
-                              SizedBox(
+                                      suffixIcon: const Icon(Icons.comment_sharp))),
+                              const SizedBox(
                                 height: 10,
                               ),
                               TextFormField(
@@ -403,9 +341,9 @@ class _AddProdactState extends State<AddProdact> {
                                   obscureText: false,
                                   decoration: decorationTextfield.copyWith(
                                       hintText: "Enter quantity  : ",
-                                      suffixIcon: Icon(Icons
+                                      suffixIcon: const Icon(Icons
                                           .production_quantity_limits_sharp))),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               TextFormField(
@@ -422,8 +360,8 @@ class _AddProdactState extends State<AddProdact> {
                                   decoration: decorationTextfield.copyWith(
                                       hintText: "Enter Price for 1 KG:",
                                       suffixIcon:
-                                          Icon(Icons.price_change_outlined))),
-                              SizedBox(
+                                          const Icon(Icons.price_change_outlined))),
+                              const SizedBox(
                                 height: 10,
                               ),
                               TextFormField(
@@ -440,7 +378,7 @@ class _AddProdactState extends State<AddProdact> {
                                   decoration: decorationTextfield.copyWith(
                                       hintText:
                                           "Enter Description  for prodact : ",
-                                      suffixIcon: Icon(Icons.description))),
+                                      suffixIcon: const Icon(Icons.description))),
                             ],
                           ),
                         ),

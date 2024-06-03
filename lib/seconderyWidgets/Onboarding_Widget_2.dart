@@ -10,6 +10,7 @@ class OnboardingWidget2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
         final double widthScreen = MediaQuery.of(context).size.width;
+        final double heightScreen = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Padding(
@@ -23,7 +24,7 @@ padding: widthScreen > 600
             );
           },
           child: Container(
-            height: 790,
+            height: heightScreen,
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/onboarding_image2.jpg'),

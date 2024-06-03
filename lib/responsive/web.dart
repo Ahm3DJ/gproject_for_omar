@@ -105,7 +105,6 @@ class _WebScerrenState extends State<WebScerren> {
               bottomNavigationBar: CupertinoTabBar(
                   backgroundColor: appbarGreen,
                   onTap: (index) {
-                    // navigate to the tabed page
                     _pageController.jumpToPage(index);
                     userProvider.refreshUser();
                     setState(() {

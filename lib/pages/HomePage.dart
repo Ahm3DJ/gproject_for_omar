@@ -84,15 +84,7 @@ class _HomePageState extends State<HomePage> {
         "++++++++++++++++++++aaaaaaaa++++++++++++++${reqProvider.getCountREQ()}");
 
     return
-        // isLoading
-        //     ?  const Scaffold(
-        //         backgroundColor: scaffoldColor,
-        //         body: Center(
-        //             child: CircularProgressIndicator(
-        //           color: Colors.white,
-        //         )),
-        //       )
-        //     :
+      
         Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(

@@ -50,7 +50,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<UserProvider>(
           create: (context) => UserProvider(),
         ),
-        // Add more providers as needed
         ChangeNotifierProvider<UserSituationProvider>(
           create: (context) => UserSituationProvider(),
         ),

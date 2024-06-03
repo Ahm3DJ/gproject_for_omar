@@ -155,11 +155,7 @@ class _PostDesignState extends State<PostDesign> {
                     ),
                   ],
                 ),
-                IconButton(
-                  onPressed: () {}, // Add your action here
-                  icon: const Icon(Icons.share),
-                ),
-              ],
+                ],
             ),
           ),
           Padding(

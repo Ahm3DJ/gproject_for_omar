@@ -1,9 +1,7 @@
-import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:graduation_project2/pages/Cart.dart';
 
 class Notificationn with ChangeNotifier {
   int count = 0;
@@ -33,13 +31,5 @@ class Notificationn with ChangeNotifier {
       notifyListeners();
 
   }
-  // void add(value) {
-  //   selectedProdact.add(value);
-  //   notifyListeners();
-  // }
 
-  // void removeAtIndex(index) {
-  //   selectedProdact.removeAt(index);
-  //   notifyListeners();
-  // }
 }

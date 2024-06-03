@@ -41,7 +41,7 @@ class _DetailsState extends State<Details> {
         backgroundColor: const Color.fromARGB(255, 76, 141, 95),
         title: const Text("Details Item "),
         actions: [
-          // AppBarRebited()
+  
         ],
       ),
       body: Padding(

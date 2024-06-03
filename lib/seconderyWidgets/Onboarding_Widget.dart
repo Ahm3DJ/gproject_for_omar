@@ -23,7 +23,7 @@ class OnboardingWidget extends StatelessWidget {
             );
           },
           child: Container(
-            height: 790,
+            height: heightScreen,
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/onboarding_image.jpg'),

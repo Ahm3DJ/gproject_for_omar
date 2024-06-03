@@ -80,7 +80,7 @@ class _MobileScerrenState extends State<MobileScerren> {
       UserDete? userData = userProvider.getUser;
       print("111111111111111111omar11111111111111${userData?.situation}");
 
-      final allDataFromDB = Provider.of<UserProvider>(context).getUser;
+      // final allDataFromDB = Provider.of<UserProvider>(context).getUser;
 
       final classInstancee = Provider.of<Notificationn>(context);
       final reqProvider = Provider.of<RequstedProvider>(context);

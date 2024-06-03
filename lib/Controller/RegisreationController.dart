@@ -7,7 +7,7 @@ import 'package:path/path.dart';
 
 class RegistreationController {
 
-  
+    
 
 
  static Uint8List? imgPath;
